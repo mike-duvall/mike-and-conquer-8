@@ -11,12 +11,6 @@ namespace mike_and_conquer_simulation
 {
     public class Program
     {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Mike is very cool");
-
-            CreateHostBuilder(args).Build().Run();
-        }
 
         public static void RunRestServer()
         {
