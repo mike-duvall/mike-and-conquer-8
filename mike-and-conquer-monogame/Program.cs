@@ -23,7 +23,6 @@ namespace mike_and_conquer_monogame
 
         public static void RunRestServer()
         {
-            // CreateHostBuilder(null).Build().Run();
             var task = CreateHostBuilder(null).Build().RunAsync();
         }
 
