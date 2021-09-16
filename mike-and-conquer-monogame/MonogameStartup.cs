@@ -13,9 +13,9 @@ using Microsoft.OpenApi.Models;
 
 namespace mike_and_conquer_simulation
 {
-    public class Startup
+    public class MonogameStartup
     {
-        public Startup(IConfiguration configuration)
+        public MonogameStartup(IConfiguration configuration)
         {
             Configuration = configuration;
             var configInfo = (Configuration as IConfigurationRoot).GetDebugView();
@@ -52,6 +52,7 @@ namespace mike_and_conquer_simulation
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }
