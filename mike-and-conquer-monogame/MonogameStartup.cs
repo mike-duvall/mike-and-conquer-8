@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace mike_and_conquer_simulation
+namespace mike_and_conquer_monogame
 {
     public class MonogameStartup
     {

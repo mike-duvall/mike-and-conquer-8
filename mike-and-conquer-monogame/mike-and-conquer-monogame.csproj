@@ -24,4 +24,9 @@
   <ItemGroup>
     <ProjectReference Include="..\mike-and-conquer-simulation\mike-and-conquer-simulation.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

@@ -26,7 +26,7 @@ namespace mike_and_conquer_simulation.Controllers
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {
-            _logger.LogInformation("This is some test logging.  And, Mike is cool");
+            _logger.LogInformation("This is some test logging from the simulation.  And, Mike is cool");
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
