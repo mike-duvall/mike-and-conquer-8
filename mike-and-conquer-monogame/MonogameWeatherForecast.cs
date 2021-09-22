@@ -1,6 +1,6 @@
 using System;
 
-namespace mike_and_conquer_simulation
+namespace mike_and_conquer_monogame
 {
     public class MonogameWeatherForecast
     {

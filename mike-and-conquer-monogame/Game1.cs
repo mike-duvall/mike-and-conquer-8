@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -8,9 +9,14 @@ namespace mike_and_conquer_monogame
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private ILogger logger;
 
         public Game1()
         {
+
+            logger = Program.loggerFactory.CreateLogger<Game1>();
+            logger.LogInformation("Game1() ctor");
+
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -25,6 +31,9 @@ namespace mike_and_conquer_monogame
 
         protected override void LoadContent()
         {
+            logger.LogInformation("Game1::LoadContent()");
+            logger.LogWarning("Game1::LoadContent()");
+
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
