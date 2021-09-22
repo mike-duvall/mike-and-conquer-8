@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation;
@@ -18,19 +19,25 @@ namespace mike_and_conquer_monogame
         static void Main()
         {
 
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: false)
+                .Build();
+
+            var loggingConfig = configuration.GetSection("Logging");
 
             loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder
-                    .AddFilter("Microsoft", LogLevel.Warning)
-                    .AddFilter("System", LogLevel.Warning)
-                    .AddFilter("mike_and_conquer_monogame.Program", LogLevel.Warning)
                     .AddDebug()
-                    .AddConsole();
+                    .AddConsole()
+                    .AddConfiguration(loggingConfig)
+                    ;
             });
 
+            
             ILogger logger = loggerFactory.CreateLogger<Program>();
             logger.LogInformation("************************Mike is cool");
+            logger.LogWarning("************************Mike is cool");
 
 
             mike_and_conquer_simulation.Program.RunRestServer();
