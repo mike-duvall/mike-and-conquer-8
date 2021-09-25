@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using WeatherForecast = mike_and_conquer_simulation.rest.domain.WeatherForecast;
 
-namespace mike_and_conquer_simulation.Controllers
+namespace mike_and_conquer_simulation.rest.controller
 {
     [ApiController]
     [Route("[controller]")]

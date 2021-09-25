@@ -18,6 +18,8 @@ namespace mike_and_conquer_simulation
             var task = CreateHostBuilder(null).Build().RunAsync();
         }
 
+
+
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((builderContext, config) =>
