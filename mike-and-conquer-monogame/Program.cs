@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation;
+using mike_and_conquer_simulation.rest.init;
 
 
 namespace mike_and_conquer_monogame
@@ -40,8 +41,8 @@ namespace mike_and_conquer_monogame
             logger.LogWarning("************************Mike is cool");
 
 
-            mike_and_conquer_simulation.Program.RunRestServer();
-            // Program.RunRestServer();
+            SimulationRestProgram.RunRestServer();
+            // SimulationRestProgram.RunRestServer();
 
             using (var game = new Game1())
                 game.Run();

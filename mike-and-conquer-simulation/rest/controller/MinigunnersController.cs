@@ -61,12 +61,11 @@ namespace mike_and_conquer_simulation.rest.controller
                 // var t = minigunner.GetType();
                 // return new CreatedResult($"/products/{5}", minigunner);
 
+                
                 RestMinigunner createdRestMinigunner = new RestMinigunner();
                 createdRestMinigunner.X = 100;
                 createdRestMinigunner.Y = 200;
                 createdRestMinigunner.ID = 2;
-
-                
 
                 return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
 

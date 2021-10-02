@@ -1,15 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace mike_and_conquer_simulation
+namespace mike_and_conquer_simulation.rest.init
 {
-    public class Program
+    public class SimulationRestProgram
     {
 
         public static void RunRestServer()
@@ -17,7 +13,6 @@ namespace mike_and_conquer_simulation
             // CreateHostBuilder(null).Build().Run();
             var task = CreateHostBuilder(null).Build().RunAsync();
         }
-
 
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -34,7 +29,9 @@ namespace mike_and_conquer_simulation
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<SimulationRestStartup>()
+                        .UseUrls("http://*:5000");
+                        //.UseUrls("http://*:80");
                 });
     }
 }
