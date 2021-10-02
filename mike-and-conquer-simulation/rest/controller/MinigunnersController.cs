@@ -51,7 +51,7 @@ namespace mike_and_conquer_simulation.rest.controller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<RestMinigunner> PostProduct([FromBody] RestMinigunner incomingRestMinigunner)
+        public ActionResult<RestMinigunner> PostMinigunner([FromBody] RestMinigunner incomingRestMinigunner)
         {
             try
             {
