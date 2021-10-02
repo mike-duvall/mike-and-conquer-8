@@ -56,11 +56,6 @@ namespace mike_and_conquer_simulation.rest.controller
             try
             {
 
-                // var result = CreatedAtAction(nameof(GetById), new { id = 5 },minigunner);
-                // var s = minigunner.ToString();
-                // var t = minigunner.GetType();
-                // return new CreatedResult($"/products/{5}", minigunner);
-
                 
                 RestMinigunner createdRestMinigunner = new RestMinigunner();
                 createdRestMinigunner.X = 100;

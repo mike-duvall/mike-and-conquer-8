@@ -4,13 +4,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_monogame.init;
 using mike_and_conquer_simulation;
 using mike_and_conquer_simulation.rest.init;
 
 
-namespace mike_and_conquer_monogame
+namespace mike_and_conquer_monogame.main
 {
-    public class Program
+    public class MainProgram
     {
 
 
@@ -36,15 +37,15 @@ namespace mike_and_conquer_monogame
             });
 
             
-            ILogger logger = loggerFactory.CreateLogger<Program>();
+            ILogger logger = loggerFactory.CreateLogger<MainProgram>();
             logger.LogInformation("************************Mike is cool");
             logger.LogWarning("************************Mike is cool");
 
 
-            SimulationRestProgram.RunRestServer();
+            SimulationRestInitializer.RunRestServer();
             // SimulationRestProgram.RunRestServer();
 
-            using (var game = new Game1())
+            using (var game = new MikeAndConquerGame())
                 game.Run();
         }
 
@@ -68,7 +69,7 @@ namespace mike_and_conquer_monogame
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<MonogameStartup>()
+                    webBuilder.UseStartup<MonogameRestStartup>()
                         .UseUrls("http://*:5010");
                 });
 

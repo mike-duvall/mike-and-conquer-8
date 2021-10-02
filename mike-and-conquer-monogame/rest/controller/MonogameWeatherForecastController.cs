@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_monogame.domain;
 
-namespace mike_and_conquer_monogame.Controllers
+namespace mike_and_conquer_monogame.controller
 {
     [ApiController]
     [Route("[controller]")]

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace mike_and_conquer_simulation.rest.init
 {
-    public class SimulationRestProgram
+    public class SimulationRestInitializer
     {
 
         public static void RunRestServer()

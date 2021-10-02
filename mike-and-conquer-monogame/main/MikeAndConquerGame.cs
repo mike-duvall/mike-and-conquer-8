@@ -3,18 +3,18 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace mike_and_conquer_monogame
+namespace mike_and_conquer_monogame.main
 {
-    public class Game1 : Game
+    public class MikeAndConquerGame : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private ILogger logger;
 
-        public Game1()
+        public MikeAndConquerGame()
         {
 
-            logger = Program.loggerFactory.CreateLogger<Game1>();
+            logger = MainProgram.loggerFactory.CreateLogger<MikeAndConquerGame>();
             logger.LogInformation("Game1() ctor");
 
             _graphics = new GraphicsDeviceManager(this);

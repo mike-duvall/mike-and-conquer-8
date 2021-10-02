@@ -1,6 +1,6 @@
 using System;
 
-namespace mike_and_conquer_monogame
+namespace mike_and_conquer_monogame.domain
 {
     public class MonogameWeatherForecast
     {
