@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_monogame.init;
 using mike_and_conquer_simulation;
+using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.init;
 
 
@@ -16,6 +17,8 @@ namespace mike_and_conquer_monogame.main
 
 
         public static ILoggerFactory loggerFactory;
+
+
 
         [STAThread]
         static void Main()
@@ -44,6 +47,7 @@ namespace mike_and_conquer_monogame.main
 
             SimulationRestInitializer.RunRestServer();
             // SimulationRestProgram.RunRestServer();
+            SimulationMain.StartSimulation();
 
             using (var game = new MikeAndConquerGame())
                 game.Run();
