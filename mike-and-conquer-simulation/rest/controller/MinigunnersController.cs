@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.domain;
 // using WeatherForecast = mike_and_conquer_simulation.rest.domain.WeatherForecast;
 
@@ -61,6 +62,11 @@ namespace mike_and_conquer_simulation.rest.controller
                 createdRestMinigunner.X = 100;
                 createdRestMinigunner.Y = 200;
                 createdRestMinigunner.ID = 2;
+
+                CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
+                createMinigunnerEvent.X = incomingRestMinigunner.X;
+                createMinigunnerEvent.Y = incomingRestMinigunner.Y;
+                SimulationMain.instance.CreateMinigunnerViaEvent(createMinigunnerEvent);
 
                 return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
 
