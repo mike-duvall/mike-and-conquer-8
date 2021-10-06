@@ -50,6 +50,7 @@ namespace mike_and_conquer_simulation.main
 
             condition = new ManualResetEvent(false);
             Thread backgroundThread = new Thread(new ThreadStart(SimulationMain.Main));
+            backgroundThread.IsBackground = true;
 
             // Start thread  
             backgroundThread.Start();
