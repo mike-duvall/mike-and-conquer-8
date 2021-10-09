@@ -14,6 +14,8 @@ namespace mike_and_conquer_monogame.main
         private SpriteBatch _spriteBatch;
         private ILogger logger;
 
+        public MonogameSimulationStateListener monogameSimulationStateListener = null;
+
         public MikeAndConquerGame()
         {
 
@@ -22,6 +24,7 @@ namespace mike_and_conquer_monogame.main
 
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            monogameSimulationStateListener = new MonogameSimulationStateListener(this);
             IsMouseVisible = true;
         }
 
@@ -49,6 +52,7 @@ namespace mike_and_conquer_monogame.main
                 Exit();
 
             // TODO: Add your update logic here
+            
 
             base.Update(gameTime);
         }
@@ -58,6 +62,13 @@ namespace mike_and_conquer_monogame.main
         private int minigunnerX = -10;
         private int minigunnerY = -10;
 
+        public void AddMinigunner(int x, int y)
+        {
+            hasMinigunnerBeenCreated = true;
+            minigunnerX = x;
+            minigunnerY = y;
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -65,18 +76,18 @@ namespace mike_and_conquer_monogame.main
 
 
 
-            Queue<SimulationStateUpdateEvent> simulationStateUpdateEventQueue =  SimulationMain.instance.GetSimulationStateUpdateEventQueue();
-            lock (simulationStateUpdateEventQueue)
-            {
-                while (simulationStateUpdateEventQueue.Count > 0)
-                {
-                    SimulationStateUpdateEvent anEvent =  simulationStateUpdateEventQueue.Dequeue();
-                    hasMinigunnerBeenCreated = true;
-                    minigunnerX = anEvent.X;
-                    minigunnerY = anEvent.Y;
-
-                }
-            }
+            // Queue<SimulationStateUpdateEvent> simulationStateUpdateEventQueue =  SimulationMain.instance.GetSimulationStateUpdateEventQueue();
+            // lock (simulationStateUpdateEventQueue)
+            // {
+            //     while (simulationStateUpdateEventQueue.Count > 0)
+            //     {
+            //         SimulationStateUpdateEvent anEvent =  simulationStateUpdateEventQueue.Dequeue();
+            //         hasMinigunnerBeenCreated = true;
+            //         minigunnerX = anEvent.X;
+            //         minigunnerY = anEvent.Y;
+            //
+            //     }
+            // }
 
             if (hasMinigunnerBeenCreated)
             {

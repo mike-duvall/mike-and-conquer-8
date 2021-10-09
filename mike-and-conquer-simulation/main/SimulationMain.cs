@@ -18,6 +18,9 @@ namespace mike_and_conquer_simulation.main
         private Queue<SimulationStateUpdateEvent> simulationStateUpdateEventQueue;
         public List<SimulationStateUpdateEvent> publishedSimulationStateUpdateEvents;
 
+        private List<SimulationStateListener> listeners;
+
+
         public static ILoggerFactory loggerFactory;
 
         private static ILogger logger;
@@ -26,7 +29,7 @@ namespace mike_and_conquer_simulation.main
 
         public static ManualResetEvent condition;
 
-        public static void StartSimulation()
+        public static void StartSimulation(SimulationStateListener listener)
         {
 
 
@@ -50,6 +53,10 @@ namespace mike_and_conquer_simulation.main
             logger.LogInformation("************************Simulation Mike is cool");
             logger.LogWarning("************************Simulation Mike is cool");
 
+
+            new SimulationMain();
+            SimulationMain.instance.AddListener(listener);
+
             condition = new ManualResetEvent(false);
             Thread backgroundThread = new Thread(new ThreadStart(SimulationMain.Main));
             backgroundThread.IsBackground = true;
@@ -59,16 +66,21 @@ namespace mike_and_conquer_simulation.main
             condition.WaitOne();
         }
 
+        private void AddListener(SimulationStateListener listener)
+        {
+            listeners.Add(listener);
+        }
+
 
         public static void Main()
         {
-            SimulationMain simulationMain = new SimulationMain();
+//            SimulationMain simulationMain = new SimulationMain();
 
             SimulationMain.condition.Set();
             while (true)
             {
                 Thread.Sleep(17);
-                simulationMain.ProcessCreateMinigunnerEventQueue();
+                SimulationMain.instance.ProcessCreateMinigunnerEventQueue();
 //                logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
 
             }
@@ -80,6 +92,7 @@ namespace mike_and_conquer_simulation.main
             createMinigunnerEventQueue = new Queue<CreateMinigunnerEvent>();
             simulationStateUpdateEventQueue = new Queue<SimulationStateUpdateEvent>();
             publishedSimulationStateUpdateEvents = new List<SimulationStateUpdateEvent>();
+            listeners = new List<SimulationStateListener>();
 
             SimulationMain.instance = this;
         }
@@ -156,11 +169,15 @@ namespace mike_and_conquer_simulation.main
             simulationStateUpdateEvent.X = minigunnerX;
             simulationStateUpdateEvent.Y = minigunnerY;
 
-            lock (simulationStateUpdateEventQueue)
+            foreach (SimulationStateListener listener in listeners)
             {
-
-                simulationStateUpdateEventQueue.Enqueue(simulationStateUpdateEvent);
+                listener.Update(simulationStateUpdateEvent);
             }
+            // lock (simulationStateUpdateEventQueue)
+            // {
+            //
+            //     simulationStateUpdateEventQueue.Enqueue(simulationStateUpdateEvent);
+            // }
 
             lock (publishedSimulationStateUpdateEvents)
             {

@@ -47,10 +47,16 @@ namespace mike_and_conquer_monogame.main
 
             SimulationRestInitializer.RunRestServer();
             // SimulationRestProgram.RunRestServer();
-            SimulationMain.StartSimulation();
 
-            using (var game = new MikeAndConquerGame())
+            MikeAndConquerGame game = new MikeAndConquerGame();
+            
+            SimulationMain.StartSimulation(game.monogameSimulationStateListener);
+
+            // using (var game = new MikeAndConquerGame())
+            //     game.Run();
+            using (game)
                 game.Run();
+
         }
 
 
