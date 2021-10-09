@@ -49,6 +49,37 @@ namespace mike_and_conquer_simulation.rest.controller
             .ToArray();
         }
 
+        // [HttpPost]
+        // [ProducesResponseType(StatusCodes.Status201Created)]
+        // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        // public ActionResult<RestMinigunner> PostMinigunner([FromBody] RestMinigunner incomingRestMinigunner)
+        // {
+        //     try
+        //     {
+        //
+        //         
+        //         RestMinigunner createdRestMinigunner = new RestMinigunner();
+        //         createdRestMinigunner.X = 100;
+        //         createdRestMinigunner.Y = 200;
+        //         createdRestMinigunner.ID = 2;
+        //
+        //         CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
+        //         createMinigunnerEvent.X = incomingRestMinigunner.X;
+        //         createMinigunnerEvent.Y = incomingRestMinigunner.Y;
+        //         SimulationMain.instance.CreateMinigunnerViaEvent(createMinigunnerEvent);
+        //
+        //         return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
+        //
+        //
+        //
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         _logger.LogWarning(e, "Unable to POST minigunner.");
+        //
+        //         return ValidationProblem(e.Message);
+        //     }
+        // }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -57,20 +88,14 @@ namespace mike_and_conquer_simulation.rest.controller
             try
             {
 
-                
-                RestMinigunner createdRestMinigunner = new RestMinigunner();
-                createdRestMinigunner.X = 100;
-                createdRestMinigunner.Y = 200;
-                createdRestMinigunner.ID = 2;
+                Minigunner minigunner =SimulationMain.instance.CreateMinigunnerViaEvent(incomingRestMinigunner.X, incomingRestMinigunner.Y);
 
-                CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
-                createMinigunnerEvent.X = incomingRestMinigunner.X;
-                createMinigunnerEvent.Y = incomingRestMinigunner.Y;
-                SimulationMain.instance.CreateMinigunnerViaEvent(createMinigunnerEvent);
+                RestMinigunner createdRestMinigunner = new RestMinigunner();
+                createdRestMinigunner.X = minigunner.X;
+                createdRestMinigunner.Y = minigunner.Y;
+                createdRestMinigunner.ID = minigunner.ID;
 
                 return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
-
-
 
             }
             catch (Exception e)
@@ -80,6 +105,7 @@ namespace mike_and_conquer_simulation.rest.controller
                 return ValidationProblem(e.Message);
             }
         }
+
 
     }
 }

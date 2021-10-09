@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace mike_and_conquer_simulation.main
 {
-    public class CreateMinigunnerEvent
+    public class Minigunner
     {
         public int X { get; set; }
         public int Y { get; set; }
 
+        public int ID { get; set; }
 
     }
 }

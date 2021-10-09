@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_simulation.simulationevent;
 
 namespace mike_and_conquer_simulation.main
 {
@@ -15,6 +16,7 @@ namespace mike_and_conquer_simulation.main
 
         private Queue<CreateMinigunnerEvent> createMinigunnerEventQueue;
         private Queue<SimulationStateUpdateEvent> simulationStateUpdateEventQueue;
+        public List<SimulationStateUpdateEvent> publishedSimulationStateUpdateEvents;
 
         public static ILoggerFactory loggerFactory;
 
@@ -77,6 +79,7 @@ namespace mike_and_conquer_simulation.main
         {
             createMinigunnerEventQueue = new Queue<CreateMinigunnerEvent>();
             simulationStateUpdateEventQueue = new Queue<SimulationStateUpdateEvent>();
+            publishedSimulationStateUpdateEvents = new List<SimulationStateUpdateEvent>();
 
             SimulationMain.instance = this;
         }
@@ -88,7 +91,9 @@ namespace mike_and_conquer_simulation.main
                 while (createMinigunnerEventQueue.Count > 0)
                 {
                     CreateMinigunnerEvent createMinigunnerEvent =  createMinigunnerEventQueue.Dequeue();
-                    this.CreateMinigunnerFromEvent(createMinigunnerEvent);
+                    createMinigunnerEvent.Process();
+
+//                    this.ProcessMinigunnerFromEvent(createMinigunnerEvent);
 
                 }
             }
@@ -98,26 +103,71 @@ namespace mike_and_conquer_simulation.main
         {
             return simulationStateUpdateEventQueue;
         }
-        private void CreateMinigunnerFromEvent(CreateMinigunnerEvent createMinigunnerEvent)
+        // private void ProcessMinigunnerFromEvent(CreateMinigunnerEvent createMinigunnerEvent)
+        // {
+        //     lock (simulationStateUpdateEventQueue)
+        //     {
+        //         SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+        //         simulationStateUpdateEvent.ID = 1;
+        //         simulationStateUpdateEvent.X = createMinigunnerEvent.X;
+        //         simulationStateUpdateEvent.Y = createMinigunnerEvent.Y;
+        //
+        //         simulationStateUpdateEventQueue.Enqueue(simulationStateUpdateEvent);
+        //     }
+        //     
+        // }
+
+        public Minigunner CreateMinigunnerViaEvent(int x, int y)
         {
+            CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
+            createMinigunnerEvent.X = x;
+            createMinigunnerEvent.Y = y;
+
+            lock (createMinigunnerEventQueue)
+            {
+                createMinigunnerEventQueue.Enqueue(createMinigunnerEvent);
+            }
+
+            Minigunner gdiMinigunner = createMinigunnerEvent.GetMinigunner();
+            return gdiMinigunner;
+
+
+            // CreateGDIMinigunnerGameEvent gameEvent = new CreateGDIMinigunnerGameEvent(minigunnerPosition);
+            // lock (gameEvents)
+            // {
+            //     gameEvents.Add(gameEvent);
+            // }
+            //
+            // Minigunner gdiMinigunner = gameEvent.GetMinigunner();
+
+
+        }
+
+        public Minigunner CreateMinigunner(int minigunnerX, int minigunnerY)
+        {
+
+            Minigunner minigunner = new Minigunner();
+            minigunner.X = minigunnerX;
+            minigunner.Y = minigunnerY;
+            minigunner.ID = 1;
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.ID = minigunner.ID;
+            simulationStateUpdateEvent.X = minigunnerX;
+            simulationStateUpdateEvent.Y = minigunnerY;
+
             lock (simulationStateUpdateEventQueue)
             {
-                SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                simulationStateUpdateEvent.ID = 1;
-                simulationStateUpdateEvent.X = createMinigunnerEvent.X;
-                simulationStateUpdateEvent.Y = createMinigunnerEvent.Y;
 
                 simulationStateUpdateEventQueue.Enqueue(simulationStateUpdateEvent);
             }
-            
-        }
 
-        public void CreateMinigunnerViaEvent(CreateMinigunnerEvent anEvent)
-        {
-            lock (createMinigunnerEventQueue)
+            lock (publishedSimulationStateUpdateEvents)
             {
-                createMinigunnerEventQueue.Enqueue(anEvent);
+                publishedSimulationStateUpdateEvents.Add(simulationStateUpdateEvent);
             }
+
+            return minigunner;
         }
     }
 }
