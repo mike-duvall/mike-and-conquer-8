@@ -1,0 +1,20 @@
+﻿using System;
+
+
+namespace mike_and_conquer_simulation.main
+{
+    class SimulationStateHistoryListener : SimulationStateListener
+    {
+
+        private SimulationMain simulationMain;
+
+        public SimulationStateHistoryListener(SimulationMain simulationMain)
+        {
+            this.simulationMain = simulationMain;
+        }
+        public override void Update(SimulationStateUpdateEvent anEvent)
+        {
+            simulationMain.AddHistoryEvent(anEvent);
+        }
+    }
+}

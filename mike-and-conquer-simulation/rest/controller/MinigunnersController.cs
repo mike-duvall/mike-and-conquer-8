@@ -88,7 +88,7 @@ namespace mike_and_conquer_simulation.rest.controller
             try
             {
 
-                Minigunner minigunner =SimulationMain.instance.CreateMinigunnerViaEvent(incomingRestMinigunner.X, incomingRestMinigunner.Y);
+                Minigunner minigunner = SimulationMain.instance.CreateMinigunnerViaEvent(incomingRestMinigunner.X, incomingRestMinigunner.Y);
 
                 RestMinigunner createdRestMinigunner = new RestMinigunner();
                 createdRestMinigunner.X = minigunner.X;

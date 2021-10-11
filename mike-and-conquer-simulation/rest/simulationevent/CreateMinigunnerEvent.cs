@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using mike_and_conquer_simulation.main;
-using mike_and_conquer_simulation.rest.simulationevent;
+﻿using mike_and_conquer_simulation.main;
 
-namespace mike_and_conquer_simulation.simulationevent
+namespace mike_and_conquer_simulation.rest.simulationevent
 {
     public class CreateMinigunnerEvent : AsyncGameEvent
     {

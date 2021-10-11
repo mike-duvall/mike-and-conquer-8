@@ -16,11 +16,6 @@ namespace mike_and_conquer_simulation.rest.controller
     {
 
 
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private readonly ILogger<SimulationStateUpdateEventsController> _logger;
 
         public SimulationStateUpdateEventsController(ILogger<SimulationStateUpdateEventsController> logger)
@@ -31,23 +26,22 @@ namespace mike_and_conquer_simulation.rest.controller
         [HttpGet]
         public IEnumerable<RestSimulationStateUpdateEvent> Get()
         {
-            List<RestSimulationStateUpdateEvent> list = new List<RestSimulationStateUpdateEvent>();
+            List<RestSimulationStateUpdateEvent> restReturnList = new List<RestSimulationStateUpdateEvent>();
 
-            lock (SimulationMain.instance.publishedSimulationStateUpdateEvents)
+            List<SimulationStateUpdateEvent> simulationStateUpdateList = 
+                SimulationMain.instance.GetCopyOfEventHistoryViaEvent();
+
+            foreach (SimulationStateUpdateEvent simulationStateUpdateEvent in simulationStateUpdateList)
             {
-
-                foreach (SimulationStateUpdateEvent simulationStateUpdateEvent in SimulationMain.instance.publishedSimulationStateUpdateEvents)
-                {
-
-                    RestSimulationStateUpdateEvent anEvent = new RestSimulationStateUpdateEvent();
-                    anEvent.X = simulationStateUpdateEvent.X;
-                    anEvent.Y = simulationStateUpdateEvent.Y;
-                    anEvent.ID = simulationStateUpdateEvent.ID;
-                    list.Add(anEvent);
-                }
+                RestSimulationStateUpdateEvent anEvent = new RestSimulationStateUpdateEvent();
+                anEvent.X = simulationStateUpdateEvent.X;
+                anEvent.Y = simulationStateUpdateEvent.Y;
+                anEvent.ID = simulationStateUpdateEvent.ID;
+                restReturnList.Add(anEvent);
             }
 
-            return list;
+
+            return restReturnList;
         }
 
 
