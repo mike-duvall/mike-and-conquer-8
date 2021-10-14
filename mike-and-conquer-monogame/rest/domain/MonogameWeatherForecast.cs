@@ -1,8 +1,8 @@
 using System;
 
-namespace mike_and_conquer_simulation
+namespace mike_and_conquer_monogame.domain
 {
-    public class WeatherForecast
+    public class MonogameWeatherForecast
     {
         public DateTime Date { get; set; }
 

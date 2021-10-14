@@ -11,11 +11,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace mike_and_conquer_monogame
+namespace mike_and_conquer_monogame.init
 {
-    public class MonogameStartup
+    public class MonogameRestStartup
     {
-        public MonogameStartup(IConfiguration configuration)
+        public MonogameRestStartup(IConfiguration configuration)
         {
             Configuration = configuration;
             var configInfo = (Configuration as IConfigurationRoot).GetDebugView();

@@ -4,16 +4,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_monogame.init;
 using mike_and_conquer_simulation;
+using mike_and_conquer_simulation.main;
+using mike_and_conquer_simulation.rest.init;
 
 
-namespace mike_and_conquer_monogame
+namespace mike_and_conquer_monogame.main
 {
-    public class Program
+    public class MainProgram
     {
 
 
         public static ILoggerFactory loggerFactory;
+
+
 
         [STAThread]
         static void Main()
@@ -35,16 +40,23 @@ namespace mike_and_conquer_monogame
             });
 
             
-            ILogger logger = loggerFactory.CreateLogger<Program>();
+            ILogger logger = loggerFactory.CreateLogger<MainProgram>();
             logger.LogInformation("************************Mike is cool");
             logger.LogWarning("************************Mike is cool");
 
 
-            mike_and_conquer_simulation.Program.RunRestServer();
-            Program.RunRestServer();
+            SimulationRestInitializer.RunRestServer();
+            // SimulationRestProgram.RunRestServer();
 
-            using (var game = new Game1())
+            MikeAndConquerGame game = new MikeAndConquerGame();
+            
+            SimulationMain.StartSimulation(game.monogameSimulationStateListener);
+
+            // using (var game = new MikeAndConquerGame())
+            //     game.Run();
+            using (game)
                 game.Run();
+
         }
 
 
@@ -67,7 +79,7 @@ namespace mike_and_conquer_monogame
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<MonogameStartup>()
+                    webBuilder.UseStartup<MonogameRestStartup>()
                         .UseUrls("http://*:5010");
                 });
 

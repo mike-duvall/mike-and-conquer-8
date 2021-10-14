@@ -1,21 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-namespace mike_and_conquer_simulation
+namespace mike_and_conquer_simulation.rest.init
 {
-    public class Startup
+    public class SimulationRestStartup
     {
-        public Startup(IConfiguration configuration)
+        public SimulationRestStartup(IConfiguration configuration)
         {
             Configuration = configuration;
             var configInfo = (Configuration as IConfigurationRoot).GetDebugView();
@@ -37,6 +31,7 @@ namespace mike_and_conquer_simulation
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -52,6 +47,8 @@ namespace mike_and_conquer_simulation
             {
                 endpoints.MapControllers();
             });
+
+
         }
     }
 

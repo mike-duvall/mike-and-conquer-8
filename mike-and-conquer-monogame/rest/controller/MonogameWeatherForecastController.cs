@@ -4,32 +4,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_monogame.domain;
 
-namespace mike_and_conquer_simulation.Controllers
+namespace mike_and_conquer_monogame.controller
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class MonogameWeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<MonogameWeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public MonogameWeatherForecastController(ILogger<MonogameWeatherForecastController> logger)
         {
             _logger = logger;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<MonogameWeatherForecast> Get()
         {
-            _logger.LogInformation("This is some test logging from the simulation.  And, Mike is cool");
-            _logger.LogWarning("This is some test logging from the simulation.  And, Mike is cool");
+            _logger.LogInformation("This is some test logging from monogame.  And, Mike is cool");
+            _logger.LogWarning("This is some test logging from monogame.  And, Mike is cool");
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, 5).Select(index => new MonogameWeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
