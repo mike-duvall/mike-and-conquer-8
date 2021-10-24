@@ -15,9 +15,7 @@ namespace mike_and_conquer_simulation.rest.simulationevent
 
         public Minigunner GetMinigunner()
         {
-            return (Minigunner)GetResult();
-
+            return (Minigunner) GetResult();
         }
-
     }
 }

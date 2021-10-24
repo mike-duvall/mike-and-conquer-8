@@ -1,4 +1,6 @@
 ﻿using mike_and_conquer_simulation.main;
+using mike_and_conquer_simulation.rest.domain;
+using Newtonsoft.Json;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -14,7 +16,18 @@ namespace mike_and_conquer_monogame.main
 
         public override void Update(SimulationStateUpdateEvent anEvent)
         {
-            mikeAndConquerGame.AddMinigunner(anEvent.X, anEvent.Y);
+            if (anEvent.EventType.Equals("MinigunnerCreated"))
+            {
+                MinigunnerCreateEventData minigunnerCreatedEventData =
+                    JsonConvert.DeserializeObject<MinigunnerCreateEventData>(anEvent.EventData);
+
+
+                mikeAndConquerGame.AddMinigunner(
+                    minigunnerCreatedEventData.X,
+                    minigunnerCreatedEventData.Y);
+
+            }
+
         }
     }
 }

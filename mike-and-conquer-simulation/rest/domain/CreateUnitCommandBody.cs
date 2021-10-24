@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mike_and_conquer_simulation.rest.domain
 {
-    class CreateMinigunnerCommandBody
+    class CreateUnitCommandBody
     {
         public int StartLocationXInWorldCoordinates { get; set; }
 

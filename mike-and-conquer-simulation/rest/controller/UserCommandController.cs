@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.domain;
+using Newtonsoft.Json;
+
 // using WeatherForecast = mike_and_conquer_simulation.rest.domain.WeatherForecast;
 
 namespace mike_and_conquer_simulation.rest.controller
@@ -28,43 +30,55 @@ namespace mike_and_conquer_simulation.rest.controller
             _logger = logger;
         }
 
-        
-    //     [HttpPost]
-    //     [ProducesResponseType(StatusCodes.Status201Created)]
-    //     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    //     public ActionResult<RestMinigunner> PostUserCommand([FromBody] RestUserCommand incomingCommand)
-    //     {
-    //         try
-    //         {
-    //
-    //             if (incomingAdminCommand.CommandType.Equals("CreateMinigunner"))
-    //             {
-    //
-    //                 Minigunner minigunner =
-    //                     SimulationMain.instance.CreateMinigunnerViaEvent(incomingAdminCommand.StartLocationXInWorldCoordinates,
-    //                         incomingAdminCommand.StartLocationYInWorldCoordinates);
-    //
-    //                 RestMinigunner createdRestMinigunner = new RestMinigunner();
-    //                 createdRestMinigunner.X = minigunner.X;
-    //                 createdRestMinigunner.Y = minigunner.Y;
-    //                 createdRestMinigunner.ID = minigunner.ID;
-    //
-    //                 return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
-    //             }
-    //             else
-    //             {
-    //                 throw new Exception("Unknown CommandType:" + incomingAdminCommand.CommandType);
-    //             }
-    //
-    //         }
-    //         catch (Exception e)
-    //         {
-    //             _logger.LogWarning(e, "Unable to POST minigunner.");
-    //
-    //             return ValidationProblem(e.Message);
-    //         }
-    //     }
-    //
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<RestMinigunner> PostUserCommand([FromBody] RestAdminCommand incomingCommand)
+    {
+        try
+        {
+    
+            if (incomingCommand.CommandType.Equals("OrderUnitMove"))
+            {
+
+                RestOrderUnitMoveCommandBody commandBody =
+                    JsonConvert.DeserializeObject<RestOrderUnitMoveCommandBody>(incomingCommand.CommandData);
+
+                SimulationMain.instance.OrderUnitMoveViaEvent(
+                    commandBody.UnitId,
+                    commandBody.DestinationLocationXInWorldCoordinates,
+                    commandBody.DestinationLocationYInWorldCoordinates
+                );
+
+                // Minigunner minigunner =
+                //     SimulationMain.instance.CreateMinigunnerViaEvent(commandBody.DestinationLocationXInWorldCoordinates,
+                //         commandBody.DestinationLocationYInWorldCoordinates);
+                //
+                //
+                //
+                //     RestMinigunner createdRestMinigunner = new RestMinigunner();
+                // createdRestMinigunner.X = minigunner.X;
+                // createdRestMinigunner.Y = minigunner.Y;
+                // createdRestMinigunner.ID = minigunner.ID;
+    
+//                return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
+                return new OkObjectResult(new { Message = "Command Accepeted" });
+                }
+            else
+            {
+                throw new Exception("Unknown CommandType:" + incomingCommand.CommandType);
+            }
+    
+        }
+        catch (Exception e)
+        {
+            _logger.LogWarning(e, "Unable to POST minigunner.");
+    
+            return ValidationProblem(e.Message);
+        }
+    }
+    
     }
 
 

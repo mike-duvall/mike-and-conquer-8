@@ -1,9 +1,11 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.rest.simulationevent;
+using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
 {
@@ -105,6 +107,35 @@ namespace mike_and_conquer_simulation.main
         }
 
 
+        public bool  OrderUnitMoveViaEvent(int unitId, int destinationXInWorldCoordiantes,
+            int destinationYInWorldCoordinates)
+        {
+            // CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
+            // createMinigunnerEvent.X = x;
+            // createMinigunnerEvent.Y = y;
+            //
+            // lock (inputEventQueue)
+            // {
+            //     inputEventQueue.Enqueue(createMinigunnerEvent);
+            // }
+
+            // Minigunner gdiMinigunner = createMinigunnerEvent.GetMinigunner();
+
+            OrderUnitToMoveEvent anEvent = new OrderUnitToMoveEvent();
+            anEvent.UnitId = unitId;
+            anEvent.DestinationXInWorldCoordinates = destinationXInWorldCoordiantes;
+            anEvent.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
+
+            lock (inputEventQueue)
+            {
+                inputEventQueue.Enqueue(anEvent);
+            }
+
+
+            return true;
+
+        }
+
         public Minigunner CreateMinigunnerViaEvent(int x, int y)
         {
             CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
@@ -145,22 +176,29 @@ namespace mike_and_conquer_simulation.main
             minigunner.ID = 1;
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.ID = minigunner.ID;
-            simulationStateUpdateEvent.X = minigunnerX;
-            simulationStateUpdateEvent.Y = minigunnerY;
+            simulationStateUpdateEvent.EventType = "MinigunnerCreated";
+            MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
+            eventData.ID = minigunner.ID;
+            eventData.X = minigunnerX;
+            eventData.Y = minigunnerY;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
             foreach (SimulationStateListener listener in listeners)
             {
                 listener.Update(simulationStateUpdateEvent);
             }
 
-            // lock (simulationStateUpdateEventsHistory)
-            // {
-            //     simulationStateUpdateEventsHistory.Add(simulationStateUpdateEvent);
-            // }
-
             return minigunner;
         }
+
+        public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        {
+
+            //throw new System.NotImplementedException();
+        }
+
+
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistory()
         {
@@ -169,9 +207,15 @@ namespace mike_and_conquer_simulation.main
             foreach (SimulationStateUpdateEvent simulationStateUpdateEvent in simulationStateUpdateEventsHistory)
             {
                 SimulationStateUpdateEvent copyEvent = new SimulationStateUpdateEvent();
-                copyEvent.ID = simulationStateUpdateEvent.ID;
-                copyEvent.X = simulationStateUpdateEvent.X;
-                copyEvent.Y = simulationStateUpdateEvent.Y;
+                copyEvent.EventType = simulationStateUpdateEvent.EventType;
+                // MinigunnerCreateEventData copyEventData = new MinigunnerCreateEventData();
+                //
+                // copyEventData.ID = simulationStateUpdateEvent.ID;
+                // copyEventData.X = simulationStateUpdateEvent.X;
+                // copyEventData.Y = simulationStateUpdateEvent.Y;
+                String copyEventData = new string(simulationStateUpdateEvent.EventData);
+
+                copyEvent.EventData = copyEventData;
                 copyList.Add(copyEvent);
             }
 

@@ -34,9 +34,11 @@ namespace mike_and_conquer_simulation.rest.controller
             foreach (SimulationStateUpdateEvent simulationStateUpdateEvent in simulationStateUpdateList)
             {
                 RestSimulationStateUpdateEvent anEvent = new RestSimulationStateUpdateEvent();
-                anEvent.X = simulationStateUpdateEvent.X;
-                anEvent.Y = simulationStateUpdateEvent.Y;
-                anEvent.ID = simulationStateUpdateEvent.ID;
+                anEvent.EventType = simulationStateUpdateEvent.EventType;
+                anEvent.EventData = simulationStateUpdateEvent.EventData;
+                // anEvent.X = simulationStateUpdateEvent.X;
+                // anEvent.Y = simulationStateUpdateEvent.Y;
+                // anEvent.ID = simulationStateUpdateEvent.ID;
                 restReturnList.Add(anEvent);
             }
 

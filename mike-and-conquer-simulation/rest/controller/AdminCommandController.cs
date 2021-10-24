@@ -39,8 +39,8 @@ namespace mike_and_conquer_simulation.rest.controller
 
                 if (incomingAdminCommand.CommandType.Equals("CreateMinigunner"))
                 {
-                    CreateMinigunnerCommandBody createMinigunnerCommandBody = 
-                        JsonConvert.DeserializeObject<CreateMinigunnerCommandBody>(incomingAdminCommand.CommandData);
+                    CreateUnitCommandBody createMinigunnerCommandBody = 
+                        JsonConvert.DeserializeObject<CreateUnitCommandBody>(incomingAdminCommand.CommandData);
 
                     Minigunner minigunner =
                         SimulationMain.instance.CreateMinigunnerViaEvent(createMinigunnerCommandBody.StartLocationXInWorldCoordinates,
