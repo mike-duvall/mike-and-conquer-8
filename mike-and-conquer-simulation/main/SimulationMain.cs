@@ -14,8 +14,6 @@ namespace mike_and_conquer_simulation.main
 
         private Queue<AsyncGameEvent> inputEventQueue;
 
-
-
         private List<SimulationStateUpdateEvent> simulationStateUpdateEventsHistory;
 
         private List<SimulationStateListener> listeners;
@@ -28,6 +26,8 @@ namespace mike_and_conquer_simulation.main
         public static SimulationMain instance;
 
         public static ManualResetEvent condition;
+
+        private List<Minigunner> minigunnerList;
 
         public static void StartSimulation(SimulationStateListener listener)
         {
@@ -78,7 +78,7 @@ namespace mike_and_conquer_simulation.main
             while (true)
             {
                 Thread.Sleep(17);
-                SimulationMain.instance.ProcessCreateMinigunnerEventQueue();
+                SimulationMain.instance.ProcessInputEventQueue();
 //                logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
             }
 
@@ -91,10 +91,12 @@ namespace mike_and_conquer_simulation.main
             listeners = new List<SimulationStateListener>();
             listeners.Add(new SimulationStateHistoryListener(this));
 
+            minigunnerList = new List<Minigunner>();
+
             SimulationMain.instance = this;
         }
 
-        private void ProcessCreateMinigunnerEventQueue()
+        private void ProcessInputEventQueue()
         {
             lock (inputEventQueue)
             {
@@ -175,6 +177,8 @@ namespace mike_and_conquer_simulation.main
             minigunner.Y = minigunnerY;
             minigunner.ID = 1;
 
+            minigunnerList.Add(minigunner);
+
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = "MinigunnerCreated";
             MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
@@ -195,7 +199,20 @@ namespace mike_and_conquer_simulation.main
         public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
 
-            //throw new System.NotImplementedException();
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = "UnitOrderedToMove";
+            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
+            eventData.ID = unitId;
+            eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
+            eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            foreach (SimulationStateListener listener in listeners)
+            {
+                listener.Update(simulationStateUpdateEvent);
+            }
+
         }
 
 

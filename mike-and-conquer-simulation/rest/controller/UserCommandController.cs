@@ -51,6 +51,7 @@ namespace mike_and_conquer_simulation.rest.controller
                     commandBody.DestinationLocationYInWorldCoordinates
                 );
 
+
                 // Minigunner minigunner =
                 //     SimulationMain.instance.CreateMinigunnerViaEvent(commandBody.DestinationLocationXInWorldCoordinates,
                 //         commandBody.DestinationLocationYInWorldCoordinates);
@@ -63,7 +64,7 @@ namespace mike_and_conquer_simulation.rest.controller
                 // createdRestMinigunner.ID = minigunner.ID;
     
 //                return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
-                return new OkObjectResult(new { Message = "Command Accepeted" });
+                return new OkObjectResult(new { Message = "Command Accepted" });
                 }
             else
             {
