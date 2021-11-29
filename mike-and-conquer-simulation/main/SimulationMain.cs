@@ -1,9 +1,12 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.rest.simulationevent;
+using MonoGame.Framework.Utilities;
+using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
 {
@@ -11,8 +14,6 @@ namespace mike_and_conquer_simulation.main
     {
 
         private Queue<AsyncGameEvent> inputEventQueue;
-
-
 
         private List<SimulationStateUpdateEvent> simulationStateUpdateEventsHistory;
 
@@ -26,6 +27,8 @@ namespace mike_and_conquer_simulation.main
         public static SimulationMain instance;
 
         public static ManualResetEvent condition;
+
+        private List<Minigunner> minigunnerList;
 
         public static void StartSimulation(SimulationStateListener listener)
         {
@@ -75,12 +78,16 @@ namespace mike_and_conquer_simulation.main
             SimulationMain.condition.Set();
             while (true)
             {
-                Thread.Sleep(17);
-                SimulationMain.instance.ProcessCreateMinigunnerEventQueue();
+                // Thread.Sleep(17);
+                TimerHelper.SleepForNoMoreThan(17);
+
+                SimulationMain.instance.Tick();
+                // SimulationMain.instance.ProcessInputEventQueue();
 //                logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
             }
 
         }
+
 
         SimulationMain()
         {
@@ -89,10 +96,26 @@ namespace mike_and_conquer_simulation.main
             listeners = new List<SimulationStateListener>();
             listeners.Add(new SimulationStateHistoryListener(this));
 
+            minigunnerList = new List<Minigunner>();
+
             SimulationMain.instance = this;
         }
 
-        private void ProcessCreateMinigunnerEventQueue()
+        private void Tick()
+        {
+            Update();
+            ProcessInputEventQueue();
+        }
+
+        private void Update()
+        {
+            foreach(Minigunner minigunner in minigunnerList)
+            {
+                minigunner.Update();
+            }
+        }
+
+        private void ProcessInputEventQueue()
         {
             lock (inputEventQueue)
             {
@@ -104,6 +127,24 @@ namespace mike_and_conquer_simulation.main
             }
         }
 
+
+        public bool  OrderUnitMoveViaEvent(int unitId, int destinationXInWorldCoordiantes,
+            int destinationYInWorldCoordinates)
+        {
+            OrderUnitToMoveEvent anEvent = new OrderUnitToMoveEvent();
+            anEvent.UnitId = unitId;
+            anEvent.DestinationXInWorldCoordinates = destinationXInWorldCoordiantes;
+            anEvent.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
+
+            lock (inputEventQueue)
+            {
+                inputEventQueue.Enqueue(anEvent);
+            }
+
+
+            return true;
+
+        }
 
         public Minigunner CreateMinigunnerViaEvent(int x, int y)
         {
@@ -144,22 +185,60 @@ namespace mike_and_conquer_simulation.main
             minigunner.Y = minigunnerY;
             minigunner.ID = 1;
 
+            minigunnerList.Add(minigunner);
+
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.ID = minigunner.ID;
-            simulationStateUpdateEvent.X = minigunnerX;
-            simulationStateUpdateEvent.Y = minigunnerY;
+            simulationStateUpdateEvent.EventType = "MinigunnerCreated";
+            MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
+            eventData.ID = minigunner.ID;
+            eventData.X = minigunnerX;
+            eventData.Y = minigunnerY;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
             foreach (SimulationStateListener listener in listeners)
             {
                 listener.Update(simulationStateUpdateEvent);
             }
 
-            // lock (simulationStateUpdateEventsHistory)
-            // {
-            //     simulationStateUpdateEventsHistory.Add(simulationStateUpdateEvent);
-            // }
-
             return minigunner;
+        }
+
+        public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        {
+
+            Minigunner foundMinigunner = FindMinigunnerWithUnitId(unitId);
+
+            foundMinigunner.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = "UnitOrderedToMove";
+            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
+            eventData.ID = unitId;
+            eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
+            eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            foreach (SimulationStateListener listener in listeners)
+            {
+                listener.Update(simulationStateUpdateEvent);
+            }
+
+        }
+        private Minigunner FindMinigunnerWithUnitId(int unitId)
+        {
+            Minigunner foundMinigunner = null;
+
+            foreach (Minigunner minigunner in minigunnerList)
+            {
+                if (minigunner.ID == unitId)
+                {
+                    foundMinigunner = minigunner;
+                }
+            }
+
+            return foundMinigunner;
         }
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistory()
@@ -169,9 +248,15 @@ namespace mike_and_conquer_simulation.main
             foreach (SimulationStateUpdateEvent simulationStateUpdateEvent in simulationStateUpdateEventsHistory)
             {
                 SimulationStateUpdateEvent copyEvent = new SimulationStateUpdateEvent();
-                copyEvent.ID = simulationStateUpdateEvent.ID;
-                copyEvent.X = simulationStateUpdateEvent.X;
-                copyEvent.Y = simulationStateUpdateEvent.Y;
+                copyEvent.EventType = simulationStateUpdateEvent.EventType;
+                // MinigunnerCreateEventData copyEventData = new MinigunnerCreateEventData();
+                //
+                // copyEventData.ID = simulationStateUpdateEvent.ID;
+                // copyEventData.X = simulationStateUpdateEvent.X;
+                // copyEventData.Y = simulationStateUpdateEvent.Y;
+                String copyEventData = new string(simulationStateUpdateEvent.EventData);
+
+                copyEvent.EventData = copyEventData;
                 copyList.Add(copyEvent);
             }
 
@@ -184,5 +269,12 @@ namespace mike_and_conquer_simulation.main
             simulationStateUpdateEventsHistory.Add(anEvent); 
         }
 
+        public void PublishEvent(SimulationStateUpdateEvent simulationStateUpdateEvent)
+        {
+            foreach (SimulationStateListener listener in listeners)
+            {
+                listener.Update(simulationStateUpdateEvent);
+            }
+        }
     }
 }
