@@ -131,17 +131,6 @@ namespace mike_and_conquer_simulation.main
         public bool  OrderUnitMoveViaEvent(int unitId, int destinationXInWorldCoordiantes,
             int destinationYInWorldCoordinates)
         {
-            // CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
-            // createMinigunnerEvent.X = x;
-            // createMinigunnerEvent.Y = y;
-            //
-            // lock (inputEventQueue)
-            // {
-            //     inputEventQueue.Enqueue(createMinigunnerEvent);
-            // }
-
-            // Minigunner gdiMinigunner = createMinigunnerEvent.GetMinigunner();
-
             OrderUnitToMoveEvent anEvent = new OrderUnitToMoveEvent();
             anEvent.UnitId = unitId;
             anEvent.DestinationXInWorldCoordinates = destinationXInWorldCoordiantes;
