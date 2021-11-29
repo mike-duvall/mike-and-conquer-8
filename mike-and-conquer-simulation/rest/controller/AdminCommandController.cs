@@ -47,8 +47,8 @@ namespace mike_and_conquer_simulation.rest.controller
                             createMinigunnerCommandBody.StartLocationYInWorldCoordinates);
 
                     RestMinigunner createdRestMinigunner = new RestMinigunner();
-                    createdRestMinigunner.X = minigunner.X;
-                    createdRestMinigunner.Y = minigunner.Y;
+                    createdRestMinigunner.X = (int) minigunner.X;
+                    createdRestMinigunner.Y = (int) minigunner.Y;
                     createdRestMinigunner.ID = minigunner.ID;
 
                     return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);

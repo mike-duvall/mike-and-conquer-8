@@ -5,6 +5,7 @@ using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.rest.simulationevent;
+using MonoGame.Framework.Utilities;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -77,12 +78,16 @@ namespace mike_and_conquer_simulation.main
             SimulationMain.condition.Set();
             while (true)
             {
-                Thread.Sleep(17);
-                SimulationMain.instance.ProcessInputEventQueue();
+                // Thread.Sleep(17);
+                TimerHelper.SleepForNoMoreThan(17);
+
+                SimulationMain.instance.Tick();
+                // SimulationMain.instance.ProcessInputEventQueue();
 //                logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
             }
 
         }
+
 
         SimulationMain()
         {
@@ -94,6 +99,20 @@ namespace mike_and_conquer_simulation.main
             minigunnerList = new List<Minigunner>();
 
             SimulationMain.instance = this;
+        }
+
+        private void Tick()
+        {
+            Update();
+            ProcessInputEventQueue();
+        }
+
+        private void Update()
+        {
+            foreach(Minigunner minigunner in minigunnerList)
+            {
+                minigunner.Update();
+            }
         }
 
         private void ProcessInputEventQueue()
@@ -199,6 +218,10 @@ namespace mike_and_conquer_simulation.main
         public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
 
+            Minigunner foundMinigunner = FindMinigunnerWithUnitId(unitId);
+
+            foundMinigunner.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = "UnitOrderedToMove";
             UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
@@ -214,8 +237,20 @@ namespace mike_and_conquer_simulation.main
             }
 
         }
+        private Minigunner FindMinigunnerWithUnitId(int unitId)
+        {
+            Minigunner foundMinigunner = null;
 
+            foreach (Minigunner minigunner in minigunnerList)
+            {
+                if (minigunner.ID == unitId)
+                {
+                    foundMinigunner = minigunner;
+                }
+            }
 
+            return foundMinigunner;
+        }
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistory()
         {
@@ -245,5 +280,12 @@ namespace mike_and_conquer_simulation.main
             simulationStateUpdateEventsHistory.Add(anEvent); 
         }
 
+        public void PublishEvent(SimulationStateUpdateEvent simulationStateUpdateEvent)
+        {
+            foreach (SimulationStateListener listener in listeners)
+            {
+                listener.Update(simulationStateUpdateEvent);
+            }
+        }
     }
 }

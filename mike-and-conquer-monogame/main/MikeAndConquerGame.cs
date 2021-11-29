@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mike_and_conquer_simulation.main;
+using MonoGame.Framework.Utilities;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -26,7 +27,10 @@ namespace mike_and_conquer_monogame.main
             Content.RootDirectory = "Content";
             monogameSimulationStateListener = new MonogameSimulationStateListener(this);
             IsMouseVisible = true;
+            // double currentResolution = TimerHelper.GetCurrentResolution();
+            int x = 3;
         }
+
 
         protected override void Initialize()
         {
