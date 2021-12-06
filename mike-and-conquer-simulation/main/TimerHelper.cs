@@ -5,7 +5,7 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 
-namespace MonoGame.Framework.Utilities
+namespace mike_and_conquer_simulation.main
 {
     internal static class TimerHelper
     {

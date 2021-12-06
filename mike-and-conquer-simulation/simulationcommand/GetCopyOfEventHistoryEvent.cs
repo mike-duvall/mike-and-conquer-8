@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using mike_and_conquer_simulation.main;
 
-namespace mike_and_conquer_simulation.rest.simulationevent
+namespace mike_and_conquer_simulation.simulationcommand
 {
-    public class GetCopyOfEventHistoryEvent : AsyncGameEvent
+    public class GetCopyOfEventHistoryEvent : AsyncSimulationCommand
     {
 
 

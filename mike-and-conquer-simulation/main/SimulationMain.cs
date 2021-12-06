@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using mike_and_conquer_simulation.rest.simulationevent;
-using MonoGame.Framework.Utilities;
+using mike_and_conquer_simulation.simulationcommand;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -13,7 +12,7 @@ namespace mike_and_conquer_simulation.main
     public class SimulationMain
     {
 
-        private Queue<AsyncGameEvent> inputEventQueue;
+        private Queue<AsyncSimulationCommand> inputEventQueue;
 
         private List<SimulationStateUpdateEvent> simulationStateUpdateEventsHistory;
 
@@ -91,7 +90,7 @@ namespace mike_and_conquer_simulation.main
 
         SimulationMain()
         {
-            inputEventQueue = new Queue<AsyncGameEvent>();
+            inputEventQueue = new Queue<AsyncSimulationCommand>();
             simulationStateUpdateEventsHistory = new List<SimulationStateUpdateEvent>();
             listeners = new List<SimulationStateListener>();
             listeners.Add(new SimulationStateHistoryListener(this));
@@ -121,7 +120,7 @@ namespace mike_and_conquer_simulation.main
             {
                 while (inputEventQueue.Count > 0)
                 {
-                    AsyncGameEvent anEvent = inputEventQueue.Dequeue();
+                    AsyncSimulationCommand anEvent = inputEventQueue.Dequeue();
                     anEvent.Process();
                 }
             }
