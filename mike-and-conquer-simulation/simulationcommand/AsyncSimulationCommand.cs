@@ -2,15 +2,15 @@
 using ManualResetEvent = System.Threading.ManualResetEvent;
 
 
-namespace mike_and_conquer_simulation.rest.simulationevent
+namespace mike_and_conquer_simulation.simulationcommand
 {
-    public abstract class AsyncGameEvent
+    public abstract class AsyncSimulationCommand
     {
         protected Object result;
         private ManualResetEvent condition;
         private Exception thrownException;
 
-        public AsyncGameEvent()
+        public AsyncSimulationCommand()
         {
             this.result = null;
             bool signaled = false;

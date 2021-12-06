@@ -1,8 +1,8 @@
 ﻿using mike_and_conquer_simulation.main;
 
-namespace mike_and_conquer_simulation.rest.simulationevent
+namespace mike_and_conquer_simulation.simulationcommand
 {
-    public class CreateMinigunnerEvent : AsyncGameEvent
+    public class CreateMinigunnerCommand : AsyncSimulationCommand
     {
         public int X { get; set; }
         public int Y { get; set; }

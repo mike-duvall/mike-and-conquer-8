@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using mike_and_conquer_simulation.rest.simulationevent;
-using MonoGame.Framework.Utilities;
+using mike_and_conquer_simulation.simulationcommand;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -13,7 +12,7 @@ namespace mike_and_conquer_simulation.main
     public class SimulationMain
     {
 
-        private Queue<AsyncGameEvent> inputEventQueue;
+        private Queue<AsyncSimulationCommand> inputEventQueue;
 
         private List<SimulationStateUpdateEvent> simulationStateUpdateEventsHistory;
 
@@ -91,7 +90,7 @@ namespace mike_and_conquer_simulation.main
 
         SimulationMain()
         {
-            inputEventQueue = new Queue<AsyncGameEvent>();
+            inputEventQueue = new Queue<AsyncSimulationCommand>();
             simulationStateUpdateEventsHistory = new List<SimulationStateUpdateEvent>();
             listeners = new List<SimulationStateListener>();
             listeners.Add(new SimulationStateHistoryListener(this));
@@ -121,7 +120,7 @@ namespace mike_and_conquer_simulation.main
             {
                 while (inputEventQueue.Count > 0)
                 {
-                    AsyncGameEvent anEvent = inputEventQueue.Dequeue();
+                    AsyncSimulationCommand anEvent = inputEventQueue.Dequeue();
                     anEvent.Process();
                 }
             }
@@ -131,7 +130,7 @@ namespace mike_and_conquer_simulation.main
         public bool  OrderUnitMoveViaEvent(int unitId, int destinationXInWorldCoordiantes,
             int destinationYInWorldCoordinates)
         {
-            OrderUnitToMoveEvent anEvent = new OrderUnitToMoveEvent();
+            OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
             anEvent.UnitId = unitId;
             anEvent.DestinationXInWorldCoordinates = destinationXInWorldCoordiantes;
             anEvent.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
@@ -148,16 +147,16 @@ namespace mike_and_conquer_simulation.main
 
         public Minigunner CreateMinigunnerViaEvent(int x, int y)
         {
-            CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
-            createMinigunnerEvent.X = x;
-            createMinigunnerEvent.Y = y;
+            CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
+            createMinigunnerCommand.X = x;
+            createMinigunnerCommand.Y = y;
 
             lock (inputEventQueue)
             {
-                inputEventQueue.Enqueue(createMinigunnerEvent);
+                inputEventQueue.Enqueue(createMinigunnerCommand);
             }
 
-            Minigunner gdiMinigunner = createMinigunnerEvent.GetMinigunner();
+            Minigunner gdiMinigunner = createMinigunnerCommand.GetMinigunner();
             return gdiMinigunner;
 
         }
@@ -165,7 +164,7 @@ namespace mike_and_conquer_simulation.main
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistoryViaEvent()
         {
-            GetCopyOfEventHistoryEvent anEvent = new GetCopyOfEventHistoryEvent();
+            GetCopyOfEventHistoryCommand anEvent = new GetCopyOfEventHistoryCommand();
 
             lock (inputEventQueue)
             {

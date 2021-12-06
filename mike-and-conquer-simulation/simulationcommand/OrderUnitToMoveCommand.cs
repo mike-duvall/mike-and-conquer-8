@@ -1,8 +1,8 @@
 ﻿using mike_and_conquer_simulation.main;
 
-namespace mike_and_conquer_simulation.rest.simulationevent
+namespace mike_and_conquer_simulation.simulationcommand
 {
-    public class OrderUnitToMoveEvent : AsyncGameEvent
+    public class OrderUnitToMoveCommand : AsyncSimulationCommand
     {
         public int DestinationXInWorldCoordinates { get; set; }
         public int DestinationYInWorldCoordinates { get; set; }
