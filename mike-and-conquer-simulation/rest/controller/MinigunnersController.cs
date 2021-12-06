@@ -91,8 +91,8 @@ namespace mike_and_conquer_simulation.rest.controller
                 Minigunner minigunner = SimulationMain.instance.CreateMinigunnerViaEvent(incomingRestMinigunner.X, incomingRestMinigunner.Y);
 
                 RestMinigunner createdRestMinigunner = new RestMinigunner();
-                createdRestMinigunner.X = (int) minigunner.X;
-                createdRestMinigunner.Y = (int) minigunner.Y;
+                createdRestMinigunner.X = (int) minigunner.GameWorldLocation.X;
+                createdRestMinigunner.Y = (int) minigunner.GameWorldLocation.Y;
                 createdRestMinigunner.ID = minigunner.ID;
 
                 return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);

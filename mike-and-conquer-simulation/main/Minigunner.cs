@@ -9,8 +9,17 @@ namespace mike_and_conquer_simulation.main
 {
     public class Minigunner
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        // public float X { get; set; }
+        // public float Y { get; set; }
+
+
+        protected GameWorldLocation gameWorldLocation;
+
+        public GameWorldLocation GameWorldLocation
+        {
+            get { return gameWorldLocation; }
+        }
+
 
         public int ID { get; set; }
 
@@ -35,6 +44,7 @@ namespace mike_and_conquer_simulation.main
             currentCommand = Command.NONE;
             this.movementDistanceEpsilon = 0.1f;
             this.movementDelta = 0.05f;
+            this.gameWorldLocation = GameWorldLocation.CreateFromWorldCoordinates(0, 0);
         }
 
         public void OrderMoveToDestination(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
@@ -67,8 +77,8 @@ namespace mike_and_conquer_simulation.main
                     // eventData.XInWorldCoordinates = (int) this.X;
                     // eventData.YInWorldCoordinates = (int) this.Y;
 
-                    eventData.XInWorldCoordinates = (int) Math.Round(this.X, 0);
-                    eventData.YInWorldCoordinates = (int) Math.Round(this.Y, 0);
+                    eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);
+                    eventData.YInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.Y, 0);
 
 
                     simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
@@ -83,22 +93,22 @@ namespace mike_and_conquer_simulation.main
                 }
                 else
                 {
-                    if (X < destinationXInWorldCoordinates)
+                    if (gameWorldLocation.X < destinationXInWorldCoordinates)
                     {
-                        X += movementDelta;
+                        gameWorldLocation.X += movementDelta;
                     }
-                    else if (X > destinationXInWorldCoordinates)
+                    else if (gameWorldLocation.X > destinationXInWorldCoordinates)
                     {
-                        X -= movementDelta;
+                        gameWorldLocation.X -= movementDelta;
                     }
 
-                    if (Y < destinationYInWorldCoordinates)
+                    if (gameWorldLocation.Y < destinationYInWorldCoordinates)
                     {
-                        Y += movementDelta;
+                        gameWorldLocation.Y += movementDelta;
                     }
-                    else if (Y > destinationYInWorldCoordinates)
+                    else if (gameWorldLocation.Y > destinationYInWorldCoordinates)
                     {
-                        Y -= movementDelta;
+                        gameWorldLocation.Y -= movementDelta;
                     }
                 }
 
@@ -137,27 +147,27 @@ namespace mike_and_conquer_simulation.main
         private bool IsFarEnoughRight(int destinationX)
         {
             // return (GameWorldLocation.WorldCoordinatesAsVector2.X > (destinationX - movementDistanceEpsilon));
-            return (this.X > (destinationX - movementDistanceEpsilon));
+            return (this.gameWorldLocation.X > (destinationX - movementDistanceEpsilon));
         }
 
 
         private bool IsFarEnoughLeft(int destinationX)
         {
             // return (GameWorldLocation.WorldCoordinatesAsVector2.X < (destinationX + movementDistanceEpsilon));
-            return (X < (destinationX + movementDistanceEpsilon));
+            return (gameWorldLocation.X < (destinationX + movementDistanceEpsilon));
 
         }
 
         private bool IsFarEnoughDown(int destinationY)
         {
             // return (GameWorldLocation.WorldCoordinatesAsVector2.Y > (destinationY - movementDistanceEpsilon));
-            return (Y > (destinationY - movementDistanceEpsilon));
+            return (gameWorldLocation.Y > (destinationY - movementDistanceEpsilon));
         }
 
         private bool IsFarEnoughUp(int destinationY)
         {
             // return (GameWorldLocation.WorldCoordinatesAsVector2.Y < (destinationY + movementDistanceEpsilon));
-            return (Y < (destinationY + movementDistanceEpsilon));
+            return (gameWorldLocation.Y < (destinationY + movementDistanceEpsilon));
         }
 
 

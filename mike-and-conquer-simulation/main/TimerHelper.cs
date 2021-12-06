@@ -22,7 +22,7 @@ namespace mike_and_conquer_simulation.main
 
 
             double HighestSleepThreshold = 1.0 + (min / 10000.0);
-            int x = 3;
+            // int x = 3;
 
         }
 
