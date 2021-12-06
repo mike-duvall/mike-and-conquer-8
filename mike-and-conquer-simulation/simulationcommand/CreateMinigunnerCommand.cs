@@ -2,7 +2,7 @@
 
 namespace mike_and_conquer_simulation.simulationcommand
 {
-    public class CreateMinigunnerEvent : AsyncSimulationCommand
+    public class CreateMinigunnerCommand : AsyncSimulationCommand
     {
         public int X { get; set; }
         public int Y { get; set; }

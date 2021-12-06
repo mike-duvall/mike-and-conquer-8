@@ -63,7 +63,7 @@ namespace mike_and_conquer_simulation.rest.controller
         //         createdRestMinigunner.Y = 200;
         //         createdRestMinigunner.ID = 2;
         //
-        //         CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
+        //         CreateMinigunnerCommand createMinigunnerEvent = new CreateMinigunnerCommand();
         //         createMinigunnerEvent.X = incomingRestMinigunner.X;
         //         createMinigunnerEvent.Y = incomingRestMinigunner.Y;
         //         SimulationMain.instance.CreateMinigunnerViaEvent(createMinigunnerEvent);

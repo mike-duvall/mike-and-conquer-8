@@ -3,7 +3,7 @@ using mike_and_conquer_simulation.main;
 
 namespace mike_and_conquer_simulation.simulationcommand
 {
-    public class GetCopyOfEventHistoryEvent : AsyncSimulationCommand
+    public class GetCopyOfEventHistoryCommand : AsyncSimulationCommand
     {
 
 

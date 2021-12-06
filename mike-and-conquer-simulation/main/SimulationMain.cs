@@ -130,7 +130,7 @@ namespace mike_and_conquer_simulation.main
         public bool  OrderUnitMoveViaEvent(int unitId, int destinationXInWorldCoordiantes,
             int destinationYInWorldCoordinates)
         {
-            OrderUnitToMoveEvent anEvent = new OrderUnitToMoveEvent();
+            OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
             anEvent.UnitId = unitId;
             anEvent.DestinationXInWorldCoordinates = destinationXInWorldCoordiantes;
             anEvent.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
@@ -147,16 +147,16 @@ namespace mike_and_conquer_simulation.main
 
         public Minigunner CreateMinigunnerViaEvent(int x, int y)
         {
-            CreateMinigunnerEvent createMinigunnerEvent = new CreateMinigunnerEvent();
-            createMinigunnerEvent.X = x;
-            createMinigunnerEvent.Y = y;
+            CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
+            createMinigunnerCommand.X = x;
+            createMinigunnerCommand.Y = y;
 
             lock (inputEventQueue)
             {
-                inputEventQueue.Enqueue(createMinigunnerEvent);
+                inputEventQueue.Enqueue(createMinigunnerCommand);
             }
 
-            Minigunner gdiMinigunner = createMinigunnerEvent.GetMinigunner();
+            Minigunner gdiMinigunner = createMinigunnerCommand.GetMinigunner();
             return gdiMinigunner;
 
         }
@@ -164,7 +164,7 @@ namespace mike_and_conquer_simulation.main
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistoryViaEvent()
         {
-            GetCopyOfEventHistoryEvent anEvent = new GetCopyOfEventHistoryEvent();
+            GetCopyOfEventHistoryCommand anEvent = new GetCopyOfEventHistoryCommand();
 
             lock (inputEventQueue)
             {

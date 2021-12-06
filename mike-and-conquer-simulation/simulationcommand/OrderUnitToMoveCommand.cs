@@ -2,7 +2,7 @@
 
 namespace mike_and_conquer_simulation.simulationcommand
 {
-    public class OrderUnitToMoveEvent : AsyncSimulationCommand
+    public class OrderUnitToMoveCommand : AsyncSimulationCommand
     {
         public int DestinationXInWorldCoordinates { get; set; }
         public int DestinationYInWorldCoordinates { get; set; }
