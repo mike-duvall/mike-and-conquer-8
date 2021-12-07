@@ -180,8 +180,8 @@ namespace mike_and_conquer_simulation.main
         {
 
             Minigunner minigunner = new Minigunner();
-            minigunner.X = minigunnerX;
-            minigunner.Y = minigunnerY;
+            minigunner.GameWorldLocation.X = minigunnerX;
+            minigunner.GameWorldLocation.Y = minigunnerY;
             minigunner.ID = 1;
 
             minigunnerList.Add(minigunner);
