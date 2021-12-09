@@ -120,5 +120,11 @@ namespace mike_and_conquer_monogame.main
 
 
         }
+
+        public void UpdateMinigunnerPosition(UnitPositionChangedEventData unitPositionChangedEventData)
+        {
+            minigunnerX = unitPositionChangedEventData.XInWorldCoordinates;
+            minigunnerY = unitPositionChangedEventData.YInWorldCoordinates;
+        }
     }
 }

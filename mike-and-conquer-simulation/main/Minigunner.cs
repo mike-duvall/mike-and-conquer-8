@@ -43,9 +43,11 @@ namespace mike_and_conquer_simulation.main
             state = State.IDLE;
             currentCommand = Command.NONE;
             this.movementDistanceEpsilon = 0.1f;
-            this.movementDelta = 0.05f;
+            this.movementDelta = 0.15f;
             this.gameWorldLocation = GameWorldLocation.CreateFromWorldCoordinates(0, 0);
         }
+
+
 
         public void OrderMoveToDestination(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
@@ -65,29 +67,18 @@ namespace mike_and_conquer_simulation.main
                     currentCommand = Command.NONE;
                     state = State.IDLE;
 
-
-
                     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
                     simulationStateUpdateEvent.EventType = "UnitArrivedAtDestination";
                     UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
                     eventData.ID = this.ID;
 
-                    //                    (int)Math.Round(precise, 0)
-
-                    // eventData.XInWorldCoordinates = (int) this.X;
-                    // eventData.YInWorldCoordinates = (int) this.Y;
 
                     eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);
                     eventData.YInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.Y, 0);
 
-
                     simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
                     SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-                    // foreach (SimulationStateListener listener in listeners)
-                    // {
-                    //     listener.Update(simulationStateUpdateEvent);
-                    // }
 
 
                 }
@@ -110,6 +101,21 @@ namespace mike_and_conquer_simulation.main
                     {
                         gameWorldLocation.Y -= movementDelta;
                     }
+
+                    SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+                    simulationStateUpdateEvent.EventType = "UnitPositionChanged";
+                    UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
+                    eventData.ID = this.ID;
+
+
+                    eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
+                    eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
+
+                    simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+                    SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+
                 }
 
             }
