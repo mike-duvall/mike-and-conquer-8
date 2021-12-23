@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mike_and_conquer_simulation.main;
+using mike_and_conquer_simulation.main.events;
 using MonoGame.Framework.Utilities;
 
 namespace mike_and_conquer_monogame.main
@@ -24,6 +25,32 @@ namespace mike_and_conquer_monogame.main
             logger.LogInformation("Game1() ctor");
 
             _graphics = new GraphicsDeviceManager(this);
+
+
+
+            new GameOptions();
+
+            if (GameOptions.instance.IsFullScreen)
+            {
+                _graphics.IsFullScreen = true;
+                _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            }
+            else
+            {
+                _graphics.IsFullScreen = false;
+                // graphics.PreferredBackBufferWidth = 1280;
+                // graphics.PreferredBackBufferHeight = 1024;
+                _graphics.PreferredBackBufferWidth = 1280;
+                _graphics.PreferredBackBufferHeight = 768;
+
+                // graphics.PreferredBackBufferWidth = 1024;
+                // graphics.PreferredBackBufferHeight = 768;
+
+
+            }
+
+
             Content.RootDirectory = "Content";
             monogameSimulationStateListener = new MonogameSimulationStateListener(this);
             IsMouseVisible = true;

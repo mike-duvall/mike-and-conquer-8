@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "mike-and-conquer-monogame": {
+      "commandName": "Project",
+      "remoteDebugEnabled": true,
+      "remoteDebugMachine": "192.168.0.186"
+    }
+  }
+}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_simulation.main.events;
 using mike_and_conquer_simulation.simulationcommand;
 using Newtonsoft.Json;
 
@@ -64,7 +65,26 @@ namespace mike_and_conquer_simulation.main
             // Start thread  
             backgroundThread.Start();
             condition.WaitOne();
+
+            EmitInitializeScenarioEvent(27,23);
+
+
         }
+
+        private static void EmitInitializeScenarioEvent(int mapWidth, int mapHeight)
+        {
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = InitializeScenarioEventData.EventName;
+            InitializeScenarioEventData eventData = new InitializeScenarioEventData();
+
+            eventData.MapWidth = mapWidth;
+            eventData.MapHeight = mapHeight;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+        }
+
 
         public void AddListener(SimulationStateListener listener)
         {
@@ -187,7 +207,7 @@ namespace mike_and_conquer_simulation.main
             minigunnerList.Add(minigunner);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = "MinigunnerCreated";
+            simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
             MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
             eventData.ID = minigunner.ID;
             eventData.X = minigunnerX;
