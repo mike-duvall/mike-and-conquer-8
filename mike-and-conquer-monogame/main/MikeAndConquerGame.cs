@@ -18,6 +18,15 @@ namespace mike_and_conquer_monogame.main
 
         public MonogameSimulationStateListener monogameSimulationStateListener = null;
 
+
+        private bool hasMinigunnerBeenCreated = false;
+        private int minigunnerX = -10;
+        private int minigunnerY = -10;
+
+        private bool hasScenarioBeenInitialized = false;
+        private int mapWidth = -10;
+        private int mapHeight = -10;
+
         public MikeAndConquerGame()
         {
 
@@ -89,9 +98,6 @@ namespace mike_and_conquer_monogame.main
         }
 
 
-        private bool hasMinigunnerBeenCreated = false;
-        private int minigunnerX = -10;
-        private int minigunnerY = -10;
 
         public void AddMinigunner(int x, int y)
         {
@@ -120,6 +126,13 @@ namespace mike_and_conquer_monogame.main
             //     }
             // }
 
+
+            if (hasScenarioBeenInitialized)
+            {
+                DrawMap();
+            }
+
+
             if (hasMinigunnerBeenCreated)
             {
                 DrawRectangleAtCoordinate(minigunnerX, minigunnerY);
@@ -130,6 +143,15 @@ namespace mike_and_conquer_monogame.main
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void DrawMap()
+        {
+
+            for(int column = 0; column < this.mapWidth; column++) 
+                for(int row = 0; row < this.mapHeight; row++)
+                    DrawUnfilledRectangleAtCoordinate(column * 24, row * 24, 24, 24, Color.Red);
+
         }
 
         void DrawRectangleAtCoordinate(int x, int y)
@@ -144,14 +166,64 @@ namespace mike_and_conquer_monogame.main
 
             Vector2 coor = new Vector2(x, y);
             _spriteBatch.Draw(rect, coor, Color.White);
-
-
         }
+
+        void DrawUnfilledRectangleAtCoordinate(int x, int y, int width, int height, Color color)
+        {
+            Texture2D rect = new Texture2D(GraphicsDevice, width, height);
+
+            Color[] data = new Color[width * height];
+            // for (int i = 0; i < data.Length; ++i) data[i] = color;
+            // Draw top line
+            for (int i = 0; i < width ; ++i) data[i] = color;
+
+            // Draw left line
+            for (int i = 0; i < width * height; i++)
+            {
+                if (i % width == 0)
+                {
+                    data[i] = color;
+                }
+            }
+
+            // Draw right line
+            for (int i = 0; i < width * height; i++)
+            {
+                if ((i+1) % width == 0)
+                {
+                    data[i] = color;
+                }
+            }
+
+
+            // Draw bottom line
+            for (int i = width * height - width; i < width * height; i++) data[i] = color;
+
+// 012
+// 345        
+// 678
+
+
+
+            rect.SetData(data);
+
+            Vector2 coor = new Vector2(x, y);
+            _spriteBatch.Draw(rect, coor, Color.White);
+        }
+
+
 
         public void UpdateMinigunnerPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
             minigunnerX = unitPositionChangedEventData.XInWorldCoordinates;
             minigunnerY = unitPositionChangedEventData.YInWorldCoordinates;
+        }
+
+        public void InitializeScenario(InitializeScenarioEventData initializeScenarioEventData)
+        {
+            this.mapWidth = initializeScenarioEventData.MapWidth;
+            this.mapHeight = initializeScenarioEventData.MapHeight;
+            hasScenarioBeenInitialized = true;
         }
     }
 }

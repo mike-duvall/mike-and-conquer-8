@@ -38,6 +38,14 @@ namespace mike_and_conquer_monogame.main
 
 
             }
+            else if (anEvent.EventType.Equals(InitializeScenarioEventData.EventName))
+            {
+                InitializeScenarioEventData initializeScenarioEventData =
+                    JsonConvert.DeserializeObject<InitializeScenarioEventData>(anEvent.EventData);
+
+                mikeAndConquerGame.InitializeScenario(initializeScenarioEventData);
+            }
+
 
 
         }

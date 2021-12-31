@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>mike_and_conquer_simulation</RootNamespace>
+    <Configurations>Debug;Release;Debug Local</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
