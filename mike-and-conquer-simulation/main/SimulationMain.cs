@@ -95,14 +95,56 @@ namespace mike_and_conquer_simulation.main
         public static void Main()
         {
             SimulationMain.condition.Set();
+            long previousTicks = 0;
             while (true)
             {
-                // Thread.Sleep(17);
-                TimerHelper.SleepForNoMoreThan(17);
+                // int sleepTime = 23; // 7025  // Seems to be correct time for Fastest
+
+
+
+                // int sleepTime = 252; // 75700, 75731 // Seems to be correct time for Slowest
+
+
+                int sleepTime = 42; // 12733, 12703 // Seems to best correct time for Normal
+
+
+
+
+                //Thread.Sleep(17);
+                //Thread.Sleep(1);
+                TimerHelper.SleepForNoMoreThan(sleepTime);
+                 // TimerHelper.SleepForNoMoreThan(2);
 
                 SimulationMain.instance.Tick();
+
+
                 // SimulationMain.instance.ProcessInputEventQueue();
-//                logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
+                
+                // long currentTicks = DateTime.Now.Ticks;
+                // // logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
+                // long delta = (currentTicks - previousTicks) / TimeSpan.TicksPerMillisecond;
+                // previousTicks = currentTicks;
+                // logger.LogInformation("delta=" + delta);
+
+
+                bool doneWaiting = false;
+                long delta = -1;
+                long currentTicks = -1;
+
+                while (!doneWaiting)
+                {
+                
+                     currentTicks = DateTime.Now.Ticks;
+                     delta = (currentTicks - previousTicks) / TimeSpan.TicksPerMillisecond;
+                     if (delta >= sleepTime)
+                     {
+                         doneWaiting = true;
+                     }
+
+
+                }
+                // logger.LogInformation("delta=" + delta);
+                previousTicks = currentTicks;
             }
 
         }
@@ -236,6 +278,7 @@ namespace mike_and_conquer_simulation.main
             eventData.ID = unitId;
             eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
             eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
+            eventData.Timestamp = DateTime.Now.Ticks;
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 

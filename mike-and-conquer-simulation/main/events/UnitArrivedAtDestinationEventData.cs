@@ -8,5 +8,7 @@ namespace mike_and_conquer_simulation.main.events
         
         public int ID { get; set; }
 
+        public long Timestamp { get; set; }
+
     }
 }

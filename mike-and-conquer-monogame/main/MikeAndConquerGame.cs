@@ -64,6 +64,7 @@ namespace mike_and_conquer_monogame.main
             monogameSimulationStateListener = new MonogameSimulationStateListener(this);
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
+
             int x = 3;
         }
 
@@ -168,47 +169,51 @@ namespace mike_and_conquer_monogame.main
             _spriteBatch.Draw(rect, coor, Color.White);
         }
 
+        private Texture2D mapRect = null;
         void DrawUnfilledRectangleAtCoordinate(int x, int y, int width, int height, Color color)
         {
-            Texture2D rect = new Texture2D(GraphicsDevice, width, height);
-
-            Color[] data = new Color[width * height];
-            // for (int i = 0; i < data.Length; ++i) data[i] = color;
-            // Draw top line
-            for (int i = 0; i < width ; ++i) data[i] = color;
-
-            // Draw left line
-            for (int i = 0; i < width * height; i++)
+            if (mapRect == null)
             {
-                if (i % width == 0)
+                mapRect = new Texture2D(GraphicsDevice, width, height);
+                Color[] data = new Color[width * height];
+                // for (int i = 0; i < data.Length; ++i) data[i] = color;
+                // Draw top line
+                for (int i = 0; i < width; ++i) data[i] = color;
+
+                // Draw left line
+                for (int i = 0; i < width * height; i++)
                 {
-                    data[i] = color;
+                    if (i % width == 0)
+                    {
+                        data[i] = color;
+                    }
                 }
+
+                // Draw right line
+                for (int i = 0; i < width * height; i++)
+                {
+                    if ((i + 1) % width == 0)
+                    {
+                        data[i] = color;
+                    }
+                }
+
+
+                // Draw bottom line
+                for (int i = width * height - width; i < width * height; i++) data[i] = color;
+
+                // 012
+                // 345        
+                // 678
+
+                mapRect.SetData(data);
+
             }
 
-            // Draw right line
-            for (int i = 0; i < width * height; i++)
-            {
-                if ((i+1) % width == 0)
-                {
-                    data[i] = color;
-                }
-            }
 
-
-            // Draw bottom line
-            for (int i = width * height - width; i < width * height; i++) data[i] = color;
-
-// 012
-// 345        
-// 678
-
-
-
-            rect.SetData(data);
 
             Vector2 coor = new Vector2(x, y);
-            _spriteBatch.Draw(rect, coor, Color.White);
+            _spriteBatch.Draw(mapRect, coor, Color.White);
         }
 
 
