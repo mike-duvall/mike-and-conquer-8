@@ -66,7 +66,7 @@ namespace mike_and_conquer_simulation.rest.controller
         //         CreateMinigunnerCommand createMinigunnerEvent = new CreateMinigunnerCommand();
         //         createMinigunnerEvent.X = incomingRestMinigunner.X;
         //         createMinigunnerEvent.Y = incomingRestMinigunner.Y;
-        //         SimulationMain.instance.CreateMinigunnerViaEvent(createMinigunnerEvent);
+        //         SimulationMain.instance.CreateMinigunnerViaCommand(createMinigunnerEvent);
         //
         //         return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
         //
@@ -88,7 +88,7 @@ namespace mike_and_conquer_simulation.rest.controller
             try
             {
 
-                Minigunner minigunner = SimulationMain.instance.CreateMinigunnerViaEvent(incomingRestMinigunner.X, incomingRestMinigunner.Y);
+                Minigunner minigunner = SimulationMain.instance.CreateMinigunnerViaCommand(incomingRestMinigunner.X, incomingRestMinigunner.Y);
 
                 RestMinigunner createdRestMinigunner = new RestMinigunner();
                 createdRestMinigunner.X = (int) minigunner.GameWorldLocation.X;
