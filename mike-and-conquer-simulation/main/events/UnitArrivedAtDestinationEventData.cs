@@ -1,5 +1,5 @@
 ﻿
-namespace mike_and_conquer_simulation.main
+namespace mike_and_conquer_simulation.main.events
 {
     public class UnitArrivedAtDestinationEventData
     {
@@ -7,6 +7,8 @@ namespace mike_and_conquer_simulation.main
         public int YInWorldCoordinates { get; set; }
         
         public int ID { get; set; }
+
+        public long Timestamp { get; set; }
 
     }
 }

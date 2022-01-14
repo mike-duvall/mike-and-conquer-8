@@ -1,9 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using mike_and_conquer_monogame.main;
+using mike_and_conquer_simulation.main.events;
 using mike_and_conquer_simulation.simulationcommand;
 using Newtonsoft.Json;
 
@@ -12,7 +16,9 @@ namespace mike_and_conquer_simulation.main
     public class SimulationMain
     {
 
-        private Queue<AsyncSimulationCommand> inputEventQueue;
+        private SimulationOptions simulationOptions;
+
+        private Queue<AsyncSimulationCommand> inputCommandQueue;
 
         private List<SimulationStateUpdateEvent> simulationStateUpdateEventsHistory;
 
@@ -64,7 +70,26 @@ namespace mike_and_conquer_simulation.main
             // Start thread  
             backgroundThread.Start();
             condition.WaitOne();
+
+            EmitInitializeScenarioEvent(27,23);
+
+
         }
+
+        private static void EmitInitializeScenarioEvent(int mapWidth, int mapHeight)
+        {
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = InitializeScenarioEventData.EventName;
+            InitializeScenarioEventData eventData = new InitializeScenarioEventData();
+
+            eventData.MapWidth = mapWidth;
+            eventData.MapHeight = mapHeight;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+        }
+
 
         public void AddListener(SimulationStateListener listener)
         {
@@ -72,17 +97,60 @@ namespace mike_and_conquer_simulation.main
         }
 
 
+        public static int sleepTime = -1;
+
         public static void Main()
         {
             SimulationMain.condition.Set();
+            long previousTicks = 0;
+            SimulationMain.instance.SetGameSpeed(SimulationOptions.GameSpeed.Normal);
+            // UpdateSleepTimeForGameSpeed(SimulationOptions.GameSpeed.Normal);
+
             while (true)
             {
-                // Thread.Sleep(17);
-                TimerHelper.SleepForNoMoreThan(17);
+
+                // int sleepTime = 23; // 7025  // Seems to be correct time for Fastest
+
+                // int sleepTime = 252; // 75700, 75731 // Seems to be correct time for Slowest
+
+                // int sleepTime = 42; // 12733, 12703 // Seems to best correct time for Normal
+
+
+                //Thread.Sleep(17);
+                //Thread.Sleep(1);
+                TimerHelper.SleepForNoMoreThan(sleepTime);
+                 // TimerHelper.SleepForNoMoreThan(2);
 
                 SimulationMain.instance.Tick();
+
+
                 // SimulationMain.instance.ProcessInputEventQueue();
-//                logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
+                
+                // long currentTicks = DateTime.Now.Ticks;
+                // // logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
+                // long delta = (currentTicks - previousTicks) / TimeSpan.TicksPerMillisecond;
+                // previousTicks = currentTicks;
+                // logger.LogInformation("delta=" + delta);
+
+
+                bool doneWaiting = false;
+                long delta = -1;
+                long currentTicks = -1;
+
+                while (!doneWaiting)
+                {
+                
+                     currentTicks = DateTime.Now.Ticks;
+                     delta = (currentTicks - previousTicks) / TimeSpan.TicksPerMillisecond;
+                     if (delta >= sleepTime)
+                     {
+                         doneWaiting = true;
+                     }
+
+
+                }
+                // logger.LogInformation("delta=" + delta);
+                previousTicks = currentTicks;
             }
 
         }
@@ -90,12 +158,14 @@ namespace mike_and_conquer_simulation.main
 
         SimulationMain()
         {
-            inputEventQueue = new Queue<AsyncSimulationCommand>();
+            inputCommandQueue = new Queue<AsyncSimulationCommand>();
             simulationStateUpdateEventsHistory = new List<SimulationStateUpdateEvent>();
             listeners = new List<SimulationStateListener>();
             listeners.Add(new SimulationStateHistoryListener(this));
 
             minigunnerList = new List<Minigunner>();
+
+            simulationOptions = new SimulationOptions();
 
             SimulationMain.instance = this;
         }
@@ -116,11 +186,11 @@ namespace mike_and_conquer_simulation.main
 
         private void ProcessInputEventQueue()
         {
-            lock (inputEventQueue)
+            lock (inputCommandQueue)
             {
-                while (inputEventQueue.Count > 0)
+                while (inputCommandQueue.Count > 0)
                 {
-                    AsyncSimulationCommand anEvent = inputEventQueue.Dequeue();
+                    AsyncSimulationCommand anEvent = inputCommandQueue.Dequeue();
                     anEvent.Process();
                 }
             }
@@ -135,9 +205,9 @@ namespace mike_and_conquer_simulation.main
             anEvent.DestinationXInWorldCoordinates = destinationXInWorldCoordiantes;
             anEvent.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
 
-            lock (inputEventQueue)
+            lock (inputCommandQueue)
             {
-                inputEventQueue.Enqueue(anEvent);
+                inputCommandQueue.Enqueue(anEvent);
             }
 
 
@@ -145,19 +215,43 @@ namespace mike_and_conquer_simulation.main
 
         }
 
-        public Minigunner CreateMinigunnerViaEvent(int x, int y)
+        public bool SetGameSpeedViaEvent(SimulationOptions.GameSpeed aGameSpeed)
+        {
+            SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
+            aCommand.GameSpeed = aGameSpeed;
+
+            lock (inputCommandQueue)
+            {
+                inputCommandQueue.Enqueue(aCommand);
+            }
+
+            return true;
+
+        }
+
+        public Minigunner CreateMinigunnerViaCommand(int x, int y)
         {
             CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
             createMinigunnerCommand.X = x;
             createMinigunnerCommand.Y = y;
 
-            lock (inputEventQueue)
+            lock (inputCommandQueue)
             {
-                inputEventQueue.Enqueue(createMinigunnerCommand);
+                inputCommandQueue.Enqueue(createMinigunnerCommand);
             }
 
             Minigunner gdiMinigunner = createMinigunnerCommand.GetMinigunner();
             return gdiMinigunner;
+
+        }
+
+        public void SubmitResetScenarioCommand()
+        {
+            ResetScenarioCommand command = new ResetScenarioCommand();
+            lock (inputCommandQueue)
+            {
+                inputCommandQueue.Enqueue(command);
+            }
 
         }
 
@@ -166,9 +260,9 @@ namespace mike_and_conquer_simulation.main
         {
             GetCopyOfEventHistoryCommand anEvent = new GetCopyOfEventHistoryCommand();
 
-            lock (inputEventQueue)
+            lock (inputCommandQueue)
             {
-                inputEventQueue.Enqueue(anEvent);
+                inputCommandQueue.Enqueue(anEvent);
             }
 
             List<SimulationStateUpdateEvent> list = anEvent.GetCopyOfEventHistory();
@@ -187,7 +281,7 @@ namespace mike_and_conquer_simulation.main
             minigunnerList.Add(minigunner);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = "MinigunnerCreated";
+            simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
             MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
             eventData.ID = minigunner.ID;
             eventData.X = minigunnerX;
@@ -216,6 +310,7 @@ namespace mike_and_conquer_simulation.main
             eventData.ID = unitId;
             eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
             eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
+            eventData.Timestamp = DateTime.Now.Ticks;
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
@@ -273,6 +368,49 @@ namespace mike_and_conquer_simulation.main
             foreach (SimulationStateListener listener in listeners)
             {
                 listener.Update(simulationStateUpdateEvent);
+            }
+        }
+
+        public void SetGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
+        {
+
+            this.simulationOptions.CurrentGameSpeed = aGameSpeed;
+            UpdateSleepTimeForGameSpeed(this.simulationOptions.CurrentGameSpeed);
+
+        }
+
+        public static void UpdateSleepTimeForGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
+        {
+            if (SimulationMain.instance.simulationOptions.CurrentGameSpeed == SimulationOptions.GameSpeed.Fastest)
+            {
+                SimulationMain.sleepTime = 23;
+            }
+            else if (SimulationMain.instance.simulationOptions.CurrentGameSpeed == SimulationOptions.GameSpeed.Normal)
+            {
+                SimulationMain.sleepTime = 42;
+            }
+            else if (SimulationMain.instance.simulationOptions.CurrentGameSpeed == SimulationOptions.GameSpeed.Slowest)
+            {
+                SimulationMain.sleepTime = 252;
+            }
+
+            // int sleepTime = 23; // 7025  // Seems to be correct time for Fastest
+            // int sleepTime = 252; // 75700, 75731 // Seems to be correct time for Slowest
+            // int sleepTime = 42; // 12733, 12703 // Seems to best correct time for Normal
+        }
+
+
+        public void ResetScenario()
+        {
+
+            lock (simulationStateUpdateEventsHistory)
+            {
+                simulationStateUpdateEventsHistory.Clear();
+            }
+
+            lock (minigunnerList)
+            {
+                minigunnerList.Clear();
             }
         }
     }

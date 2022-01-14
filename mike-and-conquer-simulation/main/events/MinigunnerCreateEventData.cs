@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace mike_and_conquer_simulation.main
+﻿namespace mike_and_conquer_simulation.main.events
 {
     public class MinigunnerCreateEventData
     {
@@ -13,5 +7,11 @@ namespace mike_and_conquer_simulation.main
         
         public int ID { get; set; }
 
+        public const string EventName = "MinigunnerCreated";
+
+
     }
 }
+
+
+

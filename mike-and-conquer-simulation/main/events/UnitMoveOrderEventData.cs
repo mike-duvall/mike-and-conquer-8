@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace mike_and_conquer_simulation.main
+﻿namespace mike_and_conquer_simulation.main.events
 {
     public class UnitMoveOrderEventData
     {
@@ -12,6 +6,8 @@ namespace mike_and_conquer_simulation.main
         public int DestinationYInWorldCoordinates { get; set; }
         
         public int ID { get; set; }
+
+        public long Timestamp { get; set; }
 
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mike_and_conquer_simulation.main;
+using mike_and_conquer_simulation.main.events;
 using MonoGame.Framework.Utilities;
 
 namespace mike_and_conquer_monogame.main
@@ -17,6 +18,15 @@ namespace mike_and_conquer_monogame.main
 
         public MonogameSimulationStateListener monogameSimulationStateListener = null;
 
+
+        private bool hasMinigunnerBeenCreated = false;
+        private int minigunnerX = -10;
+        private int minigunnerY = -10;
+
+        private bool hasScenarioBeenInitialized = false;
+        private int mapWidth = -10;
+        private int mapHeight = -10;
+
         public MikeAndConquerGame()
         {
 
@@ -24,10 +34,37 @@ namespace mike_and_conquer_monogame.main
             logger.LogInformation("Game1() ctor");
 
             _graphics = new GraphicsDeviceManager(this);
+
+
+
+            new GameOptions();
+
+            if (GameOptions.instance.IsFullScreen)
+            {
+                _graphics.IsFullScreen = true;
+                _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            }
+            else
+            {
+                _graphics.IsFullScreen = false;
+                // graphics.PreferredBackBufferWidth = 1280;
+                // graphics.PreferredBackBufferHeight = 1024;
+                _graphics.PreferredBackBufferWidth = 1280;
+                _graphics.PreferredBackBufferHeight = 768;
+
+                // graphics.PreferredBackBufferWidth = 1024;
+                // graphics.PreferredBackBufferHeight = 768;
+
+
+            }
+
+
             Content.RootDirectory = "Content";
             monogameSimulationStateListener = new MonogameSimulationStateListener(this);
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
+
             int x = 3;
         }
 
@@ -62,9 +99,6 @@ namespace mike_and_conquer_monogame.main
         }
 
 
-        private bool hasMinigunnerBeenCreated = false;
-        private int minigunnerX = -10;
-        private int minigunnerY = -10;
 
         public void AddMinigunner(int x, int y)
         {
@@ -93,6 +127,13 @@ namespace mike_and_conquer_monogame.main
             //     }
             // }
 
+
+            if (hasScenarioBeenInitialized)
+            {
+                DrawMap();
+            }
+
+
             if (hasMinigunnerBeenCreated)
             {
                 DrawRectangleAtCoordinate(minigunnerX, minigunnerY);
@@ -103,6 +144,15 @@ namespace mike_and_conquer_monogame.main
 
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void DrawMap()
+        {
+
+            for(int column = 0; column < this.mapWidth; column++) 
+                for(int row = 0; row < this.mapHeight; row++)
+                    DrawUnfilledRectangleAtCoordinate(column * 24, row * 24, 24, 24, Color.Red);
+
         }
 
         void DrawRectangleAtCoordinate(int x, int y)
@@ -117,14 +167,68 @@ namespace mike_and_conquer_monogame.main
 
             Vector2 coor = new Vector2(x, y);
             _spriteBatch.Draw(rect, coor, Color.White);
-
-
         }
+
+        private Texture2D mapRect = null;
+        void DrawUnfilledRectangleAtCoordinate(int x, int y, int width, int height, Color color)
+        {
+            if (mapRect == null)
+            {
+                mapRect = new Texture2D(GraphicsDevice, width, height);
+                Color[] data = new Color[width * height];
+                // for (int i = 0; i < data.Length; ++i) data[i] = color;
+                // Draw top line
+                for (int i = 0; i < width; ++i) data[i] = color;
+
+                // Draw left line
+                for (int i = 0; i < width * height; i++)
+                {
+                    if (i % width == 0)
+                    {
+                        data[i] = color;
+                    }
+                }
+
+                // Draw right line
+                for (int i = 0; i < width * height; i++)
+                {
+                    if ((i + 1) % width == 0)
+                    {
+                        data[i] = color;
+                    }
+                }
+
+
+                // Draw bottom line
+                for (int i = width * height - width; i < width * height; i++) data[i] = color;
+
+                // 012
+                // 345        
+                // 678
+
+                mapRect.SetData(data);
+
+            }
+
+
+
+            Vector2 coor = new Vector2(x, y);
+            _spriteBatch.Draw(mapRect, coor, Color.White);
+        }
+
+
 
         public void UpdateMinigunnerPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
             minigunnerX = unitPositionChangedEventData.XInWorldCoordinates;
             minigunnerY = unitPositionChangedEventData.YInWorldCoordinates;
+        }
+
+        public void InitializeScenario(InitializeScenarioEventData initializeScenarioEventData)
+        {
+            this.mapWidth = initializeScenarioEventData.MapWidth;
+            this.mapHeight = initializeScenarioEventData.MapHeight;
+            hasScenarioBeenInitialized = true;
         }
     }
 }

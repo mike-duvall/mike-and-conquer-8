@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using mike_and_conquer_simulation.main.events;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -43,9 +44,31 @@ namespace mike_and_conquer_simulation.main
             state = State.IDLE;
             currentCommand = Command.NONE;
             this.movementDistanceEpsilon = 0.1f;
-            this.movementDelta = 0.15f;
+            // this.movementDelta = 0.15f;
+            // this.movementDelta = 0.30f;
+            // this.movementDelta = 0.40f;  // 14530
+            // this.movementDelta = 0.50f;  // 11591
+            // this.movementDelta = 0.60f; // 9745
+            // this.movementDelta = 0.70f; // 8339
+            // this.movementDelta = 0.80f; // 7300 ish
+            //this.movementDelta = 0.83f;
+            // float speedFromCncInLeptons = 12;  // 12 leptons, for MCV, MPH_MEDIUM_SLOW = 12
+            float speedFromCncInLeptons = 30;  // 30 leptons, for Jeep, MPH_MEDIUM_FAST = 30
+
+
+            float pixelsPerSquare = 24;
+            float leptonsPerSquare = 256;
+            float pixelsPerLepton = 0.09375f;
+            float leptonsPerPixel = 10.66666666666667f;
+
+
+            this.movementDelta = speedFromCncInLeptons * pixelsPerLepton;
+            // this.movementDistanceEpsilon = 0.5f;  // worked for MCV
+            this.movementDistanceEpsilon = 1.5f;  
+
             this.gameWorldLocation = GameWorldLocation.CreateFromWorldCoordinates(0, 0);
         }
+
 
 
 
@@ -71,6 +94,7 @@ namespace mike_and_conquer_simulation.main
                     simulationStateUpdateEvent.EventType = "UnitArrivedAtDestination";
                     UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
                     eventData.ID = this.ID;
+                    eventData.Timestamp = DateTime.Now.Ticks;
 
 
                     eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);

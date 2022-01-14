@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_monogame.main;
 using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
@@ -52,20 +51,20 @@ namespace mike_and_conquer_simulation.rest.controller
                 );
 
 
-                // Minigunner minigunner =
-                //     SimulationMain.instance.CreateMinigunnerViaEvent(commandBody.DestinationLocationXInWorldCoordinates,
-                //         commandBody.DestinationLocationYInWorldCoordinates);
-                //
-                //
-                //
-                //     RestMinigunner createdRestMinigunner = new RestMinigunner();
-                // createdRestMinigunner.X = minigunner.X;
-                // createdRestMinigunner.Y = minigunner.Y;
-                // createdRestMinigunner.ID = minigunner.ID;
-    
 //                return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
                 return new OkObjectResult(new { Message = "Command Accepted" });
-                }
+            }
+            else if (incomingCommand.CommandType.Equals("SetOptions"))
+            {
+                RestSetSimulationOptions commandBody =
+                    JsonConvert.DeserializeObject<RestSetSimulationOptions>(incomingCommand.CommandData);
+
+                SimulationOptions.GameSpeed inputGameSpeed = ConvertGameSpeedStringToEnum(commandBody.GameSpeed);
+                SimulationMain.instance.SetGameSpeedViaEvent(inputGameSpeed);
+
+                return new OkObjectResult(new { Message = "Command Accepted" });
+
+            }
             else
             {
                 throw new Exception("Unknown CommandType:" + incomingCommand.CommandType);
@@ -79,7 +78,23 @@ namespace mike_and_conquer_simulation.rest.controller
             return ValidationProblem(e.Message);
         }
     }
-    
+
+
+    private SimulationOptions.GameSpeed ConvertGameSpeedStringToEnum(String gameSpeedAsString)
+    {
+        if (gameSpeedAsString == "Slowest") return SimulationOptions.GameSpeed.Slowest;
+        if (gameSpeedAsString == "Slower") return SimulationOptions.GameSpeed.Slower;
+        if (gameSpeedAsString == "Slow") return SimulationOptions.GameSpeed.Slow;
+        if (gameSpeedAsString == "Moderate") return SimulationOptions.GameSpeed.Moderate;
+        if (gameSpeedAsString == "Normal") return SimulationOptions.GameSpeed.Normal;
+        if (gameSpeedAsString == "Fast") return SimulationOptions.GameSpeed.Fast;
+        if (gameSpeedAsString == "Faster") return SimulationOptions.GameSpeed.Faster;
+        if (gameSpeedAsString == "Fastest") return SimulationOptions.GameSpeed.Fastest;
+
+        throw new Exception("Could not map game speed string of:" + gameSpeedAsString);
+    }
+
+
     }
 
 

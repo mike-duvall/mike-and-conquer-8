@@ -1,4 +1,5 @@
 ﻿using mike_and_conquer_simulation.main;
+using mike_and_conquer_simulation.main.events;
 using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
 
@@ -16,7 +17,7 @@ namespace mike_and_conquer_monogame.main
 
         public override void Update(SimulationStateUpdateEvent anEvent)
         {
-            if (anEvent.EventType.Equals("MinigunnerCreated"))
+            if (anEvent.EventType.Equals(MinigunnerCreateEventData.EventName))
             {
                 MinigunnerCreateEventData minigunnerCreatedEventData =
                     JsonConvert.DeserializeObject<MinigunnerCreateEventData>(anEvent.EventData);
@@ -37,6 +38,14 @@ namespace mike_and_conquer_monogame.main
 
 
             }
+            else if (anEvent.EventType.Equals(InitializeScenarioEventData.EventName))
+            {
+                InitializeScenarioEventData initializeScenarioEventData =
+                    JsonConvert.DeserializeObject<InitializeScenarioEventData>(anEvent.EventData);
+
+                mikeAndConquerGame.InitializeScenario(initializeScenarioEventData);
+            }
+
 
 
         }
