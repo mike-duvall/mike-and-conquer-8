@@ -42,16 +42,11 @@ namespace mike_and_conquer_simulation.rest.controller
                     CreateUnitCommandBody createMinigunnerCommandBody = 
                         JsonConvert.DeserializeObject<CreateUnitCommandBody>(incomingAdminCommand.CommandData);
 
-                    Minigunner minigunner =
-                        SimulationMain.instance.CreateMinigunnerViaCommand(createMinigunnerCommandBody.StartLocationXInWorldCoordinates,
-                            createMinigunnerCommandBody.StartLocationYInWorldCoordinates);
 
-                    RestMinigunner createdRestMinigunner = new RestMinigunner();
-                    createdRestMinigunner.X = (int) minigunner.GameWorldLocation.X;
-                    createdRestMinigunner.Y = (int) minigunner.GameWorldLocation.Y;
-                    createdRestMinigunner.ID = minigunner.ID;
+                    SimulationMain.instance.CreateMinigunnerViaCommand(createMinigunnerCommandBody.StartLocationXInWorldCoordinates,
+                        createMinigunnerCommandBody.StartLocationYInWorldCoordinates);
 
-                    return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
+                    return new OkObjectResult(new { Message = "Command Accepted" });
                 }
                 else if (incomingAdminCommand.CommandType.Equals("ResetScenario"))
                 {
