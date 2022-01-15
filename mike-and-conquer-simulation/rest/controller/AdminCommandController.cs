@@ -32,7 +32,7 @@ namespace mike_and_conquer_simulation.rest.controller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<RestMinigunner> PostAdminCommand([FromBody] RestAdminCommand incomingAdminCommand)
+        public ActionResult PostAdminCommand([FromBody] RestAdminCommand incomingAdminCommand)
         {
             try
             {
