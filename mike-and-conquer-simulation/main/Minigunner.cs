@@ -52,8 +52,8 @@ namespace mike_and_conquer_simulation.main
             // this.movementDelta = 0.70f; // 8339
             // this.movementDelta = 0.80f; // 7300 ish
             //this.movementDelta = 0.83f;
-            float speedFromCncInLeptons = 12;  // 12 leptons, for MCV, MPH_MEDIUM_SLOW = 12
-            // float speedFromCncInLeptons = 30;  // 30 leptons, for Jeep, MPH_MEDIUM_FAST = 30
+            // float speedFromCncInLeptons = 12;  // 12 leptons, for MCV, MPH_MEDIUM_SLOW = 12
+            float speedFromCncInLeptons = 30;  // 30 leptons, for Jeep, MPH_MEDIUM_FAST = 30
 
 
             float pixelsPerSquare = 24;

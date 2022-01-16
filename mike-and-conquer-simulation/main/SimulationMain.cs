@@ -229,7 +229,7 @@ namespace mike_and_conquer_simulation.main
 
         }
 
-        public Minigunner CreateMinigunnerViaCommand(int x, int y)
+        public void PostCreateMinigunnerCommand(int x, int y)
         {
             CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
             createMinigunnerCommand.X = x;
@@ -240,10 +240,8 @@ namespace mike_and_conquer_simulation.main
                 inputCommandQueue.Enqueue(createMinigunnerCommand);
             }
 
-            Minigunner gdiMinigunner = createMinigunnerCommand.GetMinigunner();
-            return gdiMinigunner;
-
         }
+
 
         public void SubmitResetScenarioCommand()
         {

@@ -43,7 +43,7 @@ namespace mike_and_conquer_simulation.rest.controller
                         JsonConvert.DeserializeObject<CreateUnitCommandBody>(incomingAdminCommand.CommandData);
 
 
-                    SimulationMain.instance.CreateMinigunnerViaCommand(createMinigunnerCommandBody.StartLocationXInWorldCoordinates,
+                    SimulationMain.instance.PostCreateMinigunnerCommand(createMinigunnerCommandBody.StartLocationXInWorldCoordinates,
                         createMinigunnerCommandBody.StartLocationYInWorldCoordinates);
 
                     return new OkObjectResult(new { Message = "Command Accepted" });
