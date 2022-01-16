@@ -44,14 +44,13 @@ namespace mike_and_conquer_simulation.rest.controller
                 RestOrderUnitMoveCommandBody commandBody =
                     JsonConvert.DeserializeObject<RestOrderUnitMoveCommandBody>(incomingCommand.CommandData);
 
-                SimulationMain.instance.OrderUnitMoveViaEvent(
+                SimulationMain.instance.PostOrderUnitMoveCommand(
                     commandBody.UnitId,
                     commandBody.DestinationLocationXInWorldCoordinates,
                     commandBody.DestinationLocationYInWorldCoordinates
                 );
 
 
-//                return new CreatedResult($"/minigunners/{createdRestMinigunner.ID}", createdRestMinigunner);
                 return new OkObjectResult(new { Message = "Command Accepted" });
             }
             else if (incomingCommand.CommandType.Equals("SetOptions"))

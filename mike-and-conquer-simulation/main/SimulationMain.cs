@@ -197,7 +197,7 @@ namespace mike_and_conquer_simulation.main
         }
 
 
-        public bool  OrderUnitMoveViaEvent(int unitId, int destinationXInWorldCoordiantes,
+        public void  PostOrderUnitMoveCommand(int unitId, int destinationXInWorldCoordiantes,
             int destinationYInWorldCoordinates)
         {
             OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
@@ -209,9 +209,6 @@ namespace mike_and_conquer_simulation.main
             {
                 inputCommandQueue.Enqueue(anEvent);
             }
-
-
-            return true;
 
         }
 
@@ -243,7 +240,7 @@ namespace mike_and_conquer_simulation.main
         }
 
 
-        public void SubmitResetScenarioCommand()
+        public void PostResetScenarioCommand()
         {
             ResetScenarioCommand command = new ResetScenarioCommand();
             lock (inputCommandQueue)

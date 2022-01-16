@@ -50,7 +50,7 @@ namespace mike_and_conquer_simulation.rest.controller
                 }
                 else if (incomingAdminCommand.CommandType.Equals("ResetScenario"))
                 {
-                    SimulationMain.instance.SubmitResetScenarioCommand();
+                    SimulationMain.instance.PostResetScenarioCommand();
                     return new OkObjectResult(new { Message = "Command Accepted" });
                 }
                 else
