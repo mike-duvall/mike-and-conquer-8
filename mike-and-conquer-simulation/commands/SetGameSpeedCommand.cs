@@ -1,13 +1,12 @@
 ﻿using mike_and_conquer_simulation.main;
 
-namespace mike_and_conquer_simulation.simulationcommand
+namespace mike_and_conquer_simulation.commands
 {
-    public class ResetScenarioCommand : AsyncSimulationCommand
+    public class SetGameSpeedCommand : AsyncSimulationCommand
     {
-        public int DestinationXInWorldCoordinates { get; set; }
-        public int DestinationYInWorldCoordinates { get; set; }
 
-        public int UnitId { get; set; }
+
+        public SimulationOptions.GameSpeed GameSpeed { get; set; }
 
 
         protected override void ProcessImpl()
@@ -16,11 +15,14 @@ namespace mike_and_conquer_simulation.simulationcommand
             // SimulationMain.instance.OrderUnitToMove(UnitId, DestinationXInWorldCoordinates,
             //     DestinationYInWorldCoordinates);
 
-            SimulationMain.instance.ResetScenario();
+            // result = true;
+
+            SimulationMain.instance.SetGameSpeed( GameSpeed);
+
             result = true;
 
-        }
 
+        }
 
         // public Minigunner GetMinigunner()
         // {

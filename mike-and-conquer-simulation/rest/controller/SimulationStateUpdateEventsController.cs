@@ -4,8 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.main;
-using mike_and_conquer_simulation.main.events;
 using mike_and_conquer_simulation.rest.domain;
 // using WeatherForecast = mike_and_conquer_simulation.rest.domain.WeatherForecast;
 
