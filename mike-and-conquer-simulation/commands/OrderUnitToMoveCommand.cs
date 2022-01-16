@@ -1,6 +1,6 @@
 ﻿using mike_and_conquer_simulation.main;
 
-namespace mike_and_conquer_simulation.simulationcommand
+namespace mike_and_conquer_simulation.commands
 {
     public class OrderUnitToMoveCommand : AsyncSimulationCommand
     {

@@ -1,5 +1,5 @@
 ﻿using System;
-using mike_and_conquer_simulation.main.events;
+using mike_and_conquer_simulation.events;
 
 
 namespace mike_and_conquer_simulation.main

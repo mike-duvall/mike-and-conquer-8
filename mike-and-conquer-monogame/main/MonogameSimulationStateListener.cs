@@ -1,5 +1,5 @@
-﻿using mike_and_conquer_simulation.main;
-using mike_and_conquer_simulation.main.events;
+﻿using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
 

@@ -6,9 +6,8 @@ using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using mike_and_conquer_monogame.main;
-using mike_and_conquer_simulation.main.events;
-using mike_and_conquer_simulation.simulationcommand;
+using mike_and_conquer_simulation.commands;
+using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main

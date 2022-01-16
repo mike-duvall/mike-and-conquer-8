@@ -2,7 +2,7 @@
 using ManualResetEvent = System.Threading.ManualResetEvent;
 
 
-namespace mike_and_conquer_simulation.simulationcommand
+namespace mike_and_conquer_simulation.commands
 {
     public abstract class AsyncSimulationCommand
     {

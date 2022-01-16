@@ -4,8 +4,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.main;
-using mike_and_conquer_simulation.main.events;
 using MonoGame.Framework.Utilities;
 
 namespace mike_and_conquer_monogame.main

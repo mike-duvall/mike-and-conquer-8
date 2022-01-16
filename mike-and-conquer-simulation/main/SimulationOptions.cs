@@ -1,9 +1,6 @@
 ﻿
 
-using System;
-
-
-namespace mike_and_conquer_monogame.main
+namespace mike_and_conquer_simulation.main
 
 {
     public class SimulationOptions
