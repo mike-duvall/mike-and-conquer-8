@@ -44,14 +44,6 @@ namespace mike_and_conquer_simulation.main
             state = State.IDLE;
             currentCommand = Command.NONE;
             this.movementDistanceEpsilon = 0.1f;
-            // this.movementDelta = 0.15f;
-            // this.movementDelta = 0.30f;
-            // this.movementDelta = 0.40f;  // 14530
-            // this.movementDelta = 0.50f;  // 11591
-            // this.movementDelta = 0.60f; // 9745
-            // this.movementDelta = 0.70f; // 8339
-            // this.movementDelta = 0.80f; // 7300 ish
-            //this.movementDelta = 0.83f;
             // float speedFromCncInLeptons = 12;  // 12 leptons, for MCV, MPH_MEDIUM_SLOW = 12
             float speedFromCncInLeptons = 30;  // 30 leptons, for Jeep, MPH_MEDIUM_FAST = 30
 

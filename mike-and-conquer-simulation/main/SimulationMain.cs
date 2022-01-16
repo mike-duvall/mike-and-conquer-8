@@ -97,41 +97,21 @@ namespace mike_and_conquer_simulation.main
         }
 
 
-        public static int sleepTime = -1;
-
         public static void Main()
         {
             SimulationMain.condition.Set();
             long previousTicks = 0;
             SimulationMain.instance.SetGameSpeed(SimulationOptions.GameSpeed.Normal);
-            // UpdateSleepTimeForGameSpeed(SimulationOptions.GameSpeed.Normal);
 
             while (true)
             {
 
-                // int sleepTime = 23; // 7025  // Seems to be correct time for Fastest
 
-                // int sleepTime = 252; // 75700, 75731 // Seems to be correct time for Slowest
-
-                // int sleepTime = 42; // 12733, 12703 // Seems to best correct time for Normal
-
-
-                //Thread.Sleep(17);
-                //Thread.Sleep(1);
+                int sleepTime = (int) SimulationMain.instance.simulationOptions.CurrentGameSpeed;
                 TimerHelper.SleepForNoMoreThan(sleepTime);
-                 // TimerHelper.SleepForNoMoreThan(2);
+
 
                 SimulationMain.instance.Tick();
-
-
-                // SimulationMain.instance.ProcessInputEventQueue();
-                
-                // long currentTicks = DateTime.Now.Ticks;
-                // // logger.LogInformation("DateTime.Now:" + DateTime.Now.Millisecond);
-                // long delta = (currentTicks - previousTicks) / TimeSpan.TicksPerMillisecond;
-                // previousTicks = currentTicks;
-                // logger.LogInformation("delta=" + delta);
-
 
                 bool doneWaiting = false;
                 long delta = -1;
@@ -338,11 +318,6 @@ namespace mike_and_conquer_simulation.main
             {
                 SimulationStateUpdateEvent copyEvent = new SimulationStateUpdateEvent();
                 copyEvent.EventType = simulationStateUpdateEvent.EventType;
-                // MinigunnerCreateEventData copyEventData = new MinigunnerCreateEventData();
-                //
-                // copyEventData.ID = simulationStateUpdateEvent.ID;
-                // copyEventData.X = simulationStateUpdateEvent.X;
-                // copyEventData.Y = simulationStateUpdateEvent.Y;
                 String copyEventData = new string(simulationStateUpdateEvent.EventData);
 
                 copyEvent.EventData = copyEventData;
@@ -368,30 +343,7 @@ namespace mike_and_conquer_simulation.main
 
         public void SetGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
         {
-
             this.simulationOptions.CurrentGameSpeed = aGameSpeed;
-            UpdateSleepTimeForGameSpeed(this.simulationOptions.CurrentGameSpeed);
-
-        }
-
-        public static void UpdateSleepTimeForGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
-        {
-            if (SimulationMain.instance.simulationOptions.CurrentGameSpeed == SimulationOptions.GameSpeed.Fastest)
-            {
-                SimulationMain.sleepTime = 23;
-            }
-            else if (SimulationMain.instance.simulationOptions.CurrentGameSpeed == SimulationOptions.GameSpeed.Normal)
-            {
-                SimulationMain.sleepTime = 42;
-            }
-            else if (SimulationMain.instance.simulationOptions.CurrentGameSpeed == SimulationOptions.GameSpeed.Slowest)
-            {
-                SimulationMain.sleepTime = 252;
-            }
-
-            // int sleepTime = 23; // 7025  // Seems to be correct time for Fastest
-            // int sleepTime = 252; // 75700, 75731 // Seems to be correct time for Slowest
-            // int sleepTime = 42; // 12733, 12703 // Seems to best correct time for Normal
         }
 
 
