@@ -197,7 +197,7 @@ namespace mike_and_conquer_simulation.main
         }
 
 
-        public bool  OrderUnitMoveViaEvent(int unitId, int destinationXInWorldCoordiantes,
+        public void  PostOrderUnitMoveCommand(int unitId, int destinationXInWorldCoordiantes,
             int destinationYInWorldCoordinates)
         {
             OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
@@ -209,9 +209,6 @@ namespace mike_and_conquer_simulation.main
             {
                 inputCommandQueue.Enqueue(anEvent);
             }
-
-
-            return true;
 
         }
 
@@ -229,7 +226,7 @@ namespace mike_and_conquer_simulation.main
 
         }
 
-        public Minigunner CreateMinigunnerViaCommand(int x, int y)
+        public void PostCreateMinigunnerCommand(int x, int y)
         {
             CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
             createMinigunnerCommand.X = x;
@@ -240,12 +237,10 @@ namespace mike_and_conquer_simulation.main
                 inputCommandQueue.Enqueue(createMinigunnerCommand);
             }
 
-            Minigunner gdiMinigunner = createMinigunnerCommand.GetMinigunner();
-            return gdiMinigunner;
-
         }
 
-        public void SubmitResetScenarioCommand()
+
+        public void PostResetScenarioCommand()
         {
             ResetScenarioCommand command = new ResetScenarioCommand();
             lock (inputCommandQueue)
