@@ -191,7 +191,7 @@ namespace mike_and_conquer_simulation.main
 
         }
 
-        public bool SetGameSpeedViaEvent(SimulationOptions.GameSpeed aGameSpeed)
+        public void PostSetGameSpeedCommand(SimulationOptions.GameSpeed aGameSpeed)
         {
             SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
             aCommand.GameSpeed = aGameSpeed;
@@ -200,8 +200,6 @@ namespace mike_and_conquer_simulation.main
             {
                 inputCommandQueue.Enqueue(aCommand);
             }
-
-            return true;
 
         }
 

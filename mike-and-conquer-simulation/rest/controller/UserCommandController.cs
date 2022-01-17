@@ -58,7 +58,7 @@ namespace mike_and_conquer_simulation.rest.controller
                     JsonConvert.DeserializeObject<RestSetSimulationOptions>(incomingCommand.CommandData);
 
                 SimulationOptions.GameSpeed inputGameSpeed = ConvertGameSpeedStringToEnum(commandBody.GameSpeed);
-                SimulationMain.instance.SetGameSpeedViaEvent(inputGameSpeed);
+                SimulationMain.instance.PostSetGameSpeedCommand(inputGameSpeed);
 
                 return new OkObjectResult(new { Message = "Command Accepted" });
 
