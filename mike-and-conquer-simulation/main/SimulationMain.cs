@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -356,6 +358,30 @@ namespace mike_and_conquer_simulation.main
             {
                 minigunnerList.Clear();
             }
+        }
+
+        public void PostCommand(GeneralCommand incomingAdminCommand)
+        {
+            if (incomingAdminCommand.CommandType.Equals("CreateMinigunner"))
+            {
+                CreateUnitCommandBody createMinigunnerCommandBody = 
+                    JsonConvert.DeserializeObject<CreateUnitCommandBody>(incomingAdminCommand.CommandData);
+            
+            
+                SimulationMain.instance.PostCreateMinigunnerCommand(createMinigunnerCommandBody.StartLocationXInWorldCoordinates,
+                    createMinigunnerCommandBody.StartLocationYInWorldCoordinates);
+
+            }
+            else if (incomingAdminCommand.CommandType.Equals("ResetScenario"))
+            {
+                SimulationMain.instance.PostResetScenarioCommand();
+
+            }
+            else
+            {
+                throw new Exception("Unknown CommandType:" + incomingAdminCommand.CommandType);
+            }
+
         }
     }
 }
