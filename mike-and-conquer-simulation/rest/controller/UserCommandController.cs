@@ -13,7 +13,7 @@ namespace mike_and_conquer_simulation.rest.controller
     [ApiController]
 //    [Route("[controller]")]
 //    [Route("api/[controller]")]
-    [Route("simulation/command/user")]
+    [Route("simulation/command/userxxx")]
 
 
     
@@ -76,6 +76,8 @@ namespace mike_and_conquer_simulation.rest.controller
             return ValidationProblem(e.Message);
         }
     }
+
+
 
 
     private SimulationOptions.GameSpeed ConvertGameSpeedStringToEnum(String gameSpeedAsString)

@@ -47,7 +47,7 @@ namespace mike_and_conquer_simulation.rest.controller
             }
             catch (Exception e)
             {
-                _logger.LogWarning(e, "Unable to POST minigunner.");
+                _logger.LogWarning(e, "Error processing Command");
 
                 return ValidationProblem(e.Message);
             }
