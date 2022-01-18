@@ -14,7 +14,7 @@ namespace mike_and_conquer_simulation.rest.controller
     [ApiController]
 //    [Route("[controller]")]
 //    [Route("api/[controller]")]
-    [Route("simulation/command/admin")]
+    [Route("simulation/command")]
 
 
     

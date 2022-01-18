@@ -402,11 +402,6 @@ namespace mike_and_conquer_simulation.main
                 RestOrderUnitMoveCommandBody commandBody =
                     JsonConvert.DeserializeObject<RestOrderUnitMoveCommandBody>(generalCommand.CommandData);
 
-                // SimulationMain.instance.PostOrderUnitMoveCommand(
-                //     commandBody.UnitId,
-                //     commandBody.DestinationLocationXInWorldCoordinates,
-                //     commandBody.DestinationLocationYInWorldCoordinates
-                // );
                 OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
                 anEvent.UnitId = commandBody.UnitId;
                 anEvent.DestinationXInWorldCoordinates = commandBody.DestinationLocationXInWorldCoordinates;
@@ -414,9 +409,6 @@ namespace mike_and_conquer_simulation.main
 
                 return anEvent;
 
-
-
-                // return new OkObjectResult(new { Message = "Command Accepted" });
             }
             else if (generalCommand.CommandType.Equals("SetOptions"))
             {
@@ -424,7 +416,6 @@ namespace mike_and_conquer_simulation.main
                     JsonConvert.DeserializeObject<RestSetSimulationOptions>(generalCommand.CommandData);
 
                 SimulationOptions.GameSpeed inputGameSpeed = ConvertGameSpeedStringToEnum(commandBody.GameSpeed);
-                // SimulationMain.instance.PostSetGameSpeedCommand(inputGameSpeed);
                 SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
                 aCommand.GameSpeed = inputGameSpeed;
 
