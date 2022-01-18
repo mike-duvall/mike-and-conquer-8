@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using mike_and_conquer_simulation.commands;
+using mike_and_conquer_simulation.commands.commandbody;
 using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
@@ -399,8 +400,8 @@ namespace mike_and_conquer_simulation.main
             else if (generalCommand.CommandType.Equals("OrderUnitMove"))
             {
 
-                RestOrderUnitMoveCommandBody commandBody =
-                    JsonConvert.DeserializeObject<RestOrderUnitMoveCommandBody>(generalCommand.CommandData);
+                OrderUnitMoveCommandBody commandBody =
+                    JsonConvert.DeserializeObject<OrderUnitMoveCommandBody>(generalCommand.CommandData);
 
                 OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
                 anEvent.UnitId = commandBody.UnitId;
@@ -412,8 +413,8 @@ namespace mike_and_conquer_simulation.main
             }
             else if (generalCommand.CommandType.Equals("SetOptions"))
             {
-                RestSetSimulationOptions commandBody =
-                    JsonConvert.DeserializeObject<RestSetSimulationOptions>(generalCommand.CommandData);
+                SetSimulationOptionsCommandBody commandBody =
+                    JsonConvert.DeserializeObject<SetSimulationOptionsCommandBody>(generalCommand.CommandData);
 
                 SimulationOptions.GameSpeed inputGameSpeed = ConvertGameSpeedStringToEnum(commandBody.GameSpeed);
                 SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
@@ -421,11 +422,7 @@ namespace mike_and_conquer_simulation.main
 
                 return aCommand;
 
-                // return new OkObjectResult(new { Message = "Command Accepted" });
-
             }
-
-
 
             else
             {
