@@ -16,11 +16,9 @@ namespace mike_and_conquer_simulation.rest.controller
 //    [Route("api/[controller]")]
     [Route("simulation/command")]
 
-
-    
+   
     public class AdminCommandController : ControllerBase
     {
-
 
         private readonly ILogger<AdminCommandController> _logger;
 
@@ -33,15 +31,15 @@ namespace mike_and_conquer_simulation.rest.controller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult PostAdminCommand([FromBody] RestAdminCommand incomingAdminCommand)
+        public ActionResult PostAdminCommand([FromBody] RestRawCommand incomingRawCommand)
         {
             try
             {
-                GeneralCommand generalCommand = new GeneralCommand();
-                generalCommand.CommandType = incomingAdminCommand.CommandType;
-                generalCommand.CommandData = incomingAdminCommand.CommandData;
+                RawCommand rawCommand = new RawCommand();
+                rawCommand.CommandType = incomingRawCommand.CommandType;
+                rawCommand.CommandData = incomingRawCommand.CommandData;
 
-                SimulationMain.instance.PostCommand(generalCommand);
+                SimulationMain.instance.PostCommand(rawCommand);
                 return new OkObjectResult(new {Message = "Command Accepted"});
 
             }

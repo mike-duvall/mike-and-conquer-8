@@ -4,6 +4,10 @@ namespace mike_and_conquer_simulation.commands
 {
     public class ResetScenarioCommand : AsyncSimulationCommand
     {
+
+
+        public const string CommandName = "ResetScenario";
+
         public int DestinationXInWorldCoordinates { get; set; }
         public int DestinationYInWorldCoordinates { get; set; }
 

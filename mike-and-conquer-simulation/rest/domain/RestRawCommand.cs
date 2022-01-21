@@ -4,7 +4,7 @@ using System;
 
 namespace mike_and_conquer_simulation.rest.domain
 {
-    public class RestAdminCommand
+    public class RestRawCommand
     {
         public string CommandType { get; set; }
 
