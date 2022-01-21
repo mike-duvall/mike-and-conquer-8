@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace mike_and_conquer_simulation.rest.controller
     [ApiController]
 //    [Route("[controller]")]
 //    [Route("api/[controller]")]
-    [Route("simulation/command/admin")]
+    [Route("simulation/command")]
 
 
     
@@ -36,32 +37,17 @@ namespace mike_and_conquer_simulation.rest.controller
         {
             try
             {
+                GeneralCommand generalCommand = new GeneralCommand();
+                generalCommand.CommandType = incomingAdminCommand.CommandType;
+                generalCommand.CommandData = incomingAdminCommand.CommandData;
 
-                if (incomingAdminCommand.CommandType.Equals("CreateMinigunner"))
-                {
-                    CreateUnitCommandBody createMinigunnerCommandBody = 
-                        JsonConvert.DeserializeObject<CreateUnitCommandBody>(incomingAdminCommand.CommandData);
-
-
-                    SimulationMain.instance.PostCreateMinigunnerCommand(createMinigunnerCommandBody.StartLocationXInWorldCoordinates,
-                        createMinigunnerCommandBody.StartLocationYInWorldCoordinates);
-
-                    return new OkObjectResult(new { Message = "Command Accepted" });
-                }
-                else if (incomingAdminCommand.CommandType.Equals("ResetScenario"))
-                {
-                    SimulationMain.instance.PostResetScenarioCommand();
-                    return new OkObjectResult(new { Message = "Command Accepted" });
-                }
-                else
-                {
-                    throw new Exception("Unknown CommandType:" + incomingAdminCommand.CommandType);
-                }
+                SimulationMain.instance.PostCommand(generalCommand);
+                return new OkObjectResult(new {Message = "Command Accepted"});
 
             }
             catch (Exception e)
             {
-                _logger.LogWarning(e, "Unable to POST minigunner.");
+                _logger.LogWarning(e, "Error processing Command");
 
                 return ValidationProblem(e.Message);
             }

@@ -1,13 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using mike_and_conquer_simulation.commands;
+using mike_and_conquer_simulation.commands.commandbody;
 using mike_and_conquer_simulation.events;
+
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -203,30 +203,6 @@ namespace mike_and_conquer_simulation.main
 
         }
 
-        public void PostCreateMinigunnerCommand(int x, int y)
-        {
-            CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
-            createMinigunnerCommand.X = x;
-            createMinigunnerCommand.Y = y;
-
-            lock (inputCommandQueue)
-            {
-                inputCommandQueue.Enqueue(createMinigunnerCommand);
-            }
-
-        }
-
-
-        public void PostResetScenarioCommand()
-        {
-            ResetScenarioCommand command = new ResetScenarioCommand();
-            lock (inputCommandQueue)
-            {
-                inputCommandQueue.Enqueue(command);
-            }
-
-        }
-
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistoryViaEvent()
         {
@@ -357,5 +333,91 @@ namespace mike_and_conquer_simulation.main
                 minigunnerList.Clear();
             }
         }
+
+        public void PostCommand(GeneralCommand incomingAdminCommand)
+        {
+
+            AsyncSimulationCommand command = ConvertRawCommand(incomingAdminCommand);
+
+            lock (inputCommandQueue)
+            {
+                inputCommandQueue.Enqueue(command);
+            }
+
+
+        }
+
+        AsyncSimulationCommand ConvertRawCommand(GeneralCommand generalCommand)
+        {
+            if (generalCommand.CommandType.Equals("CreateMinigunner"))
+            {
+
+                CreateUnitCommandBody createMinigunnerCommandBody =
+                    JsonConvert.DeserializeObject<CreateUnitCommandBody>(generalCommand.CommandData);
+
+
+                CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
+                createMinigunnerCommand.X = createMinigunnerCommandBody.StartLocationXInWorldCoordinates;
+                createMinigunnerCommand.Y = createMinigunnerCommandBody.StartLocationYInWorldCoordinates;
+
+                return createMinigunnerCommand;
+
+            }
+            else if (generalCommand.CommandType.Equals("ResetScenario"))
+            {
+
+                return new ResetScenarioCommand();
+
+            }
+
+            else if (generalCommand.CommandType.Equals("OrderUnitMove"))
+            {
+
+                OrderUnitMoveCommandBody commandBody =
+                    JsonConvert.DeserializeObject<OrderUnitMoveCommandBody>(generalCommand.CommandData);
+
+                OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
+                anEvent.UnitId = commandBody.UnitId;
+                anEvent.DestinationXInWorldCoordinates = commandBody.DestinationLocationXInWorldCoordinates;
+                anEvent.DestinationYInWorldCoordinates = commandBody.DestinationLocationYInWorldCoordinates;
+
+                return anEvent;
+
+            }
+            else if (generalCommand.CommandType.Equals("SetOptions"))
+            {
+                SetSimulationOptionsCommandBody commandBody =
+                    JsonConvert.DeserializeObject<SetSimulationOptionsCommandBody>(generalCommand.CommandData);
+
+                SimulationOptions.GameSpeed inputGameSpeed = ConvertGameSpeedStringToEnum(commandBody.GameSpeed);
+                SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
+                aCommand.GameSpeed = inputGameSpeed;
+
+                return aCommand;
+
+            }
+
+            else
+            {
+                throw new Exception("Unknown CommandType:" + generalCommand.CommandType);
+            }
+
+
+        }
+
+        private SimulationOptions.GameSpeed ConvertGameSpeedStringToEnum(String gameSpeedAsString)
+        {
+            if (gameSpeedAsString == "Slowest") return SimulationOptions.GameSpeed.Slowest;
+            if (gameSpeedAsString == "Slower") return SimulationOptions.GameSpeed.Slower;
+            if (gameSpeedAsString == "Slow") return SimulationOptions.GameSpeed.Slow;
+            if (gameSpeedAsString == "Moderate") return SimulationOptions.GameSpeed.Moderate;
+            if (gameSpeedAsString == "Normal") return SimulationOptions.GameSpeed.Normal;
+            if (gameSpeedAsString == "Fast") return SimulationOptions.GameSpeed.Fast;
+            if (gameSpeedAsString == "Faster") return SimulationOptions.GameSpeed.Faster;
+            if (gameSpeedAsString == "Fastest") return SimulationOptions.GameSpeed.Fastest;
+
+            throw new Exception("Could not map game speed string of:" + gameSpeedAsString);
+        }
+
     }
 }
