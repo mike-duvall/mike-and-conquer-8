@@ -1,16 +1,13 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.commands.commandbody;
 using mike_and_conquer_simulation.events;
-using mike_and_conquer_simulation.rest.domain;
+
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -205,30 +202,6 @@ namespace mike_and_conquer_simulation.main
             }
 
         }
-
-        // public void PostCreateMinigunnerCommand(int x, int y)
-        // {
-        //     CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
-        //     createMinigunnerCommand.X = x;
-        //     createMinigunnerCommand.Y = y;
-        //
-        //     lock (inputCommandQueue)
-        //     {
-        //         inputCommandQueue.Enqueue(createMinigunnerCommand);
-        //     }
-        //
-        // }
-        //
-        //
-        // public void PostResetScenarioCommand()
-        // {
-        //     ResetScenarioCommand command = new ResetScenarioCommand();
-        //     lock (inputCommandQueue)
-        //     {
-        //         inputCommandQueue.Enqueue(command);
-        //     }
-        //
-        // }
 
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistoryViaEvent()
