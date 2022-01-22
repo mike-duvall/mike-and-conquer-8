@@ -10,5 +10,6 @@ namespace mike_and_conquer_simulation.events
 
         public long Timestamp { get; set; }
 
+        public const string EventName = "UnitArrivedAtDestination";
     }
 }

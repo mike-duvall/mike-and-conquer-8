@@ -253,7 +253,7 @@ namespace mike_and_conquer_simulation.main
             foundMinigunner.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = "UnitOrderedToMove";
+            simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
             UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
             eventData.ID = unitId;
             eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;

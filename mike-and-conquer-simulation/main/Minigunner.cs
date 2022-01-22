@@ -83,7 +83,7 @@ namespace mike_and_conquer_simulation.main
                     state = State.IDLE;
 
                     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                    simulationStateUpdateEvent.EventType = "UnitArrivedAtDestination";
+                    simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
                     UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
                     eventData.ID = this.ID;
                     eventData.Timestamp = DateTime.Now.Ticks;
@@ -119,7 +119,7 @@ namespace mike_and_conquer_simulation.main
                     }
 
                     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                    simulationStateUpdateEvent.EventType = "UnitPositionChanged";
+                    simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
                     UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
                     eventData.ID = this.ID;
 
