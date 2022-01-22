@@ -8,5 +8,6 @@
 
         public int UnitId { get; set; }
 
+        public const string CommandName = "CreateMinigunner";
     }
 }

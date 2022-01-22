@@ -253,7 +253,7 @@ namespace mike_and_conquer_simulation.main
             foundMinigunner.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = "UnitOrderedToMove";
+            simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
             UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
             eventData.ID = unitId;
             eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
@@ -334,7 +334,7 @@ namespace mike_and_conquer_simulation.main
             }
         }
 
-        public void PostCommand(GeneralCommand incomingAdminCommand)
+        public void PostCommand(RawCommand incomingAdminCommand)
         {
 
             AsyncSimulationCommand command = ConvertRawCommand(incomingAdminCommand);
@@ -347,14 +347,13 @@ namespace mike_and_conquer_simulation.main
 
         }
 
-        AsyncSimulationCommand ConvertRawCommand(GeneralCommand generalCommand)
+        AsyncSimulationCommand ConvertRawCommand(RawCommand rawCommand)
         {
-            if (generalCommand.CommandType.Equals("CreateMinigunner"))
+            if (rawCommand.CommandType.Equals(CreateMinigunnerCommand.CommandName))
             {
 
-                CreateUnitCommandBody createMinigunnerCommandBody =
-                    JsonConvert.DeserializeObject<CreateUnitCommandBody>(generalCommand.CommandData);
-
+                CreateMinigunnerCommandBody createMinigunnerCommandBody =
+                    JsonConvert.DeserializeObject<CreateMinigunnerCommandBody>(rawCommand.CommandData);
 
                 CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
                 createMinigunnerCommand.X = createMinigunnerCommandBody.StartLocationXInWorldCoordinates;
@@ -363,18 +362,18 @@ namespace mike_and_conquer_simulation.main
                 return createMinigunnerCommand;
 
             }
-            else if (generalCommand.CommandType.Equals("ResetScenario"))
+            else if (rawCommand.CommandType.Equals(ResetScenarioCommand.CommandName))
             {
 
                 return new ResetScenarioCommand();
 
             }
 
-            else if (generalCommand.CommandType.Equals("OrderUnitMove"))
+            else if (rawCommand.CommandType.Equals(OrderUnitToMoveCommand.CommandName))
             {
 
                 OrderUnitMoveCommandBody commandBody =
-                    JsonConvert.DeserializeObject<OrderUnitMoveCommandBody>(generalCommand.CommandData);
+                    JsonConvert.DeserializeObject<OrderUnitMoveCommandBody>(rawCommand.CommandData);
 
                 OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
                 anEvent.UnitId = commandBody.UnitId;
@@ -384,10 +383,10 @@ namespace mike_and_conquer_simulation.main
                 return anEvent;
 
             }
-            else if (generalCommand.CommandType.Equals("SetOptions"))
+            else if (rawCommand.CommandType.Equals(SetGameSpeedCommand.CommandName))
             {
                 SetSimulationOptionsCommandBody commandBody =
-                    JsonConvert.DeserializeObject<SetSimulationOptionsCommandBody>(generalCommand.CommandData);
+                    JsonConvert.DeserializeObject<SetSimulationOptionsCommandBody>(rawCommand.CommandData);
 
                 SimulationOptions.GameSpeed inputGameSpeed = ConvertGameSpeedStringToEnum(commandBody.GameSpeed);
                 SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
@@ -396,10 +395,9 @@ namespace mike_and_conquer_simulation.main
                 return aCommand;
 
             }
-
             else
             {
-                throw new Exception("Unknown CommandType:" + generalCommand.CommandType);
+                throw new Exception("Unknown CommandType:" + rawCommand.CommandType);
             }
 
 

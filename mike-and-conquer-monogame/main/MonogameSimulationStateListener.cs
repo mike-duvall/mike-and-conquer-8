@@ -28,7 +28,7 @@ namespace mike_and_conquer_monogame.main
                     minigunnerCreatedEventData.Y);
 
             }
-            else if (anEvent.EventType.Equals("UnitPositionChanged"))
+            else if (anEvent.EventType.Equals(UnitPositionChangedEventData.EventName))
             {
                 UnitPositionChangedEventData unitPositionChangedEventData =
                     JsonConvert.DeserializeObject<UnitPositionChangedEventData>(anEvent.EventData);

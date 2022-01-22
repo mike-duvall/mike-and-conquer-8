@@ -9,5 +9,7 @@
 
         public long Timestamp { get; set; }
 
+        public const string EventName = "UnitOrderedToMove";
+
     }
 }

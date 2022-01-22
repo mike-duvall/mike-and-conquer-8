@@ -7,5 +7,7 @@
         
         public int ID { get; set; }
 
+        public const string EventName = "UnitPositionChanged";
+
     }
 }

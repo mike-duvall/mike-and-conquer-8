@@ -4,6 +4,10 @@ namespace mike_and_conquer_simulation.commands
 {
     public class CreateMinigunnerCommand : AsyncSimulationCommand
     {
+
+        public const string CommandName = "CreateMinigunner";
+
+
         public int X { get; set; }
         public int Y { get; set; }
 
