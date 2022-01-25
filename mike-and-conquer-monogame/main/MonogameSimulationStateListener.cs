@@ -19,19 +19,33 @@ namespace mike_and_conquer_monogame.main
         {
             if (anEvent.EventType.Equals(MinigunnerCreateEventData.EventName))
             {
-                MinigunnerCreateEventData minigunnerCreatedEventData =
+                MinigunnerCreateEventData eventData =
                     JsonConvert.DeserializeObject<MinigunnerCreateEventData>(anEvent.EventData);
 
 
                 mikeAndConquerGame.AddMinigunner(
-                    minigunnerCreatedEventData.X,
-                    minigunnerCreatedEventData.Y);
+                    eventData.ID,
+                    eventData.X,
+                    eventData.Y);
+
+            }
+            else if (anEvent.EventType.Equals(JeepCreateEventData.EventName))
+            {
+                JeepCreateEventData eventData =
+                    JsonConvert.DeserializeObject<JeepCreateEventData>(anEvent.EventData);
+
+
+                mikeAndConquerGame.AddJeep(
+                    eventData.ID,
+                    eventData.X,
+                    eventData.Y);
 
             }
             else if (anEvent.EventType.Equals(UnitPositionChangedEventData.EventName))
             {
                 UnitPositionChangedEventData unitPositionChangedEventData =
                     JsonConvert.DeserializeObject<UnitPositionChangedEventData>(anEvent.EventData);
+
 
 
                 mikeAndConquerGame.UpdateMinigunnerPosition(unitPositionChangedEventData);
@@ -44,6 +58,10 @@ namespace mike_and_conquer_monogame.main
                     JsonConvert.DeserializeObject<InitializeScenarioEventData>(anEvent.EventData);
 
                 mikeAndConquerGame.InitializeScenario(initializeScenarioEventData);
+            }
+            else if (anEvent.EventType.Equals("ResetScenario"))
+            {
+                mikeAndConquerGame.ResetScenario();
             }
 
 
