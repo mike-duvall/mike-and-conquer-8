@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.main;
 using MonoGame.Framework.Utilities;
@@ -34,6 +35,10 @@ namespace mike_and_conquer_monogame.main
 
         private List<UnitView> unitViewList;
 
+        private Queue<AsyncViewCommand> inputCommandQueue;
+
+        public static MikeAndConquerGame instance;
+
         public MikeAndConquerGame()
         {
 
@@ -43,6 +48,7 @@ namespace mike_and_conquer_monogame.main
             _graphics = new GraphicsDeviceManager(this);
 
             unitViewList = new List<UnitView>();
+            inputCommandQueue = new Queue<AsyncViewCommand>();
 
 
             new GameOptions();
@@ -73,9 +79,17 @@ namespace mike_and_conquer_monogame.main
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
 
-            int x = 3;
+            MikeAndConquerGame.instance = this;
         }
 
+
+        public void PostCommand(AsyncViewCommand command)
+        {
+            lock (inputCommandQueue)
+            {
+                inputCommandQueue.Enqueue(command);
+            }
+        }
 
         public void ResetScenario()
         {
@@ -111,6 +125,14 @@ namespace mike_and_conquer_monogame.main
             
 
             base.Update(gameTime);
+
+            lock (inputCommandQueue)
+            {
+                foreach (AsyncViewCommand command in inputCommandQueue)
+                {
+                    command.Process();
+                }
+            }
         }
 
 
@@ -141,8 +163,23 @@ namespace mike_and_conquer_monogame.main
             unitView.type = "Jeep";
             unitView.color = Color.Blue;
             unitViewList.Add(unitView);
+        }
+
+        public void AddMCV(int id, int x, int y)
+        {
+            // hasJeepBeenCreated = true;
+            // jeepX = x;
+            // jeepY = y;
+            UnitView unitView = new UnitView();
+            unitView.ID = id;
+            unitView.XInWorldCoordinates = x;
+            unitView.YInWorldCoordinates = y;
+            unitView.type = "MCV";
+            unitView.color = Color.Yellow;
+            unitViewList.Add(unitView);
 
         }
+
 
 
         protected override void Draw(GameTime gameTime)
@@ -171,12 +208,14 @@ namespace mike_and_conquer_monogame.main
                 DrawMap();
             }
 
+
+
             foreach (UnitView unitView in unitViewList)
             {
-                if (unitView.type.Equals("Minigunner"))
-                {
+                // if (unitView.type.Equals("Minigunner"))
+                // {
                     DrawRectangleAtCoordinate(unitView.XInWorldCoordinates, unitView.YInWorldCoordinates, unitView.color );
-                }
+                // }
             }
 
             // if (hasMinigunnerBeenCreated)

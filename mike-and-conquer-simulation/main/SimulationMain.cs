@@ -35,9 +35,6 @@ namespace mike_and_conquer_simulation.main
 
         public static ManualResetEvent condition;
 
-        // private List<Minigunner> minigunnerList;
-        // private List<Jeep> jeepList;
-
         private List<Unit> unitList;
 
         public static void StartSimulation(SimulationStateListener listener)
@@ -274,7 +271,7 @@ namespace mike_and_conquer_simulation.main
             unitList.Add(jeep);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
+            simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
             JeepCreateEventData eventData = new JeepCreateEventData();
             eventData.ID = jeep.ID;
             eventData.X = minigunnerX;
@@ -289,6 +286,34 @@ namespace mike_and_conquer_simulation.main
 
             return jeep;
         }
+
+        public MCV CreateMCV(int minigunnerX, int minigunnerY)
+        {
+
+            MCV jeep = new MCV();
+            jeep.GameWorldLocation.X = minigunnerX;
+            jeep.GameWorldLocation.Y = minigunnerY;
+            // jeep.ID = 1;
+
+            unitList.Add(jeep);
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
+            MCVCreateEventData eventData = new MCVCreateEventData();
+            eventData.ID = jeep.ID;
+            eventData.X = minigunnerX;
+            eventData.Y = minigunnerY;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            foreach (SimulationStateListener listener in listeners)
+            {
+                listener.Update(simulationStateUpdateEvent);
+            }
+
+            return jeep;
+        }
+
 
 
         public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
@@ -472,6 +497,19 @@ namespace mike_and_conquer_simulation.main
                     JsonConvert.DeserializeObject<CreateJeepCommandBody>(rawCommand.CommandData);
 
                 CreateJeepCommand createdUnit = new CreateJeepCommand();
+                createdUnit.X = commandBody.StartLocationXInWorldCoordinates;
+                createdUnit.Y = commandBody.StartLocationYInWorldCoordinates;
+
+                return createdUnit;
+
+            }
+            else if (rawCommand.CommandType.Equals(CreateMCVCommand.CommandName))
+            {
+
+                CreateMCVCommandBody commandBody =
+                    JsonConvert.DeserializeObject<CreateMCVCommandBody>(rawCommand.CommandData);
+
+                CreateMCVCommand createdUnit = new CreateMCVCommand();
                 createdUnit.X = commandBody.StartLocationXInWorldCoordinates;
                 createdUnit.Y = commandBody.StartLocationYInWorldCoordinates;
 
