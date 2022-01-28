@@ -1,7 +1,5 @@
 ﻿using mike_and_conquer_monogame.commands;
 using mike_and_conquer_simulation.events;
-using mike_and_conquer_simulation.main;
-using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_monogame.main
@@ -27,11 +25,6 @@ namespace mike_and_conquer_monogame.main
 
                 mikeAndConquerGame.PostCommand(command);
                 
-                // mikeAndConquerGame.AddMinigunner(
-                //     eventData.ID,
-                //     eventData.X,
-                //     eventData.Y);
-
             }
             else if (anEvent.EventType.Equals(JeepCreateEventData.EventName))
             {
@@ -41,12 +34,6 @@ namespace mike_and_conquer_monogame.main
                 AddJeepCommand command = new AddJeepCommand(eventData.ID, eventData.X, eventData.Y);
 
                 mikeAndConquerGame.PostCommand(command);
-
-
-                // mikeAndConquerGame.AddJeep(
-                //     eventData.ID,
-                //     eventData.X,
-                //     eventData.Y);
 
             }
             else if (anEvent.EventType.Equals(MCVCreateEventData.EventName))
@@ -58,12 +45,6 @@ namespace mike_and_conquer_monogame.main
 
                 mikeAndConquerGame.PostCommand(command);
 
-
-                // mikeAndConquerGame.AddMCV(
-                //     eventData.ID,
-                //     eventData.X,
-                //     eventData.Y);
-
             }
 
             else if (anEvent.EventType.Equals(UnitPositionChangedEventData.EventName))
@@ -71,12 +52,8 @@ namespace mike_and_conquer_monogame.main
                 UnitPositionChangedEventData unitPositionChangedEventData =
                     JsonConvert.DeserializeObject<UnitPositionChangedEventData>(anEvent.EventData);
 
-
                 UpdateUnitPositionCommand command = new UpdateUnitPositionCommand(unitPositionChangedEventData);
                 mikeAndConquerGame.PostCommand(command);
-
-                // mikeAndConquerGame.UpdateMinigunnerPosition(unitPositionChangedEventData);
-
 
             }
             else if (anEvent.EventType.Equals(InitializeScenarioEventData.EventName))
@@ -87,14 +64,12 @@ namespace mike_and_conquer_monogame.main
                 InitializeScenarioCommand command = new InitializeScenarioCommand(initializeScenarioEventData);
                 mikeAndConquerGame.PostCommand(command);
 
-                // mikeAndConquerGame.InitializeScenario(initializeScenarioEventData);
             }
             else if (anEvent.EventType.Equals("ResetScenario"))
             {
                 ResetScenarioCommand command = new ResetScenarioCommand();
 
                 mikeAndConquerGame.PostCommand(command);
-                // mikeAndConquerGame.ResetScenario();
             }
 
 
