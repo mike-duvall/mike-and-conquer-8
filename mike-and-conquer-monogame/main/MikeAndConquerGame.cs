@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
-using mike_and_conquer_simulation.main;
-using MonoGame.Framework.Utilities;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -18,14 +17,15 @@ namespace mike_and_conquer_monogame.main
 
         public MonogameSimulationStateListener monogameSimulationStateListener = null;
 
-
-        private bool hasMinigunnerBeenCreated = false;
-        private int minigunnerX = -10;
-        private int minigunnerY = -10;
-
         private bool hasScenarioBeenInitialized = false;
         private int mapWidth = -10;
         private int mapHeight = -10;
+
+        private List<UnitView> unitViewList;
+
+        private Queue<AsyncViewCommand> inputCommandQueue;
+
+        public static MikeAndConquerGame instance;
 
         public MikeAndConquerGame()
         {
@@ -35,6 +35,8 @@ namespace mike_and_conquer_monogame.main
 
             _graphics = new GraphicsDeviceManager(this);
 
+            unitViewList = new List<UnitView>();
+            inputCommandQueue = new Queue<AsyncViewCommand>();
 
 
             new GameOptions();
@@ -65,10 +67,25 @@ namespace mike_and_conquer_monogame.main
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
 
-            int x = 3;
+            MikeAndConquerGame.instance = this;
         }
 
 
+        public void PostCommand(AsyncViewCommand command)
+        {
+            lock (inputCommandQueue)
+            {
+                inputCommandQueue.Enqueue(command);
+            }
+        }
+
+        public void ResetScenario()
+        {
+            unitViewList.Clear();
+            hasScenarioBeenInitialized = false;
+            mapWidth = -10;
+            mapHeight = -10;
+        }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -96,36 +113,61 @@ namespace mike_and_conquer_monogame.main
             
 
             base.Update(gameTime);
+
+            lock (inputCommandQueue)
+            {
+                foreach (AsyncViewCommand command in inputCommandQueue)
+                {
+                    command.Process();
+                }
+            }
         }
 
 
 
-        public void AddMinigunner(int x, int y)
+        public void AddMinigunner(int id, int x, int y)
         {
-            hasMinigunnerBeenCreated = true;
-            minigunnerX = x;
-            minigunnerY = y;
+            UnitView unitView = new UnitView();
+            unitView.ID = id;
+            unitView.XInWorldCoordinates = x;
+            unitView.YInWorldCoordinates = y;
+            unitView.type = "Minigunner";
+            unitView.color = Color.Chocolate;
+            unitViewList.Add(unitView);
         }
+
+        public void AddJeep(int id, int x, int y)
+        {
+            UnitView unitView = new UnitView();
+            unitView.ID = id;
+            unitView.XInWorldCoordinates = x;
+            unitView.YInWorldCoordinates = y;
+            unitView.type = "Jeep";
+            unitView.color = Color.Blue;
+            unitViewList.Add(unitView);
+        }
+
+        public void AddMCV(int id, int x, int y)
+        {
+            // hasJeepBeenCreated = true;
+            // jeepX = x;
+            // jeepY = y;
+            UnitView unitView = new UnitView();
+            unitView.ID = id;
+            unitView.XInWorldCoordinates = x;
+            unitView.YInWorldCoordinates = y;
+            unitView.type = "MCV";
+            unitView.color = Color.Yellow;
+            unitViewList.Add(unitView);
+
+        }
+
+
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-
-
-
-            // Queue<SimulationStateUpdateEvent> simulationStateUpdateEventQueue =  SimulationMain.instance.GetSimulationStateUpdateEventQueue();
-            // lock (simulationStateUpdateEventQueue)
-            // {
-            //     while (simulationStateUpdateEventQueue.Count > 0)
-            //     {
-            //         SimulationStateUpdateEvent anEvent =  simulationStateUpdateEventQueue.Dequeue();
-            //         hasMinigunnerBeenCreated = true;
-            //         minigunnerX = anEvent.X;
-            //         minigunnerY = anEvent.Y;
-            //
-            //     }
-            // }
 
 
             if (hasScenarioBeenInitialized)
@@ -134,11 +176,11 @@ namespace mike_and_conquer_monogame.main
             }
 
 
-            if (hasMinigunnerBeenCreated)
-            {
-                DrawRectangleAtCoordinate(minigunnerX, minigunnerY);
-            }
 
+            foreach (UnitView unitView in unitViewList)
+            {
+                DrawRectangleAtCoordinate(unitView.XInWorldCoordinates, unitView.YInWorldCoordinates, unitView.color );
+            }
 
             // TODO: Add your drawing code here
 
@@ -155,14 +197,14 @@ namespace mike_and_conquer_monogame.main
 
         }
 
-        void DrawRectangleAtCoordinate(int x, int y)
+        void DrawRectangleAtCoordinate(int x, int y, Color aColor)
         {
             int width = 10;
             int height = 10;
             Texture2D rect = new Texture2D(GraphicsDevice, width, height);
 
             Color[] data = new Color[width * height];
-            for (int i = 0; i < data.Length; ++i) data[i] = Color.Chocolate;
+            for (int i = 0; i < data.Length; ++i) data[i] = aColor;
             rect.SetData(data);
 
             Vector2 coor = new Vector2(x, y);
@@ -176,7 +218,6 @@ namespace mike_and_conquer_monogame.main
             {
                 mapRect = new Texture2D(GraphicsDevice, width, height);
                 Color[] data = new Color[width * height];
-                // for (int i = 0; i < data.Length; ++i) data[i] = color;
                 // Draw top line
                 for (int i = 0; i < width; ++i) data[i] = color;
 
@@ -210,18 +251,30 @@ namespace mike_and_conquer_monogame.main
 
             }
 
-
-
             Vector2 coor = new Vector2(x, y);
             _spriteBatch.Draw(mapRect, coor, Color.White);
         }
 
 
 
-        public void UpdateMinigunnerPosition(UnitPositionChangedEventData unitPositionChangedEventData)
+        public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
-            minigunnerX = unitPositionChangedEventData.XInWorldCoordinates;
-            minigunnerY = unitPositionChangedEventData.YInWorldCoordinates;
+            UnitView unitView = FindUnitViewById(unitPositionChangedEventData.ID);
+            unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+            unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+        }
+
+        private UnitView FindUnitViewById(int id)
+        {
+            foreach (UnitView unitView in unitViewList)
+            {
+                if (unitView.ID == id)
+                {
+                    return unitView;
+                }
+            }
+
+            return null;
         }
 
         public void InitializeScenario(InitializeScenarioEventData initializeScenarioEventData)

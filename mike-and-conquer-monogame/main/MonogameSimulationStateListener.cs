@@ -1,6 +1,5 @@
-﻿using mike_and_conquer_simulation.events;
-using mike_and_conquer_simulation.main;
-using mike_and_conquer_simulation.rest.domain;
+﻿using mike_and_conquer_monogame.commands;
+using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_monogame.main
@@ -19,23 +18,42 @@ namespace mike_and_conquer_monogame.main
         {
             if (anEvent.EventType.Equals(MinigunnerCreateEventData.EventName))
             {
-                MinigunnerCreateEventData minigunnerCreatedEventData =
+                MinigunnerCreateEventData eventData =
                     JsonConvert.DeserializeObject<MinigunnerCreateEventData>(anEvent.EventData);
 
+                AddMinigunnerCommand command = new AddMinigunnerCommand(eventData.ID, eventData.X, eventData.Y);
 
-                mikeAndConquerGame.AddMinigunner(
-                    minigunnerCreatedEventData.X,
-                    minigunnerCreatedEventData.Y);
+                mikeAndConquerGame.PostCommand(command);
+                
+            }
+            else if (anEvent.EventType.Equals(JeepCreateEventData.EventName))
+            {
+                JeepCreateEventData eventData =
+                    JsonConvert.DeserializeObject<JeepCreateEventData>(anEvent.EventData);
+
+                AddJeepCommand command = new AddJeepCommand(eventData.ID, eventData.X, eventData.Y);
+
+                mikeAndConquerGame.PostCommand(command);
 
             }
+            else if (anEvent.EventType.Equals(MCVCreateEventData.EventName))
+            {
+                MCVCreateEventData eventData =
+                    JsonConvert.DeserializeObject<MCVCreateEventData>(anEvent.EventData);
+
+                AddMCVCommand command = new AddMCVCommand(eventData.ID, eventData.X, eventData.Y);
+
+                mikeAndConquerGame.PostCommand(command);
+
+            }
+
             else if (anEvent.EventType.Equals(UnitPositionChangedEventData.EventName))
             {
                 UnitPositionChangedEventData unitPositionChangedEventData =
                     JsonConvert.DeserializeObject<UnitPositionChangedEventData>(anEvent.EventData);
 
-
-                mikeAndConquerGame.UpdateMinigunnerPosition(unitPositionChangedEventData);
-
+                UpdateUnitPositionCommand command = new UpdateUnitPositionCommand(unitPositionChangedEventData);
+                mikeAndConquerGame.PostCommand(command);
 
             }
             else if (anEvent.EventType.Equals(InitializeScenarioEventData.EventName))
@@ -43,7 +61,15 @@ namespace mike_and_conquer_monogame.main
                 InitializeScenarioEventData initializeScenarioEventData =
                     JsonConvert.DeserializeObject<InitializeScenarioEventData>(anEvent.EventData);
 
-                mikeAndConquerGame.InitializeScenario(initializeScenarioEventData);
+                InitializeScenarioCommand command = new InitializeScenarioCommand(initializeScenarioEventData);
+                mikeAndConquerGame.PostCommand(command);
+
+            }
+            else if (anEvent.EventType.Equals("ResetScenario"))
+            {
+                ResetScenarioCommand command = new ResetScenarioCommand();
+
+                mikeAndConquerGame.PostCommand(command);
             }
 
 

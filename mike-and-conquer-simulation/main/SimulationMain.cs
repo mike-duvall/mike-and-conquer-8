@@ -15,6 +15,9 @@ namespace mike_and_conquer_simulation.main
     public class SimulationMain
     {
 
+        public static int globalId = 1;
+
+
         private SimulationOptions simulationOptions;
 
         private Queue<AsyncSimulationCommand> inputCommandQueue;
@@ -32,7 +35,7 @@ namespace mike_and_conquer_simulation.main
 
         public static ManualResetEvent condition;
 
-        private List<Minigunner> minigunnerList;
+        private List<Unit> unitList;
 
         public static void StartSimulation(SimulationStateListener listener)
         {
@@ -142,7 +145,7 @@ namespace mike_and_conquer_simulation.main
             listeners = new List<SimulationStateListener>();
             listeners.Add(new SimulationStateHistoryListener(this));
 
-            minigunnerList = new List<Minigunner>();
+            unitList = new List<Unit>();
 
             simulationOptions = new SimulationOptions();
 
@@ -157,10 +160,11 @@ namespace mike_and_conquer_simulation.main
 
         private void Update()
         {
-            foreach(Minigunner minigunner in minigunnerList)
+            foreach (Unit unit in unitList)
             {
-                minigunner.Update();
+                unit.Update();
             }
+
         }
 
         private void ProcessInputEventQueue()
@@ -175,22 +179,6 @@ namespace mike_and_conquer_simulation.main
             }
         }
 
-
-        public void  PostOrderUnitMoveCommand(int unitId, int destinationXInWorldCoordiantes,
-            int destinationYInWorldCoordinates)
-        {
-            OrderUnitToMoveCommand anEvent = new OrderUnitToMoveCommand();
-            anEvent.UnitId = unitId;
-            anEvent.DestinationXInWorldCoordinates = destinationXInWorldCoordiantes;
-            anEvent.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
-
-            lock (inputCommandQueue)
-            {
-                inputCommandQueue.Enqueue(anEvent);
-            }
-
-        }
-
         public void PostSetGameSpeedCommand(SimulationOptions.GameSpeed aGameSpeed)
         {
             SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
@@ -202,7 +190,6 @@ namespace mike_and_conquer_simulation.main
             }
 
         }
-
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistoryViaEvent()
         {
@@ -217,23 +204,20 @@ namespace mike_and_conquer_simulation.main
             return list;
         }
 
-
-        public Minigunner CreateMinigunner(int minigunnerX, int minigunnerY)
+        public Minigunner CreateMinigunner(int x, int y)
         {
 
             Minigunner minigunner = new Minigunner();
-            minigunner.GameWorldLocation.X = minigunnerX;
-            minigunner.GameWorldLocation.Y = minigunnerY;
-            minigunner.ID = 1;
-
-            minigunnerList.Add(minigunner);
+            minigunner.GameWorldLocation.X = x;
+            minigunner.GameWorldLocation.Y = y;
+            unitList.Add(minigunner);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
             MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
             eventData.ID = minigunner.ID;
-            eventData.X = minigunnerX;
-            eventData.Y = minigunnerY;
+            eventData.X = x;
+            eventData.Y = y;
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
@@ -245,12 +229,63 @@ namespace mike_and_conquer_simulation.main
             return minigunner;
         }
 
+        public Jeep CreateJeep(int x, int y)
+        {
+
+            Jeep jeep = new Jeep();
+            jeep.GameWorldLocation.X = x;
+            jeep.GameWorldLocation.Y = y;
+            unitList.Add(jeep);
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
+            JeepCreateEventData eventData = new JeepCreateEventData();
+            eventData.ID = jeep.ID;
+            eventData.X = x;
+            eventData.Y = y;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            foreach (SimulationStateListener listener in listeners)
+            {
+                listener.Update(simulationStateUpdateEvent);
+            }
+
+            return jeep;
+        }
+
+        public MCV CreateMCV(int x, int y)
+        {
+
+            MCV mcv = new MCV();
+            mcv.GameWorldLocation.X = x;
+            mcv.GameWorldLocation.Y = y;
+            unitList.Add(mcv);
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
+            MCVCreateEventData eventData = new MCVCreateEventData();
+            eventData.ID = mcv.ID;
+            eventData.X = x;
+            eventData.Y = y;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            foreach (SimulationStateListener listener in listeners)
+            {
+                listener.Update(simulationStateUpdateEvent);
+            }
+
+            return mcv;
+        }
+
+
+
         public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
 
-            Minigunner foundMinigunner = FindMinigunnerWithUnitId(unitId);
-
-            foundMinigunner.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+            Unit foundUnit = FindUnitWithUnitId(unitId);
+            foundUnit.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
@@ -268,20 +303,22 @@ namespace mike_and_conquer_simulation.main
             }
 
         }
-        private Minigunner FindMinigunnerWithUnitId(int unitId)
-        {
-            Minigunner foundMinigunner = null;
 
-            foreach (Minigunner minigunner in minigunnerList)
+        private Unit FindUnitWithUnitId(int unitId)
+        {
+            Unit foundUnit = null;
+
+            foreach (Unit unit in unitList)
             {
-                if (minigunner.ID == unitId)
+                if (unit.ID == unitId)
                 {
-                    foundMinigunner = minigunner;
+                    foundUnit = unit;
                 }
             }
 
-            return foundMinigunner;
+            return foundUnit;
         }
+
 
         public List<SimulationStateUpdateEvent> GetCopyOfEventHistory()
         {
@@ -322,16 +359,24 @@ namespace mike_and_conquer_simulation.main
 
         public void ResetScenario()
         {
+            SimulationStateUpdateEvent resetScenarioEvent = new SimulationStateUpdateEvent();
+            resetScenarioEvent.EventType = "ResetScenario";
+
+            PublishEvent(resetScenarioEvent);
 
             lock (simulationStateUpdateEventsHistory)
             {
                 simulationStateUpdateEventsHistory.Clear();
             }
 
-            lock (minigunnerList)
+            SimulationMain.globalId = 1;
+
+            lock (unitList)
             {
-                minigunnerList.Clear();
+                unitList.Clear();
             }
+
+            EmitInitializeScenarioEvent(27, 23);
         }
 
         public void PostCommand(RawCommand incomingAdminCommand)
@@ -352,16 +397,43 @@ namespace mike_and_conquer_simulation.main
             if (rawCommand.CommandType.Equals(CreateMinigunnerCommand.CommandName))
             {
 
-                CreateMinigunnerCommandBody createMinigunnerCommandBody =
+                CreateMinigunnerCommandBody commandBody =
                     JsonConvert.DeserializeObject<CreateMinigunnerCommandBody>(rawCommand.CommandData);
 
-                CreateMinigunnerCommand createMinigunnerCommand = new CreateMinigunnerCommand();
-                createMinigunnerCommand.X = createMinigunnerCommandBody.StartLocationXInWorldCoordinates;
-                createMinigunnerCommand.Y = createMinigunnerCommandBody.StartLocationYInWorldCoordinates;
+                CreateMinigunnerCommand createUnit = new CreateMinigunnerCommand();
+                createUnit.X = commandBody.StartLocationXInWorldCoordinates;
+                createUnit.Y = commandBody.StartLocationYInWorldCoordinates;
 
-                return createMinigunnerCommand;
+                return createUnit;
 
             }
+            else if (rawCommand.CommandType.Equals(CreateJeepCommand.CommandName))
+            {
+
+                CreateJeepCommandBody commandBody =
+                    JsonConvert.DeserializeObject<CreateJeepCommandBody>(rawCommand.CommandData);
+
+                CreateJeepCommand createdUnit = new CreateJeepCommand();
+                createdUnit.X = commandBody.StartLocationXInWorldCoordinates;
+                createdUnit.Y = commandBody.StartLocationYInWorldCoordinates;
+
+                return createdUnit;
+
+            }
+            else if (rawCommand.CommandType.Equals(CreateMCVCommand.CommandName))
+            {
+
+                CreateMCVCommandBody commandBody =
+                    JsonConvert.DeserializeObject<CreateMCVCommandBody>(rawCommand.CommandData);
+
+                CreateMCVCommand createdUnit = new CreateMCVCommand();
+                createdUnit.X = commandBody.StartLocationXInWorldCoordinates;
+                createdUnit.Y = commandBody.StartLocationYInWorldCoordinates;
+
+                return createdUnit;
+
+            }
+
             else if (rawCommand.CommandType.Equals(ResetScenarioCommand.CommandName))
             {
 

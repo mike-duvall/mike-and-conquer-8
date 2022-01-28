@@ -8,12 +8,8 @@ using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
 {
-    public class Minigunner : Unit
+    public class MCV : Unit
     {
-
-
-
-
 
 
         public enum State { IDLE, MOVING, ATTACKING, LANDING_AT_MAP_SQUARE };
@@ -30,7 +26,7 @@ namespace mike_and_conquer_simulation.main
         double movementDistanceEpsilon;
         private float movementDelta;
 
-        public Minigunner()
+        public MCV()
         {
             state = State.IDLE;
             currentCommand = Command.NONE;
@@ -51,10 +47,8 @@ namespace mike_and_conquer_simulation.main
 
             this.gameWorldLocation = GameWorldLocation.CreateFromWorldCoordinates(0, 0);
             this.ID = SimulationMain.globalId++;
+
         }
-
-
-
 
         public override void OrderMoveToDestination(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
