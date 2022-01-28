@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
-using mike_and_conquer_simulation.main;
-using MonoGame.Framework.Utilities;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -18,16 +16,6 @@ namespace mike_and_conquer_monogame.main
         private ILogger logger;
 
         public MonogameSimulationStateListener monogameSimulationStateListener = null;
-
-
-        // private bool hasMinigunnerBeenCreated = false;
-        // private int minigunnerX = -10;
-        // private int minigunnerY = -10;
-        //
-        // private bool hasJeepBeenCreated = false;
-        // private int jeepX = -10;
-        // private int jeepY = -10;
-
 
         private bool hasScenarioBeenInitialized = false;
         private int mapWidth = -10;
@@ -145,17 +133,11 @@ namespace mike_and_conquer_monogame.main
             unitView.YInWorldCoordinates = y;
             unitView.type = "Minigunner";
             unitView.color = Color.Chocolate;
-            // hasMinigunnerBeenCreated = true;
-            // minigunnerX = x;
-            // minigunnerY = y;
             unitViewList.Add(unitView);
         }
 
         public void AddJeep(int id, int x, int y)
         {
-            // hasJeepBeenCreated = true;
-            // jeepX = x;
-            // jeepY = y;
             UnitView unitView = new UnitView();
             unitView.ID = id;
             unitView.XInWorldCoordinates = x;
@@ -188,21 +170,6 @@ namespace mike_and_conquer_monogame.main
             _spriteBatch.Begin();
 
 
-
-            // Queue<SimulationStateUpdateEvent> simulationStateUpdateEventQueue =  SimulationMain.instance.GetSimulationStateUpdateEventQueue();
-            // lock (simulationStateUpdateEventQueue)
-            // {
-            //     while (simulationStateUpdateEventQueue.Count > 0)
-            //     {
-            //         SimulationStateUpdateEvent anEvent =  simulationStateUpdateEventQueue.Dequeue();
-            //         hasMinigunnerBeenCreated = true;
-            //         minigunnerX = anEvent.X;
-            //         minigunnerY = anEvent.Y;
-            //
-            //     }
-            // }
-
-
             if (hasScenarioBeenInitialized)
             {
                 DrawMap();
@@ -212,22 +179,8 @@ namespace mike_and_conquer_monogame.main
 
             foreach (UnitView unitView in unitViewList)
             {
-                // if (unitView.type.Equals("Minigunner"))
-                // {
-                    DrawRectangleAtCoordinate(unitView.XInWorldCoordinates, unitView.YInWorldCoordinates, unitView.color );
-                // }
+                DrawRectangleAtCoordinate(unitView.XInWorldCoordinates, unitView.YInWorldCoordinates, unitView.color );
             }
-
-            // if (hasMinigunnerBeenCreated)
-            // {
-            //     DrawRectangleAtCoordinate(minigunnerX, minigunnerY,Color.Chocolate);
-            // }
-            //
-            // if (hasJeepBeenCreated)
-            // {
-            //     DrawRectangleAtCoordinate(jeepX, jeepY,Color.Blue);
-            // }
-
 
             // TODO: Add your drawing code here
 
@@ -265,7 +218,6 @@ namespace mike_and_conquer_monogame.main
             {
                 mapRect = new Texture2D(GraphicsDevice, width, height);
                 Color[] data = new Color[width * height];
-                // for (int i = 0; i < data.Length; ++i) data[i] = color;
                 // Draw top line
                 for (int i = 0; i < width; ++i) data[i] = color;
 
@@ -299,25 +251,20 @@ namespace mike_and_conquer_monogame.main
 
             }
 
-
-
             Vector2 coor = new Vector2(x, y);
             _spriteBatch.Draw(mapRect, coor, Color.White);
         }
 
 
 
-        public void UpdateMinigunnerPosition(UnitPositionChangedEventData unitPositionChangedEventData)
+        public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
-            UnitView unitView = FindUnitViewByID(unitPositionChangedEventData.ID);
+            UnitView unitView = FindUnitViewById(unitPositionChangedEventData.ID);
             unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
             unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
-
-            // minigunnerX = unitPositionChangedEventData.XInWorldCoordinates;
-            // minigunnerY = unitPositionChangedEventData.YInWorldCoordinates;
         }
 
-        private UnitView FindUnitViewByID(int id)
+        private UnitView FindUnitViewById(int id)
         {
             foreach (UnitView unitView in unitViewList)
             {
