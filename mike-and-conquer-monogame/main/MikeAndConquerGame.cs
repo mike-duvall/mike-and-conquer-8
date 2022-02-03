@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mike_and_conquer.gameworld;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
 
@@ -26,6 +27,11 @@ namespace mike_and_conquer_monogame.main
         private Queue<AsyncViewCommand> inputCommandQueue;
 
         public static MikeAndConquerGame instance;
+
+        public const string CONTENT_DIRECTORY_PREFIX = "Content\\";
+
+        public GameWorld gameWorld;
+
 
         public MikeAndConquerGame()
         {
@@ -66,6 +72,7 @@ namespace mike_and_conquer_monogame.main
             monogameSimulationStateListener = new MonogameSimulationStateListener(this);
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
+            gameWorld = new GameWorld();
 
             MikeAndConquerGame.instance = this;
         }
@@ -100,6 +107,10 @@ namespace mike_and_conquer_monogame.main
             logger.LogWarning("Game1::LoadContent()");
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            gameWorld.InitializeDefaultMap();
+
+
 
             // TODO: use this.Content to load your game content here
         }
