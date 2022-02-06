@@ -41,6 +41,8 @@
     <Folder Include="gameview\" />
     <Folder Include="gameobjects\" />
     <Folder Include="gamestate\" />
+    <Folder Include="gamesprite\" />
+    <Folder Include="openra\" />
     <Folder Include="util\" />
   </ItemGroup>
 </Project>

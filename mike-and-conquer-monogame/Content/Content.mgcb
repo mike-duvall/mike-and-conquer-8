@@ -13,5 +13,184 @@
 
 #---------------------------------- Content ---------------------------------#
 
+
 #begin scg01ea.bin
 /copy:scg01ea.bin
+
+
+#begin temperat.pal
+/copy:temperat.pal
+
+
+#begin tunits.mrf
+/copy:tunits.mrf
+
+
+#begin tclock.mrf
+/copy:tclock.mrf
+
+
+#begin tshadow.mrf
+/copy:tshadow.mrf
+
+
+#begin Effects/MapTilePaletteMapperEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:Effects/MapTilePaletteMapperEffect.fx
+
+#begin Effects/MapTileShadowMapperEffect.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Optimize
+/build:Effects/MapTileShadowMapperEffect.fx
+
+
+
+#begin clear1.tem
+/copy:clear1.tem
+
+#begin d04.tem
+/copy:d04.tem
+
+
+#begin shadow.shp
+/copy:shadow.shp
+
+
+
+#begin d09.tem
+/copy:d09.tem
+
+#begin d13.tem
+/copy:d13.tem
+
+#begin d15.tem
+/copy:d15.tem
+
+#begin d20.tem
+/copy:d20.tem
+
+#begin d21.tem
+/copy:d21.tem
+
+#begin d23.tem
+/copy:d23.tem
+
+
+#begin p07.tem
+/copy:p07.tem
+
+#begin p08.tem
+/copy:p08.tem
+
+
+#begin s09.tem
+/copy:s09.tem
+
+#begin s10.tem
+/copy:s10.tem
+
+#begin s11.tem
+/copy:s11.tem
+
+#begin s12.tem
+/copy:s12.tem
+
+#begin s14.tem
+/copy:s14.tem
+
+#begin s22.tem
+/copy:s22.tem
+
+#begin s29.tem
+/copy:s29.tem
+
+#begin s32.tem
+/copy:s32.tem
+
+#begin s34.tem
+/copy:s34.tem
+
+#begin s35.tem
+/copy:s35.tem
+
+
+#begin sh1.tem
+/copy:sh1.tem
+
+#begin sh10.tem
+/copy:sh10.tem
+
+#begin sh17.tem
+/copy:sh17.tem
+
+#begin sh18.tem
+/copy:sh18.tem
+
+#begin sh2.tem
+/copy:sh2.tem
+
+#begin sh3.tem
+/copy:sh3.tem
+
+#begin sh4.tem
+/copy:sh4.tem
+
+#begin sh5.tem
+/copy:sh5.tem
+
+#begin sh6.tem
+/copy:sh6.tem
+
+#begin sh9.tem
+/copy:sh9.tem
+
+
+#begin w1.tem
+/copy:w1.tem
+
+#begin w2.tem
+/copy:w2.tem
+
+
+#begin T01.tem
+/copy:T01.tem
+
+
+#begin T01.tem
+/copy:T01.tem
+
+#begin T02.tem
+/copy:T02.tem
+
+#begin T05.tem
+/copy:T05.tem
+
+#begin T06.tem
+/copy:T06.tem
+
+#begin T07.tem
+/copy:T07.tem
+
+#begin T16.tem
+/copy:T16.tem
+
+#begin T17.tem
+/copy:T17.tem
+
+#begin tc01.tem
+/copy:tc01.tem
+
+#begin tc02.tem
+/copy:tc02.tem
+
+#begin tc04.tem
+/copy:tc04.tem
+
+#begin tc05.tem
+/copy:tc05.tem
+
+
+

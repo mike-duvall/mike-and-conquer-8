@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mike_and_conquer.gamesprite;
+using mike_and_conquer.gamestate;
+using mike_and_conquer.gameview;
 using mike_and_conquer.gameworld;
+using mike_and_conquer.openralocal;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
 
@@ -14,7 +19,7 @@ namespace mike_and_conquer_monogame.main
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private ILogger logger;
+        public ILogger logger;
 
         public MonogameSimulationStateListener monogameSimulationStateListener = null;
 
@@ -30,7 +35,22 @@ namespace mike_and_conquer_monogame.main
 
         public const string CONTENT_DIRECTORY_PREFIX = "Content\\";
 
+        public SpriteSheet SpriteSheet
+        {
+            get { return spriteSheet; }
+        }
+
+        private SpriteSheet spriteSheet;
+
         public GameWorld gameWorld;
+        private GameWorldView gameWorldView;
+
+        private GameState currentGameState;
+
+        private GameStateView currentGameStateView;
+
+        private RAISpriteFrameManager raiSpriteFrameManager;
+
 
 
         public MikeAndConquerGame()
@@ -73,6 +93,12 @@ namespace mike_and_conquer_monogame.main
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
             gameWorld = new GameWorld();
+            gameWorldView = new GameWorldView();
+
+            raiSpriteFrameManager = new RAISpriteFrameManager();
+            spriteSheet = new SpriteSheet();
+            currentGameState = new PlayingGameState();
+
 
             MikeAndConquerGame.instance = this;
         }
@@ -110,10 +136,201 @@ namespace mike_and_conquer_monogame.main
 
             gameWorld.InitializeDefaultMap();
 
+            LoadTextures();
+
+
+            // gameWorld.InitializeNavigationGraph();
+            gameWorldView.LoadContent();
+
+
 
 
             // TODO: use this.Content to load your game content here
         }
+
+
+        private void LoadTextures()
+        {
+            LoadMapTextures();
+            LoadSingleTextures();
+            LoadShpFileTextures();
+            LoadTemFiles();
+            LoadBarracksPlacementTexture();
+        }
+
+
+        private void LoadBarracksPlacementTexture()
+        {
+            // LoadTmpFile(BarracksPlacementIndicatorView.FILE_NAME);
+            // MapBlackMapTileFramePixelsToToTransparent(BarracksPlacementIndicatorView.FILE_NAME);
+        }
+
+
+
+        private void LoadMapTextures()
+        {
+            LoadTmpFile(GameMap.CLEAR1_SHP);
+            LoadTmpFile(GameMap.D04_TEM);
+            LoadTmpFile(GameMap.D09_TEM);
+            LoadTmpFile(GameMap.D13_TEM);
+            LoadTmpFile(GameMap.D15_TEM);
+            LoadTmpFile(GameMap.D20_TEM);
+            LoadTmpFile(GameMap.D21_TEM);
+            LoadTmpFile(GameMap.D23_TEM);
+
+            LoadTmpFile(GameMap.P07_TEM);
+            LoadTmpFile(GameMap.P08_TEM);
+
+            LoadTmpFile(GameMap.S09_TEM);
+            LoadTmpFile(GameMap.S10_TEM);
+            LoadTmpFile(GameMap.S11_TEM);
+            LoadTmpFile(GameMap.S12_TEM);
+            LoadTmpFile(GameMap.S14_TEM);
+            LoadTmpFile(GameMap.S22_TEM);
+            LoadTmpFile(GameMap.S29_TEM);
+            LoadTmpFile(GameMap.S32_TEM);
+            LoadTmpFile(GameMap.S34_TEM);
+            LoadTmpFile(GameMap.S35_TEM);
+
+            LoadTmpFile(GameMap.SH1_TEM);
+            LoadTmpFile(GameMap.SH2_TEM);
+            LoadTmpFile(GameMap.SH3_TEM);
+            LoadTmpFile(GameMap.SH4_TEM);
+            LoadTmpFile(GameMap.SH5_TEM);
+            LoadTmpFile(GameMap.SH6_TEM);
+            LoadTmpFile(GameMap.SH9_TEM);
+            LoadTmpFile(GameMap.SH10_TEM);
+            LoadTmpFile(GameMap.SH17_TEM);
+            LoadTmpFile(GameMap.SH18_TEM);
+
+            LoadTmpFile(GameMap.W1_TEM);
+            LoadTmpFile(GameMap.W2_TEM);
+        }
+
+        private void LoadSingleTextures()
+        {
+            // spriteSheet.LoadSingleTextureFromFile(MissionAccomplishedMessage.MISSION_SPRITE_KEY, "Mission");
+            // spriteSheet.LoadSingleTextureFromFile(MissionAccomplishedMessage.ACCOMPLISHED_SPRITE_KEY, "Accomplished");
+            // spriteSheet.LoadSingleTextureFromFile(MissionFailedMessage.FAILED_SPRITE_KEY, "Failed");
+            // spriteSheet.LoadSingleTextureFromFile(DestinationSquare.SPRITE_KEY, DestinationSquare.SPRITE_KEY);
+            // spriteSheet.LoadSingleTextureFromFile(ReadyOverlay.SPRITE_KEY, ReadyOverlay.SPRITE_KEY);
+
+        }
+
+
+        private void LoadShpFileTextures()
+        {
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(GdiMinigunnerView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     GdiMinigunnerView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(GdiMinigunnerView.SHP_FILE_NAME),
+            //     GdiMinigunnerView.SHP_FILE_COLOR_MAPPER);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     NodMinigunnerView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(NodMinigunnerView.SHP_FILE_NAME),
+            //     NodMinigunnerView.SHP_FILE_COLOR_MAPPER);
+            //
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(MCVView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     MCVView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(MCVView.SHP_FILE_NAME),
+            //     MCVView.SHP_FILE_COLOR_MAPPER);
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(SandbagView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     SandbagView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(SandbagView.SHP_FILE_NAME),
+            //     SandbagView.SHP_FILE_COLOR_MAPPER);
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(NodTurretView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     NodTurretView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(NodTurretView.SHP_FILE_NAME),
+            //     NodTurretView.SHP_FILE_COLOR_MAPPER);
+            //
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(Projectile120mmView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     Projectile120mmView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(Projectile120mmView.SHP_FILE_NAME),
+            //     Projectile120mmView.SHP_FILE_COLOR_MAPPER);
+            //
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(MinigunnerSidebarIconView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     MinigunnerSidebarIconView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(MinigunnerSidebarIconView.SHP_FILE_NAME),
+            //     MinigunnerSidebarIconView.SHP_FILE_COLOR_MAPPER);
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(BarracksSidebarIconView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     BarracksSidebarIconView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(BarracksSidebarIconView.SHP_FILE_NAME),
+            //     BarracksSidebarIconView.SHP_FILE_COLOR_MAPPER);
+            //
+            //
+            //
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(GDIBarracksView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     GDIBarracksView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(GDIBarracksView.SHP_FILE_NAME),
+            //     GDIBarracksView.SHP_FILE_COLOR_MAPPER);
+            //
+            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(GDIConstructionYardView.SHP_FILE_NAME);
+            // spriteSheet.LoadUnitFramesFromSpriteFrames(
+            //     GDIConstructionYardView.SPRITE_KEY,
+            //     raiSpriteFrameManager.GetSpriteFramesForUnit(GDIConstructionYardView.SHP_FILE_NAME),
+            //     GDIConstructionYardView.SHP_FILE_COLOR_MAPPER);
+            //
+            raiSpriteFrameManager.LoadAllTexturesFromShpFile(PartiallyVisibileMapTileMask.SHP_FILE_NAME);
+            spriteSheet.LoadUnitFramesFromSpriteFrames(PartiallyVisibileMapTileMask.SPRITE_KEY,
+                raiSpriteFrameManager.GetSpriteFramesForUnit(PartiallyVisibileMapTileMask.SHP_FILE_NAME),
+                PartiallyVisibileMapTileMask.SHP_FILE_COLOR_MAPPER);
+
+        }
+
+        private void LoadTemFiles()
+        {
+            LoadTerrainTexture("T01.tem");
+            LoadTerrainTexture("T02.tem");
+            LoadTerrainTexture("T05.tem");
+            LoadTerrainTexture("T06.tem");
+            LoadTerrainTexture("T07.tem");
+            LoadTerrainTexture("T16.tem");
+            LoadTerrainTexture("T17.tem");
+            LoadTerrainTexture("TC01.tem");
+            LoadTerrainTexture("TC02.tem");
+            LoadTerrainTexture("TC04.tem");
+            LoadTerrainTexture("TC05.tem");
+
+        }
+
+
+        private void LoadTerrainTexture(String filename)
+        {
+            raiSpriteFrameManager.LoadAllTexturesFromShpFile(filename);
+            spriteSheet.LoadUnitFramesFromSpriteFrames(
+                filename,
+                raiSpriteFrameManager.GetSpriteFramesForUnit(filename),
+                TerrainView.SHP_FILE_COLOR_MAPPER);
+
+        }
+
+
+
+
+
+        private void LoadTmpFile(string tmpFileName)
+        {
+            raiSpriteFrameManager.LoadAllTexturesFromTmpFile(tmpFileName);
+            spriteSheet.LoadMapTileFramesFromSpriteFrames(
+                tmpFileName,
+                raiSpriteFrameManager.GetSpriteFramesForMapTile(tmpFileName));
+
+        }
+
 
         protected override void Update(GameTime gameTime)
         {
@@ -125,13 +342,23 @@ namespace mike_and_conquer_monogame.main
 
             base.Update(gameTime);
 
-            lock (inputCommandQueue)
-            {
-                foreach (AsyncViewCommand command in inputCommandQueue)
-                {
-                    command.Process();
-                }
-            }
+            // lock (inputCommandQueue)
+            // {
+            //     foreach (AsyncViewCommand command in inputCommandQueue)
+            //     {
+            //         command.Process();
+            //     }
+            // }
+
+            KeyboardState newKeyboardState = Keyboard.GetState();
+
+
+            gameWorldView.Update(gameTime, newKeyboardState);
+
+            currentGameState = this.currentGameState.Update(gameTime);
+            this.currentGameStateView.Update(gameTime);
+
+
         }
 
 
@@ -174,30 +401,49 @@ namespace mike_and_conquer_monogame.main
         }
 
 
-
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            _spriteBatch.Begin();
+            Viewport originalViewport = GraphicsDevice.Viewport;
 
+            GraphicsDevice.Clear(Color.Crimson);
 
-            if (hasScenarioBeenInitialized)
-            {
-                DrawMap();
-            }
+            currentGameStateView.Draw(gameTime);
+            //
+            // DrawMap(gameTime);
+            // DrawSidebar(gameTime);
+            // DrawGameCursor(gameTime);
 
-
-
-            foreach (UnitView unitView in unitViewList)
-            {
-                DrawRectangleAtCoordinate(unitView.XInWorldCoordinates, unitView.YInWorldCoordinates, unitView.color );
-            }
-
-            // TODO: Add your drawing code here
-
-            _spriteBatch.End();
+            // GraphicsDevice.Viewport = defaultViewport;
+            GraphicsDevice.Viewport = originalViewport;
             base.Draw(gameTime);
+
+
         }
+
+
+        // protected override void Draw(GameTime gameTime)
+        // {
+        //     GraphicsDevice.Clear(Color.CornflowerBlue);
+        //     _spriteBatch.Begin();
+        //
+        //
+        //     if (hasScenarioBeenInitialized)
+        //     {
+        //         DrawMap();
+        //     }
+        //
+        //
+        //
+        //     foreach (UnitView unitView in unitViewList)
+        //     {
+        //         DrawRectangleAtCoordinate(unitView.XInWorldCoordinates, unitView.YInWorldCoordinates, unitView.color );
+        //     }
+        //
+        //     // TODO: Add your drawing code here
+        //
+        //     _spriteBatch.End();
+        //     base.Draw(gameTime);
+        // }
 
         private void DrawMap()
         {
@@ -294,5 +540,55 @@ namespace mike_and_conquer_monogame.main
             this.mapHeight = initializeScenarioEventData.MapHeight;
             hasScenarioBeenInitialized = true;
         }
+
+        // public void SwitchToNewGameStateViewIfNeeded()
+        // {
+        //     GameState currentGameState = this.GetCurrentGameState();
+        //     if (currentGameState.GetType().Equals(typeof(PlayingGameState)))
+        //     {
+        //         HandleSwitchToPlayingGameStateView();
+        //     }
+        //     else if (currentGameState.GetType().Equals(typeof(MissionAccomplishedGameState)))
+        //     {
+        //         HandleSwitchToMissionAccomplishedGameStateView();
+        //     }
+        //     else if (currentGameState.GetType().Equals(typeof(MissionFailedGameState)))
+        //     {
+        //         HandleSwitchToMissionFailedGameStateView();
+        //     }
+        // }
+
+        public void SwitchToNewGameStateViewIfNeeded()
+        {
+            HandleSwitchToPlayingGameStateView();
+        }
+
+        private void HandleSwitchToPlayingGameStateView()
+        {
+            if (currentGameStateView == null || !currentGameStateView.GetType().Equals(typeof(PlayingGameStateView)))
+            {
+                currentGameStateView = new PlayingGameStateView();
+            }
+        }
+
+        // private void HandleSwitchToMissionAccomplishedGameStateView()
+        // {
+        //     if (currentGameStateView == null || !currentGameStateView.GetType().Equals(typeof(MissionAccomplishedGameStateView)))
+        //     {
+        //         currentGameStateView = new MissionAccomplishedGameStateView();
+        //     }
+        // }
+        //
+        // private void HandleSwitchToMissionFailedGameStateView()
+        // {
+        //     if (currentGameStateView == null || !currentGameStateView.GetType().Equals(typeof(MissionFailedGameStateView)))
+        //     {
+        //         currentGameStateView = new MissionFailedGameStateView();
+        //     }
+        // }
+
+
+
+
     }
 }
