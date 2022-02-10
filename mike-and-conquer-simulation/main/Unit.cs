@@ -1,7 +1,7 @@
 ﻿
 namespace mike_and_conquer_simulation.main
 {
-    public abstract class Unit
+    internal abstract class Unit
     {
 
         protected GameWorldLocation gameWorldLocation;

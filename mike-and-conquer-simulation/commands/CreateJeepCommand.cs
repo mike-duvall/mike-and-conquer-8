@@ -2,7 +2,7 @@
 
 namespace mike_and_conquer_simulation.commands
 {
-    public class CreateJeepCommand : AsyncSimulationCommand
+    internal class CreateJeepCommand : AsyncSimulationCommand
     {
 
         public const string CommandName = "CreateJeep";

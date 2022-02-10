@@ -2,7 +2,7 @@
 
 namespace mike_and_conquer_simulation.commands
 {
-    public class CreateMinigunnerCommand : AsyncSimulationCommand
+    internal class CreateMinigunnerCommand : AsyncSimulationCommand
     {
 
         public const string CommandName = "CreateMinigunner";

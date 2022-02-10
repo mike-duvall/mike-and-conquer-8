@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 
 namespace mike_and_conquer_simulation.rest.init
 {
-    public class SimulationRestStartup
+    internal class SimulationRestStartup
     {
         public SimulationRestStartup(IConfiguration configuration)
         {

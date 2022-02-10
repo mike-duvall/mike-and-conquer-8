@@ -4,7 +4,7 @@ using mike_and_conquer_simulation.events;
 
 namespace mike_and_conquer_simulation.main
 {
-    class SimulationStateHistoryListener : SimulationStateListener
+    internal class SimulationStateHistoryListener : SimulationStateListener
     {
 
         private SimulationMain simulationMain;

@@ -3,7 +3,7 @@
 
 namespace mike_and_conquer_simulation.main
 {
-    public class GameWorldLocation
+    internal class GameWorldLocation
     {
         private float xInWorldCoordinates;
         private float yInWorldCoordinates;

@@ -179,7 +179,7 @@ namespace mike_and_conquer_simulation.main
             }
         }
 
-        public void PostSetGameSpeedCommand(SimulationOptions.GameSpeed aGameSpeed)
+        internal void PostSetGameSpeedCommand(SimulationOptions.GameSpeed aGameSpeed)
         {
             SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
             aCommand.GameSpeed = aGameSpeed;
@@ -204,7 +204,7 @@ namespace mike_and_conquer_simulation.main
             return list;
         }
 
-        public Minigunner CreateMinigunner(int x, int y)
+        internal Minigunner CreateMinigunner(int x, int y)
         {
 
             Minigunner minigunner = new Minigunner();
@@ -229,7 +229,7 @@ namespace mike_and_conquer_simulation.main
             return minigunner;
         }
 
-        public Jeep CreateJeep(int x, int y)
+        internal Jeep CreateJeep(int x, int y)
         {
 
             Jeep jeep = new Jeep();
@@ -254,7 +254,7 @@ namespace mike_and_conquer_simulation.main
             return jeep;
         }
 
-        public MCV CreateMCV(int x, int y)
+        internal MCV CreateMCV(int x, int y)
         {
 
             MCV mcv = new MCV();
@@ -351,7 +351,7 @@ namespace mike_and_conquer_simulation.main
             }
         }
 
-        public void SetGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
+        internal void SetGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
         {
             this.simulationOptions.CurrentGameSpeed = aGameSpeed;
         }
@@ -379,7 +379,7 @@ namespace mike_and_conquer_simulation.main
             EmitInitializeScenarioEvent(27, 23);
         }
 
-        public void PostCommand(RawCommand incomingAdminCommand)
+        internal void PostCommand(RawCommand incomingAdminCommand)
         {
 
             AsyncSimulationCommand command = ConvertRawCommand(incomingAdminCommand);

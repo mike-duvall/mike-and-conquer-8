@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
 {
-    public class Jeep : Unit
+    internal class Jeep : Unit
     {
 
 

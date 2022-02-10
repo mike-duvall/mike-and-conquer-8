@@ -8,13 +8,8 @@ using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
 {
-    public class Minigunner : Unit
+    internal class Minigunner : Unit
     {
-
-
-
-
-
 
         public enum State { IDLE, MOVING, ATTACKING, LANDING_AT_MAP_SQUARE };
         public State state;

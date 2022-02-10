@@ -16,8 +16,8 @@ namespace mike_and_conquer_simulation.rest.controller
 //    [Route("api/[controller]")]
     [Route("simulation/command")]
 
-   
-    public class AdminCommandController : ControllerBase
+
+    internal class AdminCommandController : ControllerBase
     {
 
         private readonly ILogger<AdminCommandController> _logger;
