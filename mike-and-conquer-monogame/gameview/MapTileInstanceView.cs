@@ -4,10 +4,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using mike_and_conquer.gamesprite;
-using mike_and_conquer.gameworld;
 using mike_and_conquer.main;
 using mike_and_conquer.util;
 using mike_and_conquer_monogame.main;
+using mike_and_conquer_simulation.gameworld;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace mike_and_conquer.gameview

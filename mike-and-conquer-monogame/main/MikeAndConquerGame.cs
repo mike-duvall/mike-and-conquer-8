@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.Input;
 using mike_and_conquer.gamesprite;
 using mike_and_conquer.gamestate;
 using mike_and_conquer.gameview;
-using mike_and_conquer.gameworld;
 using mike_and_conquer.openralocal;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.gameworld;
 
 namespace mike_and_conquer_monogame.main
 {

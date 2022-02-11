@@ -1,10 +1,14 @@
 ﻿
-using Microsoft.Xna.Framework;
-using mike_and_conquer.util;
+// using Microsoft.Xna.Framework;
 
-namespace mike_and_conquer.gameworld
+
+using mike_and_conquer_simulation.util;
+using Point = System.Drawing.Point;
+using Vector2 = System.Numerics.Vector2;
+
+namespace mike_and_conquer_simulation.gameworld
 {
-    public class MapTileLocation
+    internal class MapTileLocation
     {
         private int xInWorldMapTileCoordinates;
         private int yInWorldMapTileCoordinates;
@@ -24,7 +28,7 @@ namespace mike_and_conquer.gameworld
 
         public static MapTileLocation CreateFromWorldCoordinatesInVector2(Vector2 worldCoordinatesInVector2)
         {
-            Point worldCoordinatesInPoint = PointUtil.ConvertVector2ToPoint(worldCoordinatesInVector2);
+            System.Drawing.Point worldCoordinatesInPoint = PointUtil.ConvertVector2ToPoint(worldCoordinatesInVector2);
             Point mapTileCoordinates = ConvertWorldCoordinatesToMapTileCoordinates(worldCoordinatesInPoint);
             return new MapTileLocation(mapTileCoordinates.X, mapTileCoordinates.Y);
         }

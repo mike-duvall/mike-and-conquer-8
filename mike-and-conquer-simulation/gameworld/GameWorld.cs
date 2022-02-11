@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.Xna.Framework;
 // using mike_and_conquer.gameevent;
-using mike_and_conquer.gameobjects;
-using mike_and_conquer.gamestate;
-using mike_and_conquer.gameview;
 // using mike_and_conquer.gameworld.humancontroller;
 // using mike_and_conquer.main;
 // using mike_and_conquer.pathfinding;
-using mike_and_conquer_monogame.main;
-using mike_and_conquer_simulation.main;
 // using AsyncGameEvent = mike_and_conquer.gameevent.AsyncGameEvent;
 // using CreateGDIMinigunnerGameEvent = mike_and_conquer.gameevent.CreateGDIMinigunnerGameEvent;
 // using GetGDIMinigunnerByIdGameEvent = mike_and_conquer.gameevent.GetGDIMinigunnerByIdGameEvent;
@@ -26,7 +20,7 @@ using Exception = System.Exception;
 using FileStream = System.IO.FileStream;
 using FileMode = System.IO.FileMode;
 
-namespace mike_and_conquer.gameworld
+namespace mike_and_conquer_simulation.gameworld
 
 {
     public class GameWorld
@@ -42,7 +36,7 @@ namespace mike_and_conquer.gameworld
         //
         // public List<Sandbag> sandbagList;
         // public List<NodTurret> nodTurretList;
-         public List<TerrainItem> terrainItemList;
+         internal List<TerrainItem> terrainItemList;
         // public List<Projectile120mm> projectile120MmList;
         //
         // private List<GameHistoryEvent> gameHistoryEventList;

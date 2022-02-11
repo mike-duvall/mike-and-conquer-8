@@ -1,12 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Point = Microsoft.Xna.Framework.Point;
+// using Point = Microsoft.Xna.Framework.Point;
+using Point = System.Drawing.Point;
+// using Vector2 = System.Numerics.Vector2;
 
-namespace mike_and_conquer.gameobjects
+namespace mike_and_conquer_simulation.gameworld
 { 
 
-    public class TerrainItemDescriptor
+    internal class TerrainItemDescriptor
     {
 
         private String terrainItemType;

@@ -3,11 +3,10 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
-using mike_and_conquer.gameobjects;
-using mike_and_conquer.gameworld;
 using mike_and_conquer.main;
 using mike_and_conquer.util;
 using mike_and_conquer_monogame.main;
+using mike_and_conquer_simulation.gameworld;
 using mike_and_conquer_simulation.main;
 using GameTime = Microsoft.Xna.Framework.GameTime;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;

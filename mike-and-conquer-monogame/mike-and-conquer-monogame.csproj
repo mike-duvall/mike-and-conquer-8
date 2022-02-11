@@ -37,7 +37,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="gameworld\" />
     <Folder Include="gameview\" />
     <Folder Include="gameobjects\" />
     <Folder Include="gamestate\" />

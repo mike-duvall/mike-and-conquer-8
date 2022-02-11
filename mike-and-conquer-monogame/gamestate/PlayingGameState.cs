@@ -1,6 +1,4 @@
-﻿using mike_and_conquer.gameobjects;
-using mike_and_conquer.gameworld;
-
+﻿using mike_and_conquer_simulation.gameworld;
 using Boolean = System.Boolean;
 using GameTime = Microsoft.Xna.Framework.GameTime;
 

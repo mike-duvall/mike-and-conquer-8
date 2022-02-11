@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using mike_and_conquer.gameview;
+// using mike_and_conquer.gameview;
 using Stream = System.IO.Stream;
 
 using BinaryReader = System.IO.BinaryReader;
 
-namespace mike_and_conquer.gameworld
+namespace mike_and_conquer_simulation.gameworld
 {
     public class GameMap
     {
@@ -51,7 +51,7 @@ namespace mike_and_conquer.gameworld
 
         private List<MapTileInstance> mapTileInstanceList;
 
-        public List<MapTileInstance> MapTileInstanceList
+        internal List<MapTileInstance> MapTileInstanceList
         {
             get { return mapTileInstanceList; }
         }

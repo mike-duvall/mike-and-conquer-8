@@ -1,14 +1,11 @@
-﻿
-// using mike_and_conquer.gameobjects;
-using mike_and_conquer.gameworld;
-using Vector2 = Microsoft.Xna.Framework.Vector2;
-using Point = Microsoft.Xna.Framework.Point;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
+﻿using Point = System.Drawing.Point;
+using Rectangle = System.Drawing.Rectangle;
 
 
-namespace mike_and_conquer.gameview
+
+namespace mike_and_conquer_simulation.gameworld
 {
-    public class MapTileInstance
+    internal class MapTileInstance
     {
         
         private MapTileLocation mapTileLocation;
