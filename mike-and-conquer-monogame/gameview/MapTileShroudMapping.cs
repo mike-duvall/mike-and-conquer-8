@@ -1,6 +1,9 @@
 ﻿
 using System;
 
+
+using MapTileInstance= mike_and_conquer_simulation.gameworld.MapTileInstance;
+
 namespace mike_and_conquer.gameview
 {
     public class MapTileShroudMapping

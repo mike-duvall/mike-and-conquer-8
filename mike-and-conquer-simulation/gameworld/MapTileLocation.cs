@@ -8,7 +8,7 @@ using Vector2 = System.Numerics.Vector2;
 
 namespace mike_and_conquer_simulation.gameworld
 {
-    internal class MapTileLocation
+    public class MapTileLocation
     {
         private int xInWorldMapTileCoordinates;
         private int yInWorldMapTileCoordinates;

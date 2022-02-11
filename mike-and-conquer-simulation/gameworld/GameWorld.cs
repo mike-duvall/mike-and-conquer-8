@@ -20,6 +20,11 @@ using Exception = System.Exception;
 using FileStream = System.IO.FileStream;
 using FileMode = System.IO.FileMode;
 
+
+using Point = System.Drawing.Point;
+// using Vector2 = System.Numerics.Vector2;
+
+
 namespace mike_and_conquer_simulation.gameworld
 
 {
@@ -36,7 +41,7 @@ namespace mike_and_conquer_simulation.gameworld
         //
         // public List<Sandbag> sandbagList;
         // public List<NodTurret> nodTurretList;
-         internal List<TerrainItem> terrainItemList;
+         public List<TerrainItem> terrainItemList;
         // public List<Projectile120mm> projectile120MmList;
         //
         // private List<GameHistoryEvent> gameHistoryEventList;
@@ -107,20 +112,20 @@ namespace mike_and_conquer_simulation.gameworld
             GameWorld.instance = this;
         }
 
-        public GameState HandleReset()
-        {
-
-            // gdiPlayer.HandleReset();
-            // nodPlayer.HandleReset();
-            // sandbagList.Clear();
-            // nodTurretList.Clear();
-            // projectile120MmList.Clear();
-            // nodTurretList.Clear();
-            // projectile120MmList.Clear();
-            gameMap.Reset();
-            // InitializeNavigationGraph();
-            return new PlayingGameState();
-        }
+        // public GameState HandleReset()
+        // {
+        //
+        //     // gdiPlayer.HandleReset();
+        //     // nodPlayer.HandleReset();
+        //     // sandbagList.Clear();
+        //     // nodTurretList.Clear();
+        //     // projectile120MmList.Clear();
+        //     // nodTurretList.Clear();
+        //     // projectile120MmList.Clear();
+        //     gameMap.Reset();
+        //     // InitializeNavigationGraph();
+        //     return new PlayingGameState();
+        // }
 
 
         // public void PublisheGameHistoryEvent(String evenType, int unitId)
@@ -150,7 +155,8 @@ namespace mike_and_conquer_simulation.gameworld
         private void LoadMap()
         {
 
-            Stream inputStream = new FileStream(MikeAndConquerGame.CONTENT_DIRECTORY_PREFIX + "scg01ea.bin", FileMode.Open);
+            // Stream inputStream = new FileStream(MikeAndConquerGame.CONTENT_DIRECTORY_PREFIX + "scg01ea.bin", FileMode.Open);
+            Stream inputStream = new FileStream( "scg01ea.bin", FileMode.Open);
 
 
             //  (Starting at 0x13CC in the file)
@@ -446,36 +452,36 @@ namespace mike_and_conquer_simulation.gameworld
 
 
 
-        public void Update(GameTime gameTime)
-        {
-            // gdiPlayer.Update(gameTime);
-            // nodPlayer.Update(gameTime);
-            //
-            // foreach (NodTurret nodTurret in nodTurretList)
-            // {
-            //     nodTurret.Update(gameTime);
-            // }
-            //
-            //
-            //
-            // List<Projectile120mm> projectile120mmsToRemove = new List<Projectile120mm>();
-            // foreach (Projectile120mm projectile120mm in projectile120MmList)
-            // {
-            //     bool shouldRemove = projectile120mm.Update(gameTime);
-            //     if (shouldRemove)
-            //     {
-            //         projectile120mmsToRemove.Add(projectile120mm);
-            //     }
-            // }
-            //
-            //
-            // foreach (Projectile120mm projectile120mm in projectile120mmsToRemove)
-            // {
-            //     MikeAndConquerGame.instance.RemoveProjectile120mmWithId(projectile120mm.id);
-            // }
-
-
-        }
+        // public void Update(GameTime gameTime)
+        // {
+        //     // gdiPlayer.Update(gameTime);
+        //     // nodPlayer.Update(gameTime);
+        //     //
+        //     // foreach (NodTurret nodTurret in nodTurretList)
+        //     // {
+        //     //     nodTurret.Update(gameTime);
+        //     // }
+        //     //
+        //     //
+        //     //
+        //     // List<Projectile120mm> projectile120mmsToRemove = new List<Projectile120mm>();
+        //     // foreach (Projectile120mm projectile120mm in projectile120MmList)
+        //     // {
+        //     //     bool shouldRemove = projectile120mm.Update(gameTime);
+        //     //     if (shouldRemove)
+        //     //     {
+        //     //         projectile120mmsToRemove.Add(projectile120mm);
+        //     //     }
+        //     // }
+        //     //
+        //     //
+        //     // foreach (Projectile120mm projectile120mm in projectile120mmsToRemove)
+        //     // {
+        //     //     MikeAndConquerGame.instance.RemoveProjectile120mmWithId(projectile120mm.id);
+        //     // }
+        //
+        //
+        // }
 
 
         public class BadMinigunnerLocationException : Exception
@@ -761,7 +767,7 @@ namespace mike_and_conquer_simulation.gameworld
         //     return gameEvent.GetGameState();
         // }
 
-        public MapTileInstance FindMapTileInstance(MapTileLocation mapTileLocation)
+        internal MapTileInstance FindMapTileInstance(MapTileLocation mapTileLocation)
         {
 
             foreach (MapTileInstance nextBasicMapSquare in this.gameMap.MapTileInstanceList)
@@ -775,7 +781,7 @@ namespace mike_and_conquer_simulation.gameworld
 
         }
 
-        public MapTileInstance FindMapTileInstanceAllowNull(MapTileLocation mapTileLocation)
+        public  MapTileInstance FindMapTileInstanceAllowNull(MapTileLocation mapTileLocation)
         {
 
             foreach (MapTileInstance nextBasicMapSquare in this.gameMap.MapTileInstanceList)

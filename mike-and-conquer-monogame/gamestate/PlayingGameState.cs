@@ -26,7 +26,7 @@ namespace mike_and_conquer.gamestate
             //     return newGameState;
             // }
 
-            GameWorld.instance.Update(gameTime);
+            // GameWorld.instance.Update(gameTime);
             return DetermineNextGameState();
         }
 

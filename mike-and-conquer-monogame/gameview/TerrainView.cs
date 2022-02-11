@@ -1,4 +1,6 @@
-﻿using mike_and_conquer.gamesprite;
+﻿using Microsoft.Xna.Framework;
+using mike_and_conquer.gamesprite;
+using mike_and_conquer.util;
 using mike_and_conquer_simulation.gameworld;
 using Vector2 = Microsoft.Xna.Framework.Vector2;
 using GameTime = Microsoft.Xna.Framework.GameTime;
@@ -20,7 +22,9 @@ namespace mike_and_conquer.gameview
         public TerrainView(TerrainItem terrainItem)
         {
             this.terrainItem = terrainItem;
-            this.terrainSprite = new TerrainSprite(terrainItem.TerrainItemType, terrainItem.MapTileLocation.WorldMapTileCoordinatesAsPoint);
+            Point xnaPoint = new Point(terrainItem.MapTileLocation.WorldMapTileCoordinatesAsPoint.X,
+                terrainItem.MapTileLocation.WorldMapTileCoordinatesAsPoint.Y);
+            this.terrainSprite = new TerrainSprite(terrainItem.TerrainItemType, xnaPoint);
         }
 
 
@@ -32,12 +36,27 @@ namespace mike_and_conquer.gameview
 
         public void DrawShadowOnly(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            this.terrainSprite.DrawShadowOnly(gameTime, spriteBatch, terrainItem.MapTileLocation.WorldCoordinatesAsVector2);
+            
+            // this.terrainSprite.DrawShadowOnly(gameTime, spriteBatch, terrainItem.MapTileLocation.WorldCoordinatesAsVector2);
+            this.terrainSprite.DrawShadowOnly(
+                gameTime,
+                spriteBatch,
+                MonogameUtil.ConvertSystemNumericsVector2ToXnaVector2(terrainItem.MapTileLocation.WorldCoordinatesAsVector2)
+                );
         }
+
+
+        Pickup here
+        Got initial version compiling
+        But now need to get MapTileInstnace Views initialied via event
 
         public void DrawNoShadow(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            this.terrainSprite.DrawNoShadow(gameTime, spriteBatch, terrainItem.MapTileLocation.WorldCoordinatesAsVector2, terrainItem.LayerDepthOffset);
+            this.terrainSprite.DrawNoShadow(
+                gameTime,
+                spriteBatch, 
+                MonogameUtil.ConvertSystemNumericsVector2ToXnaVector2(terrainItem.MapTileLocation.WorldCoordinatesAsVector2),
+                terrainItem.LayerDepthOffset);
         }
     }
 }

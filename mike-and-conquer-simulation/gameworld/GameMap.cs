@@ -51,7 +51,7 @@ namespace mike_and_conquer_simulation.gameworld
 
         private List<MapTileInstance> mapTileInstanceList;
 
-        internal List<MapTileInstance> MapTileInstanceList
+        public List<MapTileInstance> MapTileInstanceList
         {
             get { return mapTileInstanceList; }
         }

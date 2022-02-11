@@ -102,10 +102,14 @@ namespace mike_and_conquer.gameview
 
         internal void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            Vector2 worldCoordinatesAsXnaVector2 =
+                MonogameUtil.ConvertSystemNumericsVector2ToXnaVector2(this.myMapTileInstance.MapTileLocation
+                    .WorldCoordinatesAsVector2);
+
             singleTextureSprite.Draw(
                 gameTime,
                 spriteBatch,
-                this.myMapTileInstance.MapTileLocation.WorldCoordinatesAsVector2,
+                worldCoordinatesAsXnaVector2,
                 SpriteSortLayers.MAP_SQUARE_DEPTH,
                 false,
                 Color.White);
@@ -114,7 +118,7 @@ namespace mike_and_conquer.gameview
             {
                 float defaultScale = 1;
                 float layerDepth = 0;
-                spriteBatch.Draw(mapTileBorder, this.myMapTileInstance.MapTileLocation.WorldCoordinatesAsVector2, null, Color.White,
+                spriteBatch.Draw(mapTileBorder, worldCoordinatesAsXnaVector2, null, Color.White,
                     0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
             }
 
@@ -122,7 +126,7 @@ namespace mike_and_conquer.gameview
             {
                 float defaultScale = 1;
                 float layerDepth = 0;
-                spriteBatch.Draw(mapTileBlockingTerrainBorder, this.myMapTileInstance.MapTileLocation.WorldCoordinatesAsVector2, null,
+                spriteBatch.Draw(mapTileBlockingTerrainBorder, worldCoordinatesAsXnaVector2, null,
                     Color.White, 0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
             }
         }
@@ -1410,17 +1414,22 @@ namespace mike_and_conquer.gameview
         internal void DrawVisbilityMask(GameTime gameTime, SpriteBatch spriteBatch)
         {
             float defaultScale = 1;
+            Vector2 worldCoordinatesAsXnaVector2 =
+                MonogameUtil.ConvertSystemNumericsVector2ToXnaVector2(this.myMapTileInstance.MapTileLocation
+                    .WorldCoordinatesAsVector2);
+
 
             if (this.myMapTileInstance.Visibility == MapTileInstance.MapTileVisibility.Visible)
             {
-                spriteBatch.Draw(visibleMask, this.myMapTileInstance.MapTileLocation.WorldCoordinatesAsVector2, null, Color.White, 0f,
+
+                spriteBatch.Draw(visibleMask, worldCoordinatesAsXnaVector2, null, Color.White, 0f,
                     middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, 1.0f);
             }
             else if (this.myMapTileInstance.Visibility == MapTileInstance.MapTileVisibility.PartiallyVisible)
             {
                 int index = DeterminePartiallyVisibleMaskTile();
                 spriteBatch.Draw(partiallyVisibileMapTileMask.GetMask(index),
-                    this.myMapTileInstance.MapTileLocation.WorldCoordinatesAsVector2, null, Color.White, 0f,
+                    worldCoordinatesAsXnaVector2, null, Color.White, 0f,
                     middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, 1.0f);
             }
         }

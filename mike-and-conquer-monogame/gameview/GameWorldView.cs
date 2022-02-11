@@ -10,7 +10,11 @@ using mike_and_conquer_simulation.gameworld;
 using mike_and_conquer_simulation.main;
 using GameTime = Microsoft.Xna.Framework.GameTime;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
-using Point = Microsoft.Xna.Framework.Point;
+
+using XnaPoint = Microsoft.Xna.Framework.Point;
+using XnaVector2 = Microsoft.Xna.Framework.Vector2;
+
+
 
 using BlendState = Microsoft.Xna.Framework.Graphics.BlendState;
 using DepthStencilState = Microsoft.Xna.Framework.Graphics.DepthStencilState;
@@ -33,11 +37,11 @@ using RenderTarget2D = Microsoft.Xna.Framework.Graphics.RenderTarget2D;
 
 using ShadowMapper = mike_and_conquer.gamesprite.ShadowMapper;
 
-using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 using ImmutablePalette = mike_and_conquer.openra.ImmutablePalette;
 
 using Matrix = Microsoft.Xna.Framework.Matrix;
+using System.Drawing;
 
 namespace mike_and_conquer.gameview
 {
@@ -229,7 +233,7 @@ namespace mike_and_conquer.gameview
             float scaledHalfViewportWidth = CalculateLeftmostScrollX(sidebarViewport, sidebarViewportCamera.Zoom, 0);
             float scaledHalfViewportHeight = CalculateTopmostScrollY(sidebarViewport, sidebarViewportCamera.Zoom, 0);
 
-            sidebarViewportCamera.Location = new Vector2(scaledHalfViewportWidth, scaledHalfViewportHeight);
+            sidebarViewportCamera.Location = new XnaVector2(scaledHalfViewportWidth, scaledHalfViewportHeight);
         }
 
 
@@ -295,12 +299,12 @@ namespace mike_and_conquer.gameview
 
             this.mapViewportCamera.Zoom = GameOptions.instance.MapZoomLevel;
             this.mapViewportCamera.Location =
-                new Vector2(CalculateLeftmostScrollX(), CalculateTopmostScrollY());
+                new XnaVector2(CalculateLeftmostScrollX(), CalculateTopmostScrollY());
 
             this.renderTargetCamera = new Camera2D(mapViewport);
             this.renderTargetCamera.Zoom = 1.0f;
             this.renderTargetCamera.Location =
-                new Vector2(CalculateLeftmostScrollX(mapViewport, renderTargetCamera.Zoom, borderSize), CalculateTopmostScrollY(mapViewport, renderTargetCamera.Zoom, borderSize));
+                new XnaVector2(CalculateLeftmostScrollX(mapViewport, renderTargetCamera.Zoom, borderSize), CalculateTopmostScrollY(mapViewport, renderTargetCamera.Zoom, borderSize));
 
         }
 
@@ -1029,7 +1033,7 @@ namespace mike_and_conquer.gameview
                 newY = topmostScrollY;
             }
 
-            this.mapViewportCamera.Location = new Vector2(newX, newY);
+            this.mapViewportCamera.Location = new XnaVector2(newX, newY);
 
         }
 
@@ -1047,20 +1051,20 @@ namespace mike_and_conquer.gameview
 
             if (newKeyboardState.IsKeyDown(Keys.I))
             {
-                this.mapViewportCamera.Location = new Vector2(CalculateLeftmostScrollX(), CalculateTopmostScrollY());
+                this.mapViewportCamera.Location = new XnaVector2(CalculateLeftmostScrollX(), CalculateTopmostScrollY());
             }
 
             if (newKeyboardState.IsKeyDown(Keys.P))
             {
-                this.mapViewportCamera.Location = new Vector2(CalculateRightmostScrollX(), CalculateTopmostScrollY());
+                this.mapViewportCamera.Location = new XnaVector2(CalculateRightmostScrollX(), CalculateTopmostScrollY());
             }
             if (newKeyboardState.IsKeyDown(Keys.M))
             {
-                this.mapViewportCamera.Location = new Vector2(CalculateLeftmostScrollX(), CalculateBottommostScrollY());
+                this.mapViewportCamera.Location = new XnaVector2(CalculateLeftmostScrollX(), CalculateBottommostScrollY());
             }
             if (newKeyboardState.IsKeyDown(Keys.OemPeriod))
             {
-                this.mapViewportCamera.Location = new Vector2(CalculateRightmostScrollX(), CalculateBottommostScrollY());
+                this.mapViewportCamera.Location = new XnaVector2(CalculateRightmostScrollX(), CalculateBottommostScrollY());
             }
 
             if (!oldKeyboardState.IsKeyDown(Keys.Y) && newKeyboardState.IsKeyDown(Keys.Y))
@@ -1148,43 +1152,43 @@ namespace mike_and_conquer.gameview
             if (mouseState.Position.X > defaultViewport.Width - mouseScrollThreshold)
             {
                 int newX = (int)(this.mapViewportCamera.Location.X + 2);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(newX, originalY);
+                this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (mouseState.Position.X < mouseScrollThreshold)
             {
                 int newX = (int)(this.mapViewportCamera.Location.X - 2);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(newX, originalY);
+                this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (mouseState.Position.Y > defaultViewport.Height - mouseScrollThreshold)
             {
                 int newY = (int)(this.mapViewportCamera.Location.Y + 2);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(originalX, newY);
+                this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
             else if (mouseState.Position.Y < mouseScrollThreshold)
             {
                 int newY = (int)(this.mapViewportCamera.Location.Y - 2);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(originalX, newY);
+                this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
 
             else if (oldKeyboardState.IsKeyUp(Keys.Right) && newKeyboardState.IsKeyDown(Keys.Right))
             {
                 int newX = (int)(this.mapViewportCamera.Location.X + scrollAmount);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(newX, originalY);
+                this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.Left) && newKeyboardState.IsKeyDown(Keys.Left))
             {
                 int newX = (int)(this.mapViewportCamera.Location.X - scrollAmount);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(newX, originalY);
+                this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.Down) && newKeyboardState.IsKeyDown(Keys.Down))
             {
                 int newY = (int)(this.mapViewportCamera.Location.Y + scrollAmount);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(originalX, newY);
+                this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.Up) && newKeyboardState.IsKeyDown(Keys.Up))
             {
                 int newY = (int)(this.mapViewportCamera.Location.Y - scrollAmount);
-                this.mapViewportCamera.Location = new Microsoft.Xna.Framework.Vector2(originalX, newY);
+                this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.OemPlus) && newKeyboardState.IsKeyDown(Keys.OemPlus))
             {
@@ -1249,7 +1253,7 @@ namespace mike_and_conquer.gameview
                 nullEffect,
                 mapViewportCamera.TransformMatrix);
 
-            spriteBatch.Draw(tshadow16MrfTexture, new Vector2(0, 0), Color.White);
+            spriteBatch.Draw(tshadow16MrfTexture, new XnaVector2(0, 0), Color.White);
             spriteBatch.End();
         }
 
@@ -1279,39 +1283,39 @@ namespace mike_and_conquer.gameview
             spriteBatch.End();
         }
 
-        public Vector2 ConvertWorldCoordinatesToScreenCoordinates(Vector2 positionInWorldCoordinates)
+        public XnaVector2 ConvertWorldCoordinatesToScreenCoordinates(XnaVector2 positionInWorldCoordinates)
         {
-            return Vector2.Transform(positionInWorldCoordinates, mapViewportCamera.TransformMatrix);
+            return XnaVector2.Transform(positionInWorldCoordinates, mapViewportCamera.TransformMatrix);
         }
 
-        public Vector2 ConvertWorldCoordinatesToScreenCoordinatesForSidebar(Vector2 positionInWorldCoordinates)
+        public XnaVector2 ConvertWorldCoordinatesToScreenCoordinatesForSidebar(XnaVector2 positionInWorldCoordinates)
         {
             // TODO:  Consider if above code could better be done with call to Viewport.Project()
             // OR, should this be done by the Camera class?
-            Vector2 positionInCameraViewportCoordinates = Vector2.Transform(positionInWorldCoordinates,
+            XnaVector2 positionInCameraViewportCoordinates = XnaVector2.Transform(positionInWorldCoordinates,
                 sidebarViewportCamera.TransformMatrix);
             positionInCameraViewportCoordinates.X += sidebarViewport.X;
             return positionInCameraViewportCoordinates;
         }
 
-        public Point ConvertScreenLocationToWorldLocation(Point screenLocation)
+        // public XnaPoint ConvertScreenLocationToWorldLocation(XnaPoint screenLocation)
+        // {
+        //     XnaVector2 screenLocationAsPoint = PointUtil.ConvertPointToXnaVector2(screenLocation);
+        //     XnaVector2 resultXnaVector2 =  XnaVector2.Transform(screenLocationAsPoint, Matrix.Invert(mapViewportCamera.TransformMatrix));
+        //     return PointUtil.ConvertXnaVector2ToPoint(resultXnaVector2);
+        // }
+
+
+
+        public XnaVector2 ConvertScreenLocationToWorldLocation(XnaVector2 screenLocation)
         {
-            Vector2 screenLocationAsPoint = PointUtil.ConvertPointToVector2(screenLocation);
-            Vector2 resultVector2 =  Vector2.Transform(screenLocationAsPoint, Matrix.Invert(mapViewportCamera.TransformMatrix));
-            return PointUtil.ConvertVector2ToPoint(resultVector2);
+            return XnaVector2.Transform(screenLocation, Matrix.Invert(mapViewportCamera.TransformMatrix));
         }
 
-
-
-        public Vector2 ConvertScreenLocationToWorldLocation(Vector2 screenLocation)
-        {
-            return Vector2.Transform(screenLocation, Matrix.Invert(mapViewportCamera.TransformMatrix));
-        }
-
-        public Vector2 ConvertScreenLocationToSidebarLocation(Vector2 screenLocation)
+        public XnaVector2 ConvertScreenLocationToSidebarLocation(XnaVector2 screenLocation)
         {
             screenLocation.X = screenLocation.X - sidebarViewport.X;
-            Vector2 result = Vector2.Transform(screenLocation, Matrix.Invert(sidebarViewportCamera.TransformMatrix));
+            XnaVector2 result = XnaVector2.Transform(screenLocation, Matrix.Invert(sidebarViewportCamera.TransformMatrix));
             return result;
         }
 
@@ -1320,7 +1324,7 @@ namespace mike_and_conquer.gameview
         //     if (barracksPlacementIndicatorView == null)
         //     {
         //         barracksBarracksPlacementIndicator = new BarracksPlacementIndicator(
-        //             MapTileLocation.CreateFromWorldCoordinatesInVector2(GameWorld.instance.GDIConstructionYard.MapTileLocation.WorldCoordinatesAsVector2));
+        //             MapTileLocation.CreateFromWorldCoordinatesInXnaVector2(GameWorld.instance.GDIConstructionYard.MapTileLocation.WorldCoordinatesAsXnaVector2));
         //
         //         barracksPlacementIndicatorView = new BarracksPlacementIndicatorView(barracksBarracksPlacementIndicator);
         //     }
