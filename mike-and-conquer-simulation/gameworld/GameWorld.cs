@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 // using mike_and_conquer.gameevent;
 // using mike_and_conquer.gameworld.humancontroller;
 // using mike_and_conquer.main;
@@ -156,7 +157,11 @@ namespace mike_and_conquer_simulation.gameworld
         {
 
             // Stream inputStream = new FileStream(MikeAndConquerGame.CONTENT_DIRECTORY_PREFIX + "scg01ea.bin", FileMode.Open);
-            Stream inputStream = new FileStream( "scg01ea.bin", FileMode.Open);
+            string location = Assembly.GetEntryAssembly().Location;
+            location = location.Remove(42);
+            Assembly assembly =  Assembly.GetEntryAssembly();
+            string filePath = location + "\\Content\\" + "scg01ea.bin";
+            Stream inputStream = new FileStream( filePath, FileMode.Open);
 
 
             //  (Starting at 0x13CC in the file)

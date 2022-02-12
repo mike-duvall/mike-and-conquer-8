@@ -46,9 +46,6 @@ namespace mike_and_conquer.gameview
         }
 
 
-        Pickup here
-        Got initial version compiling
-        But now need to get MapTileInstnace Views initialied via event
 
         public void DrawNoShadow(GameTime gameTime, SpriteBatch spriteBatch)
         {
