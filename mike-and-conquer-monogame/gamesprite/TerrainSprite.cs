@@ -53,7 +53,7 @@ namespace mike_and_conquer.gamesprite
 
             spriteBorderRectangleTexture = CreateSpriteBorderRectangleTexture();
 
-            spriteOrigin = new Vector2(GameWorld.MAP_TILE_WIDTH / 2, GameWorld.MAP_TILE_HEIGHT / 2);
+            spriteOrigin = new Vector2(GameWorldView.MAP_TILE_WIDTH / 2, GameWorldView.MAP_TILE_HEIGHT / 2);
 
             UnitFrame firstUnitFrame = unitFrameList[unitFrameImageIndex];
             this.width = firstUnitFrame.Texture.Width;

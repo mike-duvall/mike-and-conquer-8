@@ -1,13 +1,16 @@
-﻿using Point = System.Drawing.Point;
+﻿using mike_and_conquer_simulation.main;
+using Point = System.Drawing.Point;
 using Rectangle = System.Drawing.Rectangle;
 
 
 
 namespace mike_and_conquer_simulation.gameworld
 {
-    public class MapTileInstance
+    internal class MapTileInstance
     {
-        
+
+        public int ID { get; set; }
+
         private MapTileLocation mapTileLocation;
 
         public MapTileLocation MapTileLocation
@@ -66,6 +69,7 @@ namespace mike_and_conquer_simulation.gameworld
             this.imageIndex = imageIndex;
             this.isBlockingTerrain = isBlockingTerrain;
             this.Visibility = MapTileInstance.MapTileVisibility.NotVisible;
+            this.ID = SimulationMain.globalId++;
         }
 
 

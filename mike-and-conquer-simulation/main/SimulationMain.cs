@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.commands.commandbody;
 using mike_and_conquer_simulation.events;
-
+using mike_and_conquer_simulation.gameworld;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -37,8 +37,11 @@ namespace mike_and_conquer_simulation.main
 
         private List<Unit> unitList;
 
+        private GameWorld gameworld;
+
         public static void StartSimulation(SimulationStateListener listener)
         {
+
 
 
             var configuration = new ConfigurationBuilder()
@@ -73,19 +76,39 @@ namespace mike_and_conquer_simulation.main
             backgroundThread.Start();
             condition.WaitOne();
 
-            EmitInitializeScenarioEvent(27,23);
+            // EmitInitializeScenarioEvent(27,23);
 
 
         }
 
-        private static void EmitInitializeScenarioEvent(int mapWidth, int mapHeight)
+        private static void EmitInitializeScenarioEvent(int mapWidth, int mapHeight, List<MapTileInstance> mapTileInstanceList)
         {
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = InitializeScenarioEventData.EventName;
             InitializeScenarioEventData eventData = new InitializeScenarioEventData();
 
+
+            List<MapTileInstanceCreateEventData> mapTileInstanceCreateEventDataList =
+                new List<MapTileInstanceCreateEventData>();
+
+            foreach (MapTileInstance mapTileInstance in mapTileInstanceList)
+            {
+                MapTileInstanceCreateEventData mapTileCreateEventData = new MapTileInstanceCreateEventData(
+                    mapTileInstance.ID,
+                    mapTileInstance.MapTileLocation.XInWorldMapTileCoordinates,
+                    mapTileInstance.MapTileLocation.YInWorldMapTileCoordinates,
+                    mapTileInstance.TextureKey,
+                    mapTileInstance.ImageIndex,
+                    mapTileInstance.IsBlockingTerrain,
+                    mapTileInstance.Visibility.ToString()
+                    );
+
+                mapTileInstanceCreateEventDataList.Add(mapTileCreateEventData);
+            }
+
             eventData.MapWidth = mapWidth;
             eventData.MapHeight = mapHeight;
+            eventData.MapTileInstanceCreateEventDataList = mapTileInstanceCreateEventDataList;
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
@@ -376,7 +399,12 @@ namespace mike_and_conquer_simulation.main
                 unitList.Clear();
             }
 
-            EmitInitializeScenarioEvent(27, 23);
+            gameworld = new GameWorld();
+            gameworld.InitializeDefaultMap();
+
+            EmitInitializeScenarioEvent(27, 23, gameworld.gameMap.MapTileInstanceList);
+
+            // EmitInitializeScenarioEvent(27, 23);
         }
 
         internal void PostCommand(RawCommand incomingAdminCommand)

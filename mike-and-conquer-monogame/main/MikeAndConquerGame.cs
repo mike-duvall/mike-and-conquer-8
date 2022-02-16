@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading.Tasks.Sources;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -42,7 +42,7 @@ namespace mike_and_conquer_monogame.main
 
         private SpriteSheet spriteSheet;
 
-        public GameWorld gameWorld;
+        // public GameWorld gameWorld;
         private GameWorldView gameWorldView;
 
         private GameState currentGameState;
@@ -92,7 +92,7 @@ namespace mike_and_conquer_monogame.main
             monogameSimulationStateListener = new MonogameSimulationStateListener(this);
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
-            gameWorld = new GameWorld();
+            // gameWorld = new GameWorld();
             gameWorldView = new GameWorldView();
 
             raiSpriteFrameManager = new RAISpriteFrameManager();
@@ -134,7 +134,7 @@ namespace mike_and_conquer_monogame.main
 
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            gameWorld.InitializeDefaultMap();
+            // gameWorld.InitializeDefaultMap();
 
             LoadTextures();
 
@@ -166,45 +166,84 @@ namespace mike_and_conquer_monogame.main
         }
 
 
+        public const string CLEAR1_SHP = "clear1.tem";
+
+        public const string D04_TEM = "d04.tem";
+        public const string D09_TEM = "d09.tem";
+        public const string D13_TEM = "d13.tem";
+        public const string D15_TEM = "d15.tem";
+        public const string D20_TEM = "d20.tem";
+        public const string D21_TEM = "d21.tem";
+        public const string D23_TEM = "d23.tem";
+
+        public const string P07_TEM = "p07.tem";
+        public const string P08_TEM = "p08.tem";
+
+        public const string S09_TEM = "s09.tem";
+        public const string S10_TEM = "s10.tem";
+        public const string S11_TEM = "s11.tem";
+        public const string S12_TEM = "s12.tem";
+        public const string S14_TEM = "s14.tem";
+        public const string S22_TEM = "s22.tem";
+        public const string S29_TEM = "s29.tem";
+        public const string S32_TEM = "s32.tem";
+        public const string S34_TEM = "s34.tem";
+        public const string S35_TEM = "s35.tem";
+
+        public const string SH1_TEM = "sh1.tem";
+        public const string SH2_TEM = "sh2.tem";
+        public const string SH3_TEM = "sh3.tem";
+        public const string SH4_TEM = "sh4.tem";
+        public const string SH5_TEM = "sh5.tem";
+        public const string SH6_TEM = "sh6.tem";
+        public const string SH9_TEM = "sh9.tem";
+        public const string SH10_TEM = "sh10.tem";
+        public const string SH17_TEM = "sh17.tem";
+        public const string SH18_TEM = "sh18.tem";
+
+        public const string W1_TEM = "w1.tem";
+        public const string W2_TEM = "w2.tem";
+
+
 
         private void LoadMapTextures()
         {
-            LoadTmpFile(GameMap.CLEAR1_SHP);
-            LoadTmpFile(GameMap.D04_TEM);
-            LoadTmpFile(GameMap.D09_TEM);
-            LoadTmpFile(GameMap.D13_TEM);
-            LoadTmpFile(GameMap.D15_TEM);
-            LoadTmpFile(GameMap.D20_TEM);
-            LoadTmpFile(GameMap.D21_TEM);
-            LoadTmpFile(GameMap.D23_TEM);
+            LoadTmpFile(CLEAR1_SHP);
+            LoadTmpFile(D04_TEM);
+            LoadTmpFile(D09_TEM);
+            LoadTmpFile(D13_TEM);
+            LoadTmpFile(D15_TEM);
+            LoadTmpFile(D20_TEM);
+            LoadTmpFile(D21_TEM);
+            LoadTmpFile(D23_TEM);
 
-            LoadTmpFile(GameMap.P07_TEM);
-            LoadTmpFile(GameMap.P08_TEM);
+            LoadTmpFile(P07_TEM);
+            LoadTmpFile(P08_TEM);
 
-            LoadTmpFile(GameMap.S09_TEM);
-            LoadTmpFile(GameMap.S10_TEM);
-            LoadTmpFile(GameMap.S11_TEM);
-            LoadTmpFile(GameMap.S12_TEM);
-            LoadTmpFile(GameMap.S14_TEM);
-            LoadTmpFile(GameMap.S22_TEM);
-            LoadTmpFile(GameMap.S29_TEM);
-            LoadTmpFile(GameMap.S32_TEM);
-            LoadTmpFile(GameMap.S34_TEM);
-            LoadTmpFile(GameMap.S35_TEM);
+            LoadTmpFile(S09_TEM);
+            LoadTmpFile(S10_TEM);
+            LoadTmpFile(S11_TEM);
+            LoadTmpFile(S12_TEM);
+            LoadTmpFile(S14_TEM);
+            LoadTmpFile(S22_TEM);
+            LoadTmpFile(S29_TEM);
+            LoadTmpFile(S32_TEM);
+            LoadTmpFile(S34_TEM);
+            LoadTmpFile(S35_TEM);
 
-            LoadTmpFile(GameMap.SH1_TEM);
-            LoadTmpFile(GameMap.SH2_TEM);
-            LoadTmpFile(GameMap.SH3_TEM);
-            LoadTmpFile(GameMap.SH4_TEM);
-            LoadTmpFile(GameMap.SH5_TEM);
-            LoadTmpFile(GameMap.SH6_TEM);
-            LoadTmpFile(GameMap.SH9_TEM);
-            LoadTmpFile(GameMap.SH10_TEM);
-            LoadTmpFile(GameMap.SH17_TEM);
-            LoadTmpFile(GameMap.SH18_TEM);
+            LoadTmpFile(SH1_TEM);
+            LoadTmpFile(SH2_TEM);
+            LoadTmpFile(SH3_TEM);
+            LoadTmpFile(SH4_TEM);
+            LoadTmpFile(SH5_TEM);
+            LoadTmpFile(SH6_TEM);
+            LoadTmpFile(SH9_TEM);
+            LoadTmpFile(SH10_TEM);
+            LoadTmpFile(SH17_TEM);
+            LoadTmpFile(SH18_TEM);
 
-            LoadTmpFile(GameMap.W1_TEM);
-            LoadTmpFile(GameMap.W2_TEM);
+            LoadTmpFile(W1_TEM);
+            LoadTmpFile(W2_TEM);
         }
 
         private void LoadSingleTextures()
@@ -538,8 +577,42 @@ namespace mike_and_conquer_monogame.main
         {
             this.mapWidth = initializeScenarioEventData.MapWidth;
             this.mapHeight = initializeScenarioEventData.MapHeight;
+
+            foreach (MapTileInstanceCreateEventData mapTileInstanceCreateEventData in initializeScenarioEventData
+                         .MapTileInstanceCreateEventDataList)
+            {
+                // public MapTileInstanceView(int imageIndex, string textureKey, bool isBlockingTerrain, MapTileVisibility mapTileVisibility)
+
+
+                Enum.TryParse(mapTileInstanceCreateEventData.Visibility,
+                    out MapTileInstanceView.MapTileVisibility visibilityEnumValue);
+
+                // MapTileInstanceView mapTileInstanceView = new MapTileInstanceView(
+                //     mapTileInstanceCreateEventData.ImageIndex,
+                //     mapTileInstanceCreateEventData.TextureKey,
+                //     mapTileInstanceCreateEventData.IsBlockingTerrain,
+                //     visibilityEnumValue);
+
+                gameWorldView.AddMapTileInstanceView(
+                    mapTileInstanceCreateEventData.XInWorldMapTileCoordinates,
+                    mapTileInstanceCreateEventData.YInWorldMapTileCoordinates,
+                    mapTileInstanceCreateEventData.ImageIndex,
+                    mapTileInstanceCreateEventData.TextureKey,
+                    mapTileInstanceCreateEventData.IsBlockingTerrain,
+                    visibilityEnumValue);
+
+            }
+            gameWorldView.NumColumns = this.mapWidth;
+            gameWorldView.NumRows = this.mapHeight;
             hasScenarioBeenInitialized = true;
         }
+
+
+        //     foreach (MapTileInstance mapTileInstance in GameWorld.instance.gameMap.MapTileInstanceList)
+        //     {
+        //         AddMapTileInstanceView(mapTileInstance);
+        //     }
+
 
         // public void SwitchToNewGameStateViewIfNeeded()
         // {

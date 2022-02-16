@@ -8,10 +8,14 @@ using Vector2 = System.Numerics.Vector2;
 
 namespace mike_and_conquer_simulation.gameworld
 {
-    public class MapTileLocation
+    internal class MapTileLocation
     {
         private int xInWorldMapTileCoordinates;
         private int yInWorldMapTileCoordinates;
+
+
+        public int XInWorldMapTileCoordinates { get; }
+        public int YInWorldMapTileCoordinates { get; }
 
 
 

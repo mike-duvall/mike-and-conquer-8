@@ -50,6 +50,12 @@ namespace mike_and_conquer.gameview
 
         // public GameCursor gameCursor;
 
+
+        public static int MAP_TILE_WIDTH = 24;
+        public static int MAP_TILE_HEIGHT = 24;
+        public static int MAP_TILE_WIDTH_IN_LEPTONS = 256;
+
+
         private ShadowMapper shadowMapper;
         // private MinigunnerSidebarIconView minigunnerSidebarIconView;
         // private BarracksSidebarIconView barracksSidebarIconView;
@@ -79,6 +85,23 @@ namespace mike_and_conquer.gameview
         public int ScreenWidth
         {
             get { return defaultViewport.Width; }
+        }
+
+
+        private int numColumns;
+
+        public int NumColumns
+        {
+            get { return numColumns; }
+            set { numColumns = value; }
+        }
+
+        public int numRows;
+
+        public int NumRows
+        {
+            get { return numRows; }
+            set { numRows = value; }
         }
 
         private Viewport defaultViewport;
@@ -256,7 +279,8 @@ namespace mike_and_conquer.gameview
 
         private float CalculateRightmostScrollX()
         {
-            int widthOfMapInWorldSpace = GameWorld.instance.gameMap.numColumns * GameWorld.MAP_TILE_WIDTH;
+            // int widthOfMapInWorldSpace = GameWorld.instance.gameMap.numColumns * GameWorld.MAP_TILE_WIDTH;
+            int widthOfMapInWorldSpace = this.numColumns  * GameWorldView.MAP_TILE_WIDTH;
 
             int viewportWidth = mapViewport.Width;
             int halfViewportWidth = viewportWidth / 2;
@@ -483,10 +507,10 @@ namespace mike_and_conquer.gameview
             //     nextMinigunnerView.DrawShadowOnly(gameTime, spriteBatch);
             // }
 
-            foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
-            {
-                nextTerrainView.DrawShadowOnly(gameTime, spriteBatch);
-            }
+            // foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
+            // {
+            //     nextTerrainView.DrawShadowOnly(gameTime, spriteBatch);
+            // }
 
             // if (GameWorldView.instance.mcvView != null)
             // {
@@ -660,10 +684,10 @@ namespace mike_and_conquer.gameview
             // }
 
 
-            foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
-            {
-                nextTerrainView.DrawNoShadow(gameTime, spriteBatch);
-            }
+            // foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
+            // {
+            //     nextTerrainView.DrawNoShadow(gameTime, spriteBatch);
+            // }
 
             // if (GameWorldView.instance.mcvView != null)
             // {
@@ -747,17 +771,17 @@ namespace mike_and_conquer.gameview
         }
 
 
-        public void AddMapTileInstanceView(MapTileInstance mapTileInstance)
-        {
-            MapTileInstanceView mapTileInstanceView = new MapTileInstanceView(mapTileInstance);
-            this.mapTileInstanceViewList.Add(mapTileInstanceView);
-        }
-
-        public void AddTerrainItemView(TerrainItem terrainItem)
-        {
-            TerrainView terrainView = new TerrainView(terrainItem);
-            this.terrainViewList.Add(terrainView);
-        }
+        // public void AddMapTileInstanceView(MapTileInstance mapTileInstance)
+        // {
+        //     MapTileInstanceView mapTileInstanceView = new MapTileInstanceView(mapTileInstance);
+        //     this.mapTileInstanceViewList.Add(mapTileInstanceView);
+        // }
+        //
+        // public void AddTerrainItemView(TerrainItem terrainItem)
+        // {
+        //     TerrainView terrainView = new TerrainView(terrainItem);
+        //     this.terrainViewList.Add(terrainView);
+        // }
 
 
         // public void AddGDIMinigunnerView(Minigunner newMinigunner)
@@ -807,44 +831,45 @@ namespace mike_and_conquer.gameview
         //
         // }
 
-        public MapTileInstanceView FindMapSquareView(int xWorldCoordinate, int yWorldCoordinate)
-        {
 
-            foreach (MapTileInstanceView nextBasicMapSquareView in this.mapTileInstanceViewList)
-            {
-                MapTileInstance mapTileInstance = nextBasicMapSquareView.myMapTileInstance;
-                if (mapTileInstance.ContainsPoint(new Point(xWorldCoordinate, yWorldCoordinate)))
-                {
-                    return nextBasicMapSquareView;
-                }
-            }
-            throw new Exception("Unable to find MapTileInstance at coordinates, x:" + xWorldCoordinate + ", y:" + yWorldCoordinate);
-
-        }
-
-
-        private void CreateBasicMapSquareViews()
-        {
-            foreach (MapTileInstance mapTileInstance in GameWorld.instance.gameMap.MapTileInstanceList)
-            {
-                AddMapTileInstanceView(mapTileInstance);
-            }
-        }
-
-        private void CreateTerrainItemViews()
-        {
-            foreach (TerrainItem terrainItem in GameWorld.instance.terrainItemList)
-            {
-                AddTerrainItemView(terrainItem);
-            }
-        }
+        // public MapTileInstanceView FindMapSquareView(int xWorldCoordinate, int yWorldCoordinate)
+        // {
+        //
+        //     foreach (MapTileInstanceView nextBasicMapSquareView in this.mapTileInstanceViewList)
+        //     {
+        //         MapTileInstance mapTileInstance = nextBasicMapSquareView.myMapTileInstance;
+        //         if (mapTileInstance.ContainsPoint(new Point(xWorldCoordinate, yWorldCoordinate)))
+        //         {
+        //             return nextBasicMapSquareView;
+        //         }
+        //     }
+        //     throw new Exception("Unable to find MapTileInstance at coordinates, x:" + xWorldCoordinate + ", y:" + yWorldCoordinate);
+        //
+        // }
+        //
+        //
+        // private void CreateBasicMapSquareViews()
+        // {
+        //     foreach (MapTileInstance mapTileInstance in GameWorld.instance.gameMap.MapTileInstanceList)
+        //     {
+        //         AddMapTileInstanceView(mapTileInstance);
+        //     }
+        // }
+        //
+        // private void CreateTerrainItemViews()
+        // {
+        //     foreach (TerrainItem terrainItem in GameWorld.instance.terrainItemList)
+        //     {
+        //         AddTerrainItemView(terrainItem);
+        //     }
+        // }
 
 
         public void LoadContent()
         {
 
-            CreateBasicMapSquareViews();
-            CreateTerrainItemViews();
+            // CreateBasicMapSquareViews();
+//            CreateTerrainItemViews();
 
             spriteBatch = new SpriteBatch(MikeAndConquerGame.instance.GraphicsDevice);
             // gameCursor = new GameCursor(1, 1);
@@ -992,7 +1017,8 @@ namespace mike_and_conquer.gameview
 
         private float CalculateBottommostScrollY()
         {
-            int heightOfMapInWorldSpace = GameWorld.instance.gameMap.numRows * GameWorld.MAP_TILE_HEIGHT;
+            // int heightOfMapInWorldSpace = GameWorld.instance.gameMap.numRows * GameWorld.MAP_TILE_HEIGHT;
+            int heightOfMapInWorldSpace = this.numRows * GameWorldView.MAP_TILE_HEIGHT;
             int viewportHeight = mapViewport.Height;
             int halfViewportHeight = viewportHeight / 2;
             float scaledHalfViewportHeight = halfViewportHeight / mapViewportCamera.Zoom;
@@ -1319,6 +1345,25 @@ namespace mike_and_conquer.gameview
             return result;
         }
 
+
+        // public MapTileInstanceView FindMapTileInstanceAllowNull(MapTileLocation mapTileLocation)
+        // {
+        //
+        //     foreach (MapTileInstanceView nextBasicMapSquare in mapTileInstanceViewList)
+        //     {
+        //         if (nextBasicMapSquare.ContainsPoint(mapTileLocation.WorldCoordinatesAsPoint))
+        //         {
+        //             return nextBasicMapSquare;
+        //         }
+        //     }
+        //
+        //     return null;
+        //
+        // }
+
+
+
+
         // public void Notify_PlacingBarracks()
         // {
         //     if (barracksPlacementIndicatorView == null)
@@ -1362,5 +1407,17 @@ namespace mike_and_conquer.gameview
         //     }
         //
         // }
+        public void AddMapTileInstanceView(int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates,  byte imageIndex, string textureKey, bool isBlockingTerrain, MapTileInstanceView.MapTileVisibility visibilityEnumValue)
+        {
+            MapTileInstanceView view = new MapTileInstanceView(
+                xInWorldMapTileCoordinates,
+                yInWorldMapTileCoordinates,
+                imageIndex,
+                textureKey,
+                isBlockingTerrain,
+                visibilityEnumValue);
+
+            mapTileInstanceViewList.Add(view);
+        }
     }
 }

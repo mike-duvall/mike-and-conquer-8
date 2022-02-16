@@ -7,7 +7,7 @@ using BinaryReader = System.IO.BinaryReader;
 
 namespace mike_and_conquer_simulation.gameworld
 {
-    public class GameMap
+    internal class GameMap
     {
 
         public const string CLEAR1_SHP = "clear1.tem";

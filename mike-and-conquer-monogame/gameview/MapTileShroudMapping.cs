@@ -1,8 +1,7 @@
 ﻿
-using System;
 
 
-using MapTileInstance= mike_and_conquer_simulation.gameworld.MapTileInstance;
+
 
 namespace mike_and_conquer.gameview
 {
@@ -11,27 +10,27 @@ namespace mike_and_conquer.gameview
 
 
 
-        public MapTileInstance.MapTileVisibility east;
-        public MapTileInstance.MapTileVisibility southEast;
-        public MapTileInstance.MapTileVisibility south;
-        public MapTileInstance.MapTileVisibility southWest;
-        public MapTileInstance.MapTileVisibility west;
-        public MapTileInstance.MapTileVisibility northWest;
-        public MapTileInstance.MapTileVisibility north;
-        public MapTileInstance.MapTileVisibility northEast;
+        public MapTileInstanceView.MapTileVisibility east;
+        public MapTileInstanceView.MapTileVisibility southEast;
+        public MapTileInstanceView.MapTileVisibility south;
+        public MapTileInstanceView.MapTileVisibility southWest;
+        public MapTileInstanceView.MapTileVisibility west;
+        public MapTileInstanceView.MapTileVisibility northWest;
+        public MapTileInstanceView.MapTileVisibility north;
+        public MapTileInstanceView.MapTileVisibility northEast;
 
         public int shroudTileIndex;
         
 
         public MapTileShroudMapping(
-            MapTileInstance.MapTileVisibility east,
-            MapTileInstance.MapTileVisibility southEast,
-            MapTileInstance.MapTileVisibility south,
-            MapTileInstance.MapTileVisibility southWest,
-            MapTileInstance.MapTileVisibility west,
-            MapTileInstance.MapTileVisibility northWest,
-            MapTileInstance.MapTileVisibility north,
-            MapTileInstance.MapTileVisibility northEast,
+            MapTileInstanceView.MapTileVisibility east,
+            MapTileInstanceView.MapTileVisibility southEast,
+            MapTileInstanceView.MapTileVisibility south,
+            MapTileInstanceView.MapTileVisibility southWest,
+            MapTileInstanceView.MapTileVisibility west,
+            MapTileInstanceView.MapTileVisibility northWest,
+            MapTileInstanceView.MapTileVisibility north,
+            MapTileInstanceView.MapTileVisibility northEast,
 
             int shroudTileIndex)
         {

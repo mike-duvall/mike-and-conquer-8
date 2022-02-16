@@ -48,6 +48,7 @@ namespace mike_and_conquer_simulation.rest.init
                 endpoints.MapControllers();
             });
 
+            int x = 3;
 
         }
     }

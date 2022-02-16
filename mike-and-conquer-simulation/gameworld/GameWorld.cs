@@ -29,7 +29,7 @@ using Point = System.Drawing.Point;
 namespace mike_and_conquer_simulation.gameworld
 
 {
-    public class GameWorld
+    internal class GameWorld
     {
 
         public static int MAP_TILE_WIDTH = 24;
@@ -241,6 +241,10 @@ namespace mike_and_conquer_simulation.gameworld
 
                 }
             }
+
+
+
+
 
         }
 
