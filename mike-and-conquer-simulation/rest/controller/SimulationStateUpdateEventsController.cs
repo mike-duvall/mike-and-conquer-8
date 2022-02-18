@@ -13,7 +13,7 @@ namespace mike_and_conquer_simulation.rest.controller
 {
     [ApiController]
     [Route("[controller]")]
-    internal class SimulationStateUpdateEventsController : ControllerBase
+    public class SimulationStateUpdateEventsController : ControllerBase
     {
 
 

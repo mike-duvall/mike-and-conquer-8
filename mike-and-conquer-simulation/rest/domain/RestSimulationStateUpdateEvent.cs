@@ -2,7 +2,7 @@ using System;
 
 namespace mike_and_conquer_simulation.rest.domain
 {
-    internal class RestSimulationStateUpdateEvent
+    public class RestSimulationStateUpdateEvent
     {
         // public DateTime Date { get; set; }
         //
