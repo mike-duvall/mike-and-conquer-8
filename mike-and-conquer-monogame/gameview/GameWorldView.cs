@@ -126,7 +126,8 @@ namespace mike_and_conquer.gameview
         private RenderTarget2D mapTileVisibilityRenderTarget;
         private RenderTarget2D unitsAndTerrainRenderTarget;
 
-        private bool redrawBaseMapTiles;
+        // TODO make this private?
+        public bool redrawBaseMapTiles;
 
         private Effect mapTilePaletteMapperEffect;
         private Effect mapTileShadowMapperEffect;

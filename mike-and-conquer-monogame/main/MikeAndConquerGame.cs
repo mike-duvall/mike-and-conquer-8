@@ -389,6 +389,17 @@ namespace mike_and_conquer_monogame.main
             //     }
             // }
 
+            lock (inputCommandQueue)
+            {
+                while (inputCommandQueue.Count > 0)
+                {
+                    AsyncViewCommand anEvent = inputCommandQueue.Dequeue();
+                    anEvent.Process();
+                }
+            }
+
+
+
             KeyboardState newKeyboardState = Keyboard.GetState();
 
 
@@ -605,6 +616,7 @@ namespace mike_and_conquer_monogame.main
             gameWorldView.NumColumns = this.mapWidth;
             gameWorldView.NumRows = this.mapHeight;
             hasScenarioBeenInitialized = true;
+            gameWorldView.redrawBaseMapTiles = true;
         }
 
 

@@ -14,8 +14,18 @@ namespace mike_and_conquer_simulation.gameworld
         private int yInWorldMapTileCoordinates;
 
 
-        public int XInWorldMapTileCoordinates { get; }
-        public int YInWorldMapTileCoordinates { get; }
+        public int XInWorldMapTileCoordinates
+        {
+            get { return xInWorldMapTileCoordinates; }
+        }
+
+
+
+        public int YInWorldMapTileCoordinates
+        {
+            get { return yInWorldMapTileCoordinates; }
+        }
+
 
 
 

@@ -142,7 +142,7 @@ namespace mike_and_conquer.gameview
 
             Point pointInWorldCoordinates =
                 MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
-                    xInWorldMapTileCoordinates));
+                    yInWorldMapTileCoordinates));
 
             Vector2 worldCoordinatesAsXnaVector2 = new Vector2(pointInWorldCoordinates.X, pointInWorldCoordinates.Y);
 
