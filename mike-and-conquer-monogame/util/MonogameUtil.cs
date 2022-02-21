@@ -9,5 +9,8 @@ namespace mike_and_conquer.util
             Microsoft.Xna.Framework.Vector2 xnaVector2 = new Microsoft.Xna.Framework.Vector2(systemNumericsVector2.X, systemNumericsVector2.Y);
             return xnaVector2;
         }
+
+
+
     }
 }

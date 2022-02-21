@@ -613,6 +613,17 @@ namespace mike_and_conquer_monogame.main
                     visibilityEnumValue);
 
             }
+
+            foreach (TerrainItemCreateEventData terrainItemCreateEventData in initializeScenarioEventData
+                         .TerrainItemCreateEventDataList)
+            {
+                gameWorldView.AddTerrainItemView(
+                    terrainItemCreateEventData.XInWorldMapTileCoordinates,
+                    terrainItemCreateEventData.YInWorldMapTileCoordinates,
+                    terrainItemCreateEventData.TerrainItemType);
+
+            }
+
             gameWorldView.NumColumns = this.mapWidth;
             gameWorldView.NumRows = this.mapHeight;
             hasScenarioBeenInitialized = true;

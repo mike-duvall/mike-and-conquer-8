@@ -81,7 +81,11 @@ namespace mike_and_conquer_simulation.main
 
         }
 
-        private static void EmitInitializeScenarioEvent(int mapWidth, int mapHeight, List<MapTileInstance> mapTileInstanceList)
+        private static void EmitInitializeScenarioEvent(
+            int mapWidth,
+            int mapHeight,
+            List<MapTileInstance> mapTileInstanceList,
+            List<TerrainItem> terrainItemList)
         {
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = InitializeScenarioEventData.EventName;
@@ -106,9 +110,26 @@ namespace mike_and_conquer_simulation.main
                 mapTileInstanceCreateEventDataList.Add(mapTileCreateEventData);
             }
 
+            eventData.MapTileInstanceCreateEventDataList = mapTileInstanceCreateEventDataList;
+
+            List<TerrainItemCreateEventData> terrainItemCreateEventDataList =
+                new List<TerrainItemCreateEventData>();
+
+            foreach (TerrainItem terrainItem in terrainItemList)
+            {
+                TerrainItemCreateEventData terrainItemCreateEventData = new TerrainItemCreateEventData(
+                    terrainItem.MapTileLocation.XInWorldMapTileCoordinates,
+                    terrainItem.MapTileLocation.YInWorldMapTileCoordinates,
+                    terrainItem.TerrainItemType);
+                terrainItemCreateEventDataList.Add(terrainItemCreateEventData);
+
+            }
+
+            eventData.TerrainItemCreateEventDataList = terrainItemCreateEventDataList;
+
             eventData.MapWidth = mapWidth;
             eventData.MapHeight = mapHeight;
-            eventData.MapTileInstanceCreateEventDataList = mapTileInstanceCreateEventDataList;
+            
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
@@ -402,7 +423,7 @@ namespace mike_and_conquer_simulation.main
             gameworld = new GameWorld();
             gameworld.InitializeDefaultMap();
 
-            EmitInitializeScenarioEvent(27, 23, gameworld.gameMap.MapTileInstanceList);
+            EmitInitializeScenarioEvent(27, 23, gameworld.gameMap.MapTileInstanceList, gameworld.terrainItemList);
 
             // EmitInitializeScenarioEvent(27, 23);
         }

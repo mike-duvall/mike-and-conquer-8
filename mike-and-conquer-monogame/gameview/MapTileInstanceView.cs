@@ -120,16 +120,6 @@ namespace mike_and_conquer.gameview
 
 
 
-        public static Point ConvertMapTileCoordinatesToWorldCoordinates(Point pointInWorldMapSquareCoordinates)
-        {
-
-            int xInWorldCoordinates = (pointInWorldMapSquareCoordinates.X * GameWorldView.MAP_TILE_WIDTH) +
-                                      (GameWorldView.MAP_TILE_WIDTH / 2);
-            int yInWorldCoordinates = pointInWorldMapSquareCoordinates.Y * GameWorldView.MAP_TILE_HEIGHT +
-                                      (GameWorldView.MAP_TILE_HEIGHT / 2);
-
-            return new Point(xInWorldCoordinates, yInWorldCoordinates);
-        }
 
 
 
@@ -141,7 +131,7 @@ namespace mike_and_conquer.gameview
             //         .WorldCoordinatesAsVector2);
 
             Point pointInWorldCoordinates =
-                MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
+                GameWorldView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
                     yInWorldMapTileCoordinates));
 
             Vector2 worldCoordinatesAsXnaVector2 = new Vector2(pointInWorldCoordinates.X, pointInWorldCoordinates.Y);
@@ -1468,7 +1458,7 @@ namespace mike_and_conquer.gameview
 
 
             Point pointInWorldCoordinates =
-                MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
+                GameWorldView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
                     xInWorldMapTileCoordinates));
 
             Vector2 worldCoordinatesAsXnaVector2 = new Vector2(pointInWorldCoordinates.X, pointInWorldCoordinates.Y);

@@ -1,10 +1,8 @@
 ﻿
 
-using System;
+
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
-using mike_and_conquer.main;
-using mike_and_conquer.util;
 using mike_and_conquer_monogame.main;
 using mike_and_conquer_simulation.gameworld;
 using mike_and_conquer_simulation.main;
@@ -685,10 +683,10 @@ namespace mike_and_conquer.gameview
             // }
 
 
-            // foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
-            // {
-            //     nextTerrainView.DrawNoShadow(gameTime, spriteBatch);
-            // }
+            foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
+            {
+                nextTerrainView.DrawNoShadow(gameTime, spriteBatch);
+            }
 
             // if (GameWorldView.instance.mcvView != null)
             // {
@@ -1420,5 +1418,25 @@ namespace mike_and_conquer.gameview
 
             mapTileInstanceViewList.Add(view);
         }
+
+        public void AddTerrainItemView(int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates, string terrainItemType)
+        {
+            TerrainView terrainView = new TerrainView(xInWorldMapTileCoordinates, yInWorldMapTileCoordinates, terrainItemType);
+            terrainViewList.Add(terrainView);
+
+        }
+
+        public static XnaPoint ConvertMapTileCoordinatesToWorldCoordinates(XnaPoint pointInWorldMapSquareCoordinates)
+        {
+
+            int xInWorldCoordinates = (pointInWorldMapSquareCoordinates.X * GameWorldView.MAP_TILE_WIDTH) +
+                                      (GameWorldView.MAP_TILE_WIDTH / 2);
+            int yInWorldCoordinates = pointInWorldMapSquareCoordinates.Y * GameWorldView.MAP_TILE_HEIGHT +
+                                      (GameWorldView.MAP_TILE_HEIGHT / 2);
+
+            return new XnaPoint(xInWorldCoordinates, yInWorldCoordinates);
+        }
+
+
     }
 }

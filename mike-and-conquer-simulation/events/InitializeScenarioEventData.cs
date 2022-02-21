@@ -10,5 +10,7 @@ namespace mike_and_conquer_simulation.events
         public const string EventName = "InitializeScenario";
 
         public List<MapTileInstanceCreateEventData> MapTileInstanceCreateEventDataList;
+        public List<TerrainItemCreateEventData> TerrainItemCreateEventDataList;
+
     }
 }
