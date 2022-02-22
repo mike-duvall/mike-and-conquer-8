@@ -2,7 +2,7 @@ using System;
 
 namespace mike_and_conquer_simulation.rest.domain
 {
-    public class RestMinigunner
+    internal class RestMinigunner
     {
         // public DateTime Date { get; set; }
         //

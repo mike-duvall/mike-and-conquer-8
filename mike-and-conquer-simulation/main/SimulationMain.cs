@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.commands.commandbody;
 using mike_and_conquer_simulation.events;
-
+using mike_and_conquer_simulation.gameworld;
 using Newtonsoft.Json;
 
 namespace mike_and_conquer_simulation.main
@@ -37,8 +37,11 @@ namespace mike_and_conquer_simulation.main
 
         private List<Unit> unitList;
 
+        private GameWorld gameworld;
+
         public static void StartSimulation(SimulationStateListener listener)
         {
+
 
 
             var configuration = new ConfigurationBuilder()
@@ -73,19 +76,60 @@ namespace mike_and_conquer_simulation.main
             backgroundThread.Start();
             condition.WaitOne();
 
-            EmitInitializeScenarioEvent(27,23);
+            // EmitInitializeScenarioEvent(27,23);
 
 
         }
 
-        private static void EmitInitializeScenarioEvent(int mapWidth, int mapHeight)
+        private static void EmitInitializeScenarioEvent(
+            int mapWidth,
+            int mapHeight,
+            List<MapTileInstance> mapTileInstanceList,
+            List<TerrainItem> terrainItemList)
         {
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = InitializeScenarioEventData.EventName;
             InitializeScenarioEventData eventData = new InitializeScenarioEventData();
 
+
+            List<MapTileInstanceCreateEventData> mapTileInstanceCreateEventDataList =
+                new List<MapTileInstanceCreateEventData>();
+
+            foreach (MapTileInstance mapTileInstance in mapTileInstanceList)
+            {
+                MapTileInstanceCreateEventData mapTileCreateEventData = new MapTileInstanceCreateEventData(
+                    mapTileInstance.ID,
+                    mapTileInstance.MapTileLocation.XInWorldMapTileCoordinates,
+                    mapTileInstance.MapTileLocation.YInWorldMapTileCoordinates,
+                    mapTileInstance.TextureKey,
+                    mapTileInstance.ImageIndex,
+                    mapTileInstance.IsBlockingTerrain,
+                    mapTileInstance.Visibility.ToString()
+                    );
+
+                mapTileInstanceCreateEventDataList.Add(mapTileCreateEventData);
+            }
+
+            eventData.MapTileInstanceCreateEventDataList = mapTileInstanceCreateEventDataList;
+
+            List<TerrainItemCreateEventData> terrainItemCreateEventDataList =
+                new List<TerrainItemCreateEventData>();
+
+            foreach (TerrainItem terrainItem in terrainItemList)
+            {
+                TerrainItemCreateEventData terrainItemCreateEventData = new TerrainItemCreateEventData(
+                    terrainItem.MapTileLocation.XInWorldMapTileCoordinates,
+                    terrainItem.MapTileLocation.YInWorldMapTileCoordinates,
+                    terrainItem.TerrainItemType);
+                terrainItemCreateEventDataList.Add(terrainItemCreateEventData);
+
+            }
+
+            eventData.TerrainItemCreateEventDataList = terrainItemCreateEventDataList;
+
             eventData.MapWidth = mapWidth;
             eventData.MapHeight = mapHeight;
+            
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
@@ -179,7 +223,7 @@ namespace mike_and_conquer_simulation.main
             }
         }
 
-        public void PostSetGameSpeedCommand(SimulationOptions.GameSpeed aGameSpeed)
+        internal void PostSetGameSpeedCommand(SimulationOptions.GameSpeed aGameSpeed)
         {
             SetGameSpeedCommand aCommand = new SetGameSpeedCommand();
             aCommand.GameSpeed = aGameSpeed;
@@ -204,7 +248,7 @@ namespace mike_and_conquer_simulation.main
             return list;
         }
 
-        public Minigunner CreateMinigunner(int x, int y)
+        internal Minigunner CreateMinigunner(int x, int y)
         {
 
             Minigunner minigunner = new Minigunner();
@@ -229,7 +273,7 @@ namespace mike_and_conquer_simulation.main
             return minigunner;
         }
 
-        public Jeep CreateJeep(int x, int y)
+        internal Jeep CreateJeep(int x, int y)
         {
 
             Jeep jeep = new Jeep();
@@ -254,7 +298,7 @@ namespace mike_and_conquer_simulation.main
             return jeep;
         }
 
-        public MCV CreateMCV(int x, int y)
+        internal MCV CreateMCV(int x, int y)
         {
 
             MCV mcv = new MCV();
@@ -351,7 +395,7 @@ namespace mike_and_conquer_simulation.main
             }
         }
 
-        public void SetGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
+        internal void SetGameSpeed(SimulationOptions.GameSpeed aGameSpeed)
         {
             this.simulationOptions.CurrentGameSpeed = aGameSpeed;
         }
@@ -376,10 +420,15 @@ namespace mike_and_conquer_simulation.main
                 unitList.Clear();
             }
 
-            EmitInitializeScenarioEvent(27, 23);
+            gameworld = new GameWorld();
+            gameworld.InitializeDefaultMap();
+
+            EmitInitializeScenarioEvent(27, 23, gameworld.gameMap.MapTileInstanceList, gameworld.terrainItemList);
+
+            // EmitInitializeScenarioEvent(27, 23);
         }
 
-        public void PostCommand(RawCommand incomingAdminCommand)
+        internal void PostCommand(RawCommand incomingAdminCommand)
         {
 
             AsyncSimulationCommand command = ConvertRawCommand(incomingAdminCommand);

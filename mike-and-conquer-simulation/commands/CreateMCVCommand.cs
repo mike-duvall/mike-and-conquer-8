@@ -2,7 +2,7 @@
 
 namespace mike_and_conquer_simulation.commands
 {
-    public class CreateMCVCommand : AsyncSimulationCommand
+    internal class CreateMCVCommand : AsyncSimulationCommand
     {
 
         public const string CommandName = "CreateMCV";

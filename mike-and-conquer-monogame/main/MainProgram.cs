@@ -45,8 +45,8 @@ namespace mike_and_conquer_monogame.main
             logger.LogWarning("************************Mike is cool");
 
 
+            MainProgram.RunRestServer();
             SimulationRestInitializer.RunRestServer();
-            // SimulationRestProgram.RunRestServer();
 
             MikeAndConquerGame game = new MikeAndConquerGame();
             

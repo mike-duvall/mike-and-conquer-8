@@ -15,11 +15,11 @@ namespace mike_and_conquer_monogame.main
         public bool IsFullScreen = true;
         // public bool IsFullScreen = false;
 
-        public bool DrawShroud = true;
-        // public bool DrawShroud = false;
+        // public bool DrawShroud = true;
+        public bool DrawShroud = false;
 
-        public float MapZoomLevel = 1.0f;
-        // public float MapZoomLevel = 3.0f;
+        // public float MapZoomLevel = 1.0f;
+        public float MapZoomLevel = 1.5f;
 
         //        public  bool PlayMusic = true;
         public bool PlayMusic = false;

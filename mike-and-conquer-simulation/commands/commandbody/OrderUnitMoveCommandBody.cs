@@ -1,6 +1,6 @@
 ﻿namespace mike_and_conquer_simulation.commands.commandbody
 {
-    class OrderUnitMoveCommandBody
+    internal class OrderUnitMoveCommandBody
     {
         public int DestinationLocationXInWorldCoordinates { get; set; }
 

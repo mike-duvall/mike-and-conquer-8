@@ -3,7 +3,7 @@
 namespace mike_and_conquer_simulation.main
 
 {
-    public class SimulationOptions
+    internal class SimulationOptions
     {
 
         public enum GameSpeed

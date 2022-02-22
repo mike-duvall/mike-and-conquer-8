@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 
 namespace mike_and_conquer_simulation.rest.init
 {
-    public class SimulationRestStartup
+    internal class SimulationRestStartup
     {
         public SimulationRestStartup(IConfiguration configuration)
         {
@@ -32,12 +32,12 @@ namespace mike_and_conquer_simulation.rest.init
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
 
-            if (env.IsDevelopment())
-            {
+            // if (env.IsDevelopment())
+            // {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "testrest v1"));
-            }
+            // }
 
             app.UseRouting();
 
@@ -48,6 +48,7 @@ namespace mike_and_conquer_simulation.rest.init
                 endpoints.MapControllers();
             });
 
+            int x = 3;
 
         }
     }

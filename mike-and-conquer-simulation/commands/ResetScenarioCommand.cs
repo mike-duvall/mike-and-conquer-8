@@ -2,7 +2,7 @@
 
 namespace mike_and_conquer_simulation.commands
 {
-    public class ResetScenarioCommand : AsyncSimulationCommand
+    internal class ResetScenarioCommand : AsyncSimulationCommand
     {
 
 

@@ -1,7 +1,7 @@
 ﻿
 namespace mike_and_conquer_simulation.commands
 {
-    public class RawCommand
+    internal class RawCommand
     {
         public string CommandType { get; set; }
 
