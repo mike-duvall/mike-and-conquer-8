@@ -48,20 +48,37 @@ namespace mike_and_conquer.gameview
         //     DrawNoShadow(gameTime, spriteBatch);
         //     DrawShadowOnly(gameTime,spriteBatch);
         // }
-        //
-        // public void DrawShadowOnly(GameTime gameTime, SpriteBatch spriteBatch)
-        // {
-        //     
-        //     // this.terrainSprite.DrawShadowOnly(gameTime, spriteBatch, terrainItem.MapTileLocation.WorldCoordinatesAsVector2);
-        //     this.terrainSprite.DrawShadowOnly(
-        //         gameTime,
-        //         spriteBatch,
-        //         MonogameUtil.ConvertSystemNumericsVector2ToXnaVector2(terrainItem.MapTileLocation.WorldCoordinatesAsVector2)
-        //         );
-        // }
-        //
-        //
-        //
+        
+        public void DrawShadowOnly(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+
+
+            // this.terrainSprite.DrawShadowOnly(
+            //     gameTime,
+            //     spriteBatch,
+            //     MonogameUtil.ConvertSystemNumericsVector2ToXnaVector2(terrainItem.MapTileLocation.WorldCoordinatesAsVector2)
+            //     );
+
+            XnaPoint locationAsXnaPointInMapTileCoordinates = new XnaPoint(xInWorldMapTileCoordinates,
+                yInWorldMapTileCoordinates);
+
+            XnaPoint locationAsXnaPointInWorldCoordinates = GameWorldView.ConvertMapTileCoordinatesToWorldCoordinates(locationAsXnaPointInMapTileCoordinates);
+
+            XnaVector2 locationAsXnaVectorInWorldCoordiantes = new XnaVector2(
+                locationAsXnaPointInWorldCoordinates.X,
+                locationAsXnaPointInWorldCoordinates.Y);
+
+
+            this.terrainSprite.DrawShadowOnly(
+                gameTime,
+                spriteBatch,
+                locationAsXnaVectorInWorldCoordiantes);
+
+
+        }
+
+
+
         public void DrawNoShadow(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // this.terrainSprite.DrawNoShadow(
