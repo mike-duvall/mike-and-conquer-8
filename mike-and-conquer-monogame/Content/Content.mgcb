@@ -48,6 +48,11 @@
 
 
 
+#begin e1.shp
+/copy:e1.shp
+
+
+
 #begin clear1.tem
 /copy:clear1.tem
 

@@ -27,7 +27,7 @@ namespace mike_and_conquer_monogame.main
         private int mapWidth = -10;
         private int mapHeight = -10;
 
-        private List<UnitView> unitViewList;
+//        private List<UnitView> unitViewList;
 
         private Queue<AsyncViewCommand> inputCommandQueue;
 
@@ -61,7 +61,7 @@ namespace mike_and_conquer_monogame.main
 
             _graphics = new GraphicsDeviceManager(this);
 
-            unitViewList = new List<UnitView>();
+            // unitViewList = new List<UnitView>();
             inputCommandQueue = new Queue<AsyncViewCommand>();
 
 
@@ -114,7 +114,8 @@ namespace mike_and_conquer_monogame.main
 
         public void ResetScenario()
         {
-            unitViewList.Clear();
+            // unitViewList.Clear();
+            gameWorldView.HandleReset();
             hasScenarioBeenInitialized = false;
             mapWidth = -10;
             mapHeight = -10;
@@ -259,11 +260,11 @@ namespace mike_and_conquer_monogame.main
 
         private void LoadShpFileTextures()
         {
-            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(GdiMinigunnerView.SHP_FILE_NAME);
-            // spriteSheet.LoadUnitFramesFromSpriteFrames(
-            //     GdiMinigunnerView.SPRITE_KEY,
-            //     raiSpriteFrameManager.GetSpriteFramesForUnit(GdiMinigunnerView.SHP_FILE_NAME),
-            //     GdiMinigunnerView.SHP_FILE_COLOR_MAPPER);
+            raiSpriteFrameManager.LoadAllTexturesFromShpFile(GdiMinigunnerView.SHP_FILE_NAME);
+            spriteSheet.LoadUnitFramesFromSpriteFrames(
+                GdiMinigunnerView.SPRITE_KEY,
+                raiSpriteFrameManager.GetSpriteFramesForUnit(GdiMinigunnerView.SHP_FILE_NAME),
+                GdiMinigunnerView.SHP_FILE_COLOR_MAPPER);
             // spriteSheet.LoadUnitFramesFromSpriteFrames(
             //     NodMinigunnerView.SPRITE_KEY,
             //     raiSpriteFrameManager.GetSpriteFramesForUnit(NodMinigunnerView.SHP_FILE_NAME),
@@ -415,38 +416,42 @@ namespace mike_and_conquer_monogame.main
 
         public void AddMinigunner(int id, int x, int y)
         {
-            UnitView unitView = new UnitView();
-            unitView.ID = id;
-            unitView.XInWorldCoordinates = x;
-            unitView.YInWorldCoordinates = y;
-            unitView.type = "Minigunner";
-            unitView.color = Color.Chocolate;
-            unitViewList.Add(unitView);
+            // UnitView unitView = new UnitView();
+            // unitView.ID = id;
+            // unitView.XInWorldCoordinates = x;
+            // unitView.YInWorldCoordinates = y;
+            // unitView.type = "Minigunner";
+            // unitView.color = Color.Chocolate;
+            // unitViewList.Add(unitView);
+
+            gameWorldView.AddMinigunnerView(id, x, y);
+            // MinigunnerView minigunnerView = new GdiMinigunnerView(id, x, y);
+            // unitViewList.Add(minigunnerView);
         }
 
         public void AddJeep(int id, int x, int y)
         {
-            UnitView unitView = new UnitView();
-            unitView.ID = id;
-            unitView.XInWorldCoordinates = x;
-            unitView.YInWorldCoordinates = y;
-            unitView.type = "Jeep";
-            unitView.color = Color.Blue;
-            unitViewList.Add(unitView);
+            // UnitView unitView = new UnitView();
+            // unitView.ID = id;
+            // unitView.XInWorldCoordinates = x;
+            // unitView.YInWorldCoordinates = y;
+            // unitView.type = "Jeep";
+            // unitView.color = Color.Blue;
+            // unitViewList.Add(unitView);
         }
 
         public void AddMCV(int id, int x, int y)
         {
-            // hasJeepBeenCreated = true;
-            // jeepX = x;
-            // jeepY = y;
-            UnitView unitView = new UnitView();
-            unitView.ID = id;
-            unitView.XInWorldCoordinates = x;
-            unitView.YInWorldCoordinates = y;
-            unitView.type = "MCV";
-            unitView.color = Color.Yellow;
-            unitViewList.Add(unitView);
+            // // hasJeepBeenCreated = true;
+            // // jeepX = x;
+            // // jeepY = y;
+            // UnitView unitView = new UnitView();
+            // unitView.ID = id;
+            // unitView.XInWorldCoordinates = x;
+            // unitView.YInWorldCoordinates = y;
+            // unitView.type = "MCV";
+            // unitView.color = Color.Yellow;
+            // unitViewList.Add(unitView);
 
         }
 
@@ -564,25 +569,25 @@ namespace mike_and_conquer_monogame.main
 
 
 
-        public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
-        {
-            UnitView unitView = FindUnitViewById(unitPositionChangedEventData.ID);
-            unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
-            unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
-        }
+        // public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
+        // {
+        //     UnitView unitView = FindUnitViewById(unitPositionChangedEventData.ID);
+        //     unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+        //     unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+        // }
 
-        private UnitView FindUnitViewById(int id)
-        {
-            foreach (UnitView unitView in unitViewList)
-            {
-                if (unitView.ID == id)
-                {
-                    return unitView;
-                }
-            }
-
-            return null;
-        }
+        // private UnitView FindUnitViewById(int id)
+        // {
+        //     foreach (UnitView unitView in unitViewList)
+        //     {
+        //         if (unitView.ID == id)
+        //         {
+        //             return unitView;
+        //         }
+        //     }
+        //
+        //     return null;
+        // }
 
         public void InitializeScenario(InitializeScenarioEventData initializeScenarioEventData)
         {
