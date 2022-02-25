@@ -496,10 +496,10 @@ namespace mike_and_conquer.gameview
             // }
             //
             //
-            // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
-            // {
-            //     nextMinigunnerView.DrawShadowOnly(gameTime, spriteBatch);
-            // }
+            foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+            {
+                nextMinigunnerView.DrawShadowOnly(gameTime, spriteBatch);
+            }
             //
             // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.NodMinigunnerViewList)
             // {
