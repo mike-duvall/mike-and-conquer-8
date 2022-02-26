@@ -139,7 +139,7 @@ namespace mike_and_conquer.gameview
 
         private KeyboardState oldKeyboardState;
 
-        // private List<MinigunnerView> gdiMinigunnerViewList;
+        private List<MinigunnerView> gdiMinigunnerViewList;
         // private List<MinigunnerView> nodMinigunnerViewList;
         //
         // private GDIBarracksView gdiBarracksView;
@@ -162,12 +162,12 @@ namespace mike_and_conquer.gameview
         }
 
 
-        // public List<MinigunnerView> GdiMinigunnerViewList
-        // {
-        //     get { return gdiMinigunnerViewList; }
-        // }
-        //
-        //
+        public List<MinigunnerView> GdiMinigunnerViewList
+        {
+            get { return gdiMinigunnerViewList; }
+        }
+        
+        
         // public List<MinigunnerView> NodMinigunnerViewList
         // {
         //     get { return nodMinigunnerViewList; }
@@ -211,7 +211,7 @@ namespace mike_and_conquer.gameview
         {
             mapTileInstanceViewList = new List<MapTileInstanceView>();
 
-            // gdiMinigunnerViewList = new List<MinigunnerView>();
+            gdiMinigunnerViewList = new List<MinigunnerView>();
             // nodMinigunnerViewList = new List<MinigunnerView>();
             //
             // sandbagViewList = new List<SandbagView>();
@@ -496,15 +496,16 @@ namespace mike_and_conquer.gameview
             // }
             //
             //
-            // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
-            // {
-            //     nextMinigunnerView.DrawShadowOnly(gameTime, spriteBatch);
-            // }
+            foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+            {
+                nextMinigunnerView.DrawShadowOnly(gameTime, spriteBatch);
+            }
             //
             // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.NodMinigunnerViewList)
             // {
             //     nextMinigunnerView.DrawShadowOnly(gameTime, spriteBatch);
             // }
+
 
             foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
             {
@@ -672,11 +673,11 @@ namespace mike_and_conquer.gameview
             // }
             //
             //
-            // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
-            // {
-            //     nextMinigunnerView.DrawNoShadow(gameTime, spriteBatch);
-            // }
-            //
+            foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+            {
+                nextMinigunnerView.DrawNoShadow(gameTime, spriteBatch);
+            }
+            
             // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.NodMinigunnerViewList)
             // {
             //     nextMinigunnerView.DrawNoShadow(gameTime, spriteBatch);
@@ -759,7 +760,7 @@ namespace mike_and_conquer.gameview
 
         public void HandleReset()
         {
-            // gdiMinigunnerViewList.Clear();
+            gdiMinigunnerViewList.Clear();
             // nodMinigunnerViewList.Clear();
             // sandbagViewList.Clear();
             // nodTurretViewList.Clear();
@@ -1427,6 +1428,16 @@ namespace mike_and_conquer.gameview
             terrainViewList.Add(terrainView);
 
         }
+
+        //        private List<UnitView> unitViewList;
+
+        public void AddMinigunnerView(int id, int x, int y)
+        {
+            GdiMinigunnerView view = new GdiMinigunnerView(id, x, y);
+            gdiMinigunnerViewList.Add(view);
+        }
+
+
 
         public static XnaPoint ConvertMapTileCoordinatesToWorldCoordinates(XnaPoint pointInWorldMapSquareCoordinates)
         {

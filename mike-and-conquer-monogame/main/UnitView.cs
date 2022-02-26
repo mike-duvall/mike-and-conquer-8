@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace mike_and_conquer_monogame.main
 {
-    class UnitView
+    public  class UnitView
     {
         public int XInWorldCoordinates { get; set; }
         public int YInWorldCoordinates { get; set; }
