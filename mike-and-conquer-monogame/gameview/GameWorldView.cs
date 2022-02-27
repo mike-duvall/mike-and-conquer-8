@@ -198,7 +198,7 @@ namespace mike_and_conquer.gameview
 
         public List<TerrainView> terrainViewList;
 
-        // public MCVView mcvView;
+        public MCVView mcvView;
 
         public static GameWorldView instance;
 
@@ -512,10 +512,10 @@ namespace mike_and_conquer.gameview
                 nextTerrainView.DrawShadowOnly(gameTime, spriteBatch);
             }
 
-            // if (GameWorldView.instance.mcvView != null)
-            // {
-            //     GameWorldView.instance.mcvView.DrawShadowOnly(gameTime, spriteBatch);
-            // }
+            if (GameWorldView.instance.mcvView != null)
+            {
+                GameWorldView.instance.mcvView.DrawShadowOnly(gameTime, spriteBatch);
+            }
 
 
 
@@ -691,10 +691,10 @@ namespace mike_and_conquer.gameview
                 nextTerrainView.DrawNoShadow(gameTime, spriteBatch);
             }
 
-            // if (GameWorldView.instance.mcvView != null)
-            // {
-            //     GameWorldView.instance.mcvView.DrawNoShadow(gameTime, spriteBatch);
-            // }
+            if (GameWorldView.instance.mcvView != null)
+            {
+                GameWorldView.instance.mcvView.DrawNoShadow(gameTime, spriteBatch);
+            }
 
 
 
@@ -1437,6 +1437,10 @@ namespace mike_and_conquer.gameview
             gdiMinigunnerViewList.Add(view);
         }
 
+        public void AddMCVView(int id, int x, int y)
+        {
+            mcvView = new MCVView(id, x, y);
+        }
 
 
         public static XnaPoint ConvertMapTileCoordinatesToWorldCoordinates(XnaPoint pointInWorldMapSquareCoordinates)
