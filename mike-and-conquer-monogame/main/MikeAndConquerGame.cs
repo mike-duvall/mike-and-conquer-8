@@ -271,11 +271,11 @@ namespace mike_and_conquer_monogame.main
             //     NodMinigunnerView.SHP_FILE_COLOR_MAPPER);
             //
             //
-            // raiSpriteFrameManager.LoadAllTexturesFromShpFile(MCVView.SHP_FILE_NAME);
-            // spriteSheet.LoadUnitFramesFromSpriteFrames(
-            //     MCVView.SPRITE_KEY,
-            //     raiSpriteFrameManager.GetSpriteFramesForUnit(MCVView.SHP_FILE_NAME),
-            //     MCVView.SHP_FILE_COLOR_MAPPER);
+            raiSpriteFrameManager.LoadAllTexturesFromShpFile(MCVView.SHP_FILE_NAME);
+            spriteSheet.LoadUnitFramesFromSpriteFrames(
+                MCVView.SPRITE_KEY,
+                raiSpriteFrameManager.GetSpriteFramesForUnit(MCVView.SHP_FILE_NAME),
+                MCVView.SHP_FILE_COLOR_MAPPER);
             //
             // raiSpriteFrameManager.LoadAllTexturesFromShpFile(SandbagView.SHP_FILE_NAME);
             // spriteSheet.LoadUnitFramesFromSpriteFrames(
@@ -452,6 +452,7 @@ namespace mike_and_conquer_monogame.main
             // unitView.type = "MCV";
             // unitView.color = Color.Yellow;
             // unitViewList.Add(unitView);
+            gameWorldView.AddMCVView(id, x, y);
 
         }
 
@@ -575,6 +576,19 @@ namespace mike_and_conquer_monogame.main
         //     unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
         //     unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
         // }
+
+        public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
+        {
+            if (unitPositionChangedEventData.ID == gameWorldView.mcvView.ID)
+            {
+                gameWorldView.mcvView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+                gameWorldView.mcvView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+
+            }
+
+        }
+
+
 
         // private UnitView FindUnitViewById(int id)
         // {

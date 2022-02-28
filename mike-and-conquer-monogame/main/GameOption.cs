@@ -19,7 +19,7 @@ namespace mike_and_conquer_monogame.main
         public bool DrawShroud = false;
 
         // public float MapZoomLevel = 1.0f;
-        public float MapZoomLevel = 4.0f;
+        public float MapZoomLevel = 2.0f;
 
         //        public  bool PlayMusic = true;
         public bool PlayMusic = false;

@@ -52,6 +52,10 @@
 /copy:e1.shp
 
 
+#begin Shp/mcv.shp
+/copy:Shp/mcv.shp
+
+
 
 #begin clear1.tem
 /copy:clear1.tem
