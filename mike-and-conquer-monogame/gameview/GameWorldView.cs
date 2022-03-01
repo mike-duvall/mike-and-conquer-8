@@ -72,7 +72,7 @@ namespace mike_and_conquer.gameview
         public float MapZoom
         {
             get { return mapViewportCamera.Zoom; }
-            set { mapViewportCamera.Zoom = value;  }
+            set { mapViewportCamera.Zoom = value; }
         }
 
         public int ScreenHeight
@@ -104,7 +104,7 @@ namespace mike_and_conquer.gameview
 
         private Viewport defaultViewport;
         private Camera2D mapViewportCamera;
-        private Viewport sidebarViewport;  // TODO: Make this private again
+        private Viewport sidebarViewport; // TODO: Make this private again
         private Viewport mapViewport;
         private Camera2D renderTargetCamera;
         private Camera2D sidebarViewportCamera;
@@ -119,7 +119,9 @@ namespace mike_and_conquer.gameview
 
         private RenderTarget2D mapTileRenderTarget;
         private RenderTarget2D shadowOnlyRenderTarget;
+
         private RenderTarget2D mapTileAndShadowsRenderTarget;
+
 //        private RenderTarget2D mapTileShadowsAndTreesRenderTarget;
         private RenderTarget2D mapTileVisibilityRenderTarget;
         private RenderTarget2D unitsAndTerrainRenderTarget;
@@ -166,8 +168,8 @@ namespace mike_and_conquer.gameview
         {
             get { return gdiMinigunnerViewList; }
         }
-        
-        
+
+
         // public List<MinigunnerView> NodMinigunnerViewList
         // {
         //     get { return nodMinigunnerViewList; }
@@ -199,6 +201,8 @@ namespace mike_and_conquer.gameview
         public List<TerrainView> terrainViewList;
 
         public MCVView mcvView;
+
+        public JeepView jeepView;
 
         public static GameWorldView instance;
 
@@ -279,7 +283,7 @@ namespace mike_and_conquer.gameview
         private float CalculateRightmostScrollX()
         {
             // int widthOfMapInWorldSpace = GameWorld.instance.gameMap.numColumns * GameWorld.MAP_TILE_WIDTH;
-            int widthOfMapInWorldSpace = this.numColumns  * GameWorldView.MAP_TILE_WIDTH;
+            int widthOfMapInWorldSpace = this.numColumns * GameWorldView.MAP_TILE_WIDTH;
 
             int viewportWidth = mapViewport.Width;
             int halfViewportWidth = viewportWidth / 2;
@@ -313,7 +317,7 @@ namespace mike_and_conquer.gameview
             mapViewport = new Viewport();
             mapViewport.X = 0;
             mapViewport.Y = 0;
-            mapViewport.Width = (int)(defaultViewport.Width * 0.8f);
+            mapViewport.Width = (int) (defaultViewport.Width * 0.8f);
             mapViewport.Height = defaultViewport.Height;
             mapViewport.MinDepth = 0;
             mapViewport.MaxDepth = 1;
@@ -327,7 +331,8 @@ namespace mike_and_conquer.gameview
             this.renderTargetCamera = new Camera2D(mapViewport);
             this.renderTargetCamera.Zoom = 1.0f;
             this.renderTargetCamera.Location =
-                new XnaVector2(CalculateLeftmostScrollX(mapViewport, renderTargetCamera.Zoom, borderSize), CalculateTopmostScrollY(mapViewport, renderTargetCamera.Zoom, borderSize));
+                new XnaVector2(CalculateLeftmostScrollX(mapViewport, renderTargetCamera.Zoom, borderSize),
+                    CalculateTopmostScrollY(mapViewport, renderTargetCamera.Zoom, borderSize));
 
         }
 
@@ -336,11 +341,13 @@ namespace mike_and_conquer.gameview
 
             MikeAndConquerGame.instance.GraphicsDevice.Viewport = mapViewport;
 
-            UpdateMapTileRenderTarget(gameTime);  // mapTileRenderTarget:  Just map tiles, as palette values
-            UpdateShadowOnlyRenderTarget(gameTime);  // shadowOnlyRenderTarget:  shadows of units and trees, as palette values
-            UpdateMapTileAndShadowsRenderTarget();  // mapTileAndShadowsRenderTarget:  Drawing mapTileRenderTarget with shadowOnlyRenderTarget shadows mapped to it, as palette values
+            UpdateMapTileRenderTarget(gameTime); // mapTileRenderTarget:  Just map tiles, as palette values
+            UpdateShadowOnlyRenderTarget(
+                gameTime); // shadowOnlyRenderTarget:  shadows of units and trees, as palette values
+            UpdateMapTileAndShadowsRenderTarget(); // mapTileAndShadowsRenderTarget:  Drawing mapTileRenderTarget with shadowOnlyRenderTarget shadows mapped to it, as palette values
             UpdateMapTileVisibilityRenderTarget(gameTime); // mapTileVisibilityRenderTarget
-            UpdateUnitsAndTerrainRenderTarget(gameTime); //    unitsAndTerrainRenderTarget:    draw mapTileAndShadowsRenderTarget, then units and terrain
+            UpdateUnitsAndTerrainRenderTarget(
+                gameTime); //    unitsAndTerrainRenderTarget:    draw mapTileAndShadowsRenderTarget, then units and terrain
             DrawAndApplyPaletteAndMapTileVisbility();
 
             //            DrawMrf16Texture();
@@ -518,6 +525,10 @@ namespace mike_and_conquer.gameview
             }
 
 
+            if (GameWorldView.instance.jeepView != null)
+            {
+                GameWorldView.instance.jeepView.DrawShadowOnly(gameTime, spriteBatch);
+            }
 
 
             spriteBatch.End();
@@ -677,7 +688,7 @@ namespace mike_and_conquer.gameview
             {
                 nextMinigunnerView.DrawNoShadow(gameTime, spriteBatch);
             }
-            
+
             // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.NodMinigunnerViewList)
             // {
             //     nextMinigunnerView.DrawNoShadow(gameTime, spriteBatch);
@@ -694,6 +705,11 @@ namespace mike_and_conquer.gameview
             if (GameWorldView.instance.mcvView != null)
             {
                 GameWorldView.instance.mcvView.DrawNoShadow(gameTime, spriteBatch);
+            }
+
+            if (GameWorldView.instance.jeepView != null)
+            {
+                GameWorldView.instance.jeepView.DrawNoShadow(gameTime, spriteBatch);
             }
 
 
@@ -757,7 +773,6 @@ namespace mike_and_conquer.gameview
 
 
 
-
         public void HandleReset()
         {
             gdiMinigunnerViewList.Clear();
@@ -765,11 +780,12 @@ namespace mike_and_conquer.gameview
             // sandbagViewList.Clear();
             // nodTurretViewList.Clear();
             // projectile120MmViewList.Clear();
-            // mcvView = null;
-            // gdiConstructionYardView = null;
-            // gdiBarracksView = null;
-            // barracksSidebarIconView = null;
-            // minigunnerSidebarIconView = null;
+             mcvView = null;
+             jeepView = null;
+             // gdiConstructionYardView = null;
+             // gdiBarracksView = null;
+             // barracksSidebarIconView = null;
+             // minigunnerSidebarIconView = null;
         }
 
 
@@ -881,17 +897,20 @@ namespace mike_and_conquer.gameview
             SetupSidebarViewportAndCamera();
 
             sidebarBackgroundRectangle = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, 1, 1);
-            sidebarBackgroundRectangle.SetData(new[] { Color.LightSkyBlue });
+            sidebarBackgroundRectangle.SetData(new[] {Color.LightSkyBlue});
 
             mapBackgroundRectangle = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, 1, 1);
-            mapBackgroundRectangle.SetData(new[] { Color.MediumSeaGreen });
+            mapBackgroundRectangle.SetData(new[] {Color.MediumSeaGreen});
 
-            this.mapTilePaletteMapperEffect = MikeAndConquerGame.instance.Content.Load<Effect>("Effects\\MapTilePaletteMapperEffect");
-            this.mapTileShadowMapperEffect = MikeAndConquerGame.instance.Content.Load<Effect>("Effects\\MapTileShadowMapperEffect");
+            this.mapTilePaletteMapperEffect =
+                MikeAndConquerGame.instance.Content.Load<Effect>("Effects\\MapTilePaletteMapperEffect");
+            this.mapTileShadowMapperEffect =
+                MikeAndConquerGame.instance.Content.Load<Effect>("Effects\\MapTileShadowMapperEffect");
 
             this.paletteTexture = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, 256, 1);
             int[] remap = { };
-            ImmutablePalette palette = new ImmutablePalette(MikeAndConquerGame.CONTENT_DIRECTORY_PREFIX + "temperat.pal", remap);
+            ImmutablePalette palette =
+                new ImmutablePalette(MikeAndConquerGame.CONTENT_DIRECTORY_PREFIX + "temperat.pal", remap);
             int numPixels = 256;
             Color[] texturePixelData = new Color[numPixels];
 
@@ -907,12 +926,14 @@ namespace mike_and_conquer.gameview
                 {
                     mappedColor = 0xffdc1008;
                 }
-                System.Drawing.Color systemColor = System.Drawing.Color.FromArgb((int)mappedColor);
+
+                System.Drawing.Color systemColor = System.Drawing.Color.FromArgb((int) mappedColor);
 
                 byte alpha = 255;
                 Color xnaColor = new Color(systemColor.R, systemColor.G, systemColor.B, alpha);
                 texturePixelData[i] = xnaColor;
             }
+
             paletteTexture.SetData(texturePixelData);
 
 
@@ -936,8 +957,8 @@ namespace mike_and_conquer.gameview
             {
                 byte alpha = 255;
                 int mrfValue = this.shadowMapper.MapUnitsShadowPaletteIndex(i);
-                byte byteMrfValue = (byte)mrfValue;
-                Color xnaColor = new Color(byteMrfValue, (byte)0, (byte)0, alpha);
+                byte byteMrfValue = (byte) mrfValue;
+                Color xnaColor = new Color(byteMrfValue, (byte) 0, (byte) 0, alpha);
                 texturePixelData[i] = xnaColor;
             }
 
@@ -954,8 +975,8 @@ namespace mike_and_conquer.gameview
             {
                 byte alpha = 255;
                 int mrfValue = this.shadowMapper.MapMapTile13PaletteIndex(i);
-                byte byteMrfValue = (byte)mrfValue;
-                Color xnaColor = new Color(byteMrfValue, (byte)0, (byte)0, alpha);
+                byte byteMrfValue = (byte) mrfValue;
+                Color xnaColor = new Color(byteMrfValue, (byte) 0, (byte) 0, alpha);
                 texturePixelData[i] = xnaColor;
             }
 
@@ -972,8 +993,8 @@ namespace mike_and_conquer.gameview
             {
                 byte alpha = 255;
                 int mrfValue = this.shadowMapper.MapMapTile14PaletteIndex(i);
-                byte byteMrfValue = (byte)mrfValue;
-                Color xnaColor = new Color(byteMrfValue, (byte)0, (byte)0, alpha);
+                byte byteMrfValue = (byte) mrfValue;
+                Color xnaColor = new Color(byteMrfValue, (byte) 0, (byte) 0, alpha);
                 texturePixelData[i] = xnaColor;
             }
 
@@ -990,8 +1011,8 @@ namespace mike_and_conquer.gameview
             {
                 byte alpha = 255;
                 int mrfValue = this.shadowMapper.MapMapTile15PaletteIndex(i);
-                byte byteMrfValue = (byte)mrfValue;
-                Color xnaColor = new Color(byteMrfValue, (byte)0, (byte)0, alpha);
+                byte byteMrfValue = (byte) mrfValue;
+                Color xnaColor = new Color(byteMrfValue, (byte) 0, (byte) 0, alpha);
                 texturePixelData[i] = xnaColor;
             }
 
@@ -1009,8 +1030,8 @@ namespace mike_and_conquer.gameview
             {
                 byte alpha = 255;
                 int mrfValue = this.shadowMapper.MapMapTile16PaletteIndex(i);
-                byte byteMrfValue = (byte)mrfValue;
-                Color xnaColor = new Color(byteMrfValue, (byte)0, (byte)0, alpha);
+                byte byteMrfValue = (byte) mrfValue;
+                Color xnaColor = new Color(byteMrfValue, (byte) 0, (byte) 0, alpha);
                 texturePixelData[i] = xnaColor;
             }
 
@@ -1044,6 +1065,7 @@ namespace mike_and_conquer.gameview
             {
                 newX = rightMostScrollX;
             }
+
             if (newY > bottommostScrollY)
             {
                 newY = bottommostScrollY;
@@ -1072,6 +1094,7 @@ namespace mike_and_conquer.gameview
             {
                 borderSize = 1;
             }
+
             if (newKeyboardState.IsKeyDown(Keys.N))
             {
                 borderSize = 0;
@@ -1084,15 +1107,20 @@ namespace mike_and_conquer.gameview
 
             if (newKeyboardState.IsKeyDown(Keys.P))
             {
-                this.mapViewportCamera.Location = new XnaVector2(CalculateRightmostScrollX(), CalculateTopmostScrollY());
+                this.mapViewportCamera.Location =
+                    new XnaVector2(CalculateRightmostScrollX(), CalculateTopmostScrollY());
             }
+
             if (newKeyboardState.IsKeyDown(Keys.M))
             {
-                this.mapViewportCamera.Location = new XnaVector2(CalculateLeftmostScrollX(), CalculateBottommostScrollY());
+                this.mapViewportCamera.Location =
+                    new XnaVector2(CalculateLeftmostScrollX(), CalculateBottommostScrollY());
             }
+
             if (newKeyboardState.IsKeyDown(Keys.OemPeriod))
             {
-                this.mapViewportCamera.Location = new XnaVector2(CalculateRightmostScrollX(), CalculateBottommostScrollY());
+                this.mapViewportCamera.Location =
+                    new XnaVector2(CalculateRightmostScrollX(), CalculateBottommostScrollY());
             }
 
             if (!oldKeyboardState.IsKeyDown(Keys.Y) && newKeyboardState.IsKeyDown(Keys.Y))
@@ -1133,8 +1161,8 @@ namespace mike_and_conquer.gameview
 
             // KeyboardState newKeyboardState = Keyboard.GetState();  // get the newest state
 
-            int originalX = (int)this.mapViewportCamera.Location.X;
-            int originalY = (int)this.mapViewportCamera.Location.Y;
+            int originalX = (int) this.mapViewportCamera.Location.X;
+            int originalY = (int) this.mapViewportCamera.Location.Y;
 
             HandleMapScrolling(originalY, originalX, newKeyboardState);
             oldKeyboardState = newKeyboardState;
@@ -1179,43 +1207,43 @@ namespace mike_and_conquer.gameview
             float zoomChangeAmount = 0.2f;
             if (mouseState.Position.X > defaultViewport.Width - mouseScrollThreshold)
             {
-                int newX = (int)(this.mapViewportCamera.Location.X + 2);
+                int newX = (int) (this.mapViewportCamera.Location.X + 2);
                 this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (mouseState.Position.X < mouseScrollThreshold)
             {
-                int newX = (int)(this.mapViewportCamera.Location.X - 2);
+                int newX = (int) (this.mapViewportCamera.Location.X - 2);
                 this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (mouseState.Position.Y > defaultViewport.Height - mouseScrollThreshold)
             {
-                int newY = (int)(this.mapViewportCamera.Location.Y + 2);
+                int newY = (int) (this.mapViewportCamera.Location.Y + 2);
                 this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
             else if (mouseState.Position.Y < mouseScrollThreshold)
             {
-                int newY = (int)(this.mapViewportCamera.Location.Y - 2);
+                int newY = (int) (this.mapViewportCamera.Location.Y - 2);
                 this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
 
             else if (oldKeyboardState.IsKeyUp(Keys.Right) && newKeyboardState.IsKeyDown(Keys.Right))
             {
-                int newX = (int)(this.mapViewportCamera.Location.X + scrollAmount);
+                int newX = (int) (this.mapViewportCamera.Location.X + scrollAmount);
                 this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.Left) && newKeyboardState.IsKeyDown(Keys.Left))
             {
-                int newX = (int)(this.mapViewportCamera.Location.X - scrollAmount);
+                int newX = (int) (this.mapViewportCamera.Location.X - scrollAmount);
                 this.mapViewportCamera.Location = new XnaVector2(newX, originalY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.Down) && newKeyboardState.IsKeyDown(Keys.Down))
             {
-                int newY = (int)(this.mapViewportCamera.Location.Y + scrollAmount);
+                int newY = (int) (this.mapViewportCamera.Location.Y + scrollAmount);
                 this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.Up) && newKeyboardState.IsKeyDown(Keys.Up))
             {
-                int newY = (int)(this.mapViewportCamera.Location.Y - scrollAmount);
+                int newY = (int) (this.mapViewportCamera.Location.Y - scrollAmount);
                 this.mapViewportCamera.Location = new XnaVector2(originalX, newY);
             }
             else if (oldKeyboardState.IsKeyUp(Keys.OemPlus) && newKeyboardState.IsKeyDown(Keys.OemPlus))
@@ -1343,7 +1371,8 @@ namespace mike_and_conquer.gameview
         public XnaVector2 ConvertScreenLocationToSidebarLocation(XnaVector2 screenLocation)
         {
             screenLocation.X = screenLocation.X - sidebarViewport.X;
-            XnaVector2 result = XnaVector2.Transform(screenLocation, Matrix.Invert(sidebarViewportCamera.TransformMatrix));
+            XnaVector2 result =
+                XnaVector2.Transform(screenLocation, Matrix.Invert(sidebarViewportCamera.TransformMatrix));
             return result;
         }
 
@@ -1409,7 +1438,9 @@ namespace mike_and_conquer.gameview
         //     }
         //
         // }
-        public void AddMapTileInstanceView(int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates,  byte imageIndex, string textureKey, bool isBlockingTerrain, MapTileInstanceView.MapTileVisibility visibilityEnumValue)
+        public void AddMapTileInstanceView(int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates,
+            byte imageIndex, string textureKey, bool isBlockingTerrain,
+            MapTileInstanceView.MapTileVisibility visibilityEnumValue)
         {
             MapTileInstanceView view = new MapTileInstanceView(
                 xInWorldMapTileCoordinates,
@@ -1422,9 +1453,11 @@ namespace mike_and_conquer.gameview
             mapTileInstanceViewList.Add(view);
         }
 
-        public void AddTerrainItemView(int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates, string terrainItemType)
+        public void AddTerrainItemView(int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates,
+            string terrainItemType)
         {
-            TerrainView terrainView = new TerrainView(xInWorldMapTileCoordinates, yInWorldMapTileCoordinates, terrainItemType);
+            TerrainView terrainView =
+                new TerrainView(xInWorldMapTileCoordinates, yInWorldMapTileCoordinates, terrainItemType);
             terrainViewList.Add(terrainView);
 
         }
@@ -1441,6 +1474,13 @@ namespace mike_and_conquer.gameview
         {
             mcvView = new MCVView(id, x, y);
         }
+
+
+        public void AddJeepView(int id, int x, int y)
+        {
+            jeepView = new JeepView(id, x, y);
+        }
+
 
 
         public static XnaPoint ConvertMapTileCoordinatesToWorldCoordinates(XnaPoint pointInWorldMapSquareCoordinates)

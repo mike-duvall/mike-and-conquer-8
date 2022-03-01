@@ -269,14 +269,21 @@ namespace mike_and_conquer_monogame.main
             //     NodMinigunnerView.SPRITE_KEY,
             //     raiSpriteFrameManager.GetSpriteFramesForUnit(NodMinigunnerView.SHP_FILE_NAME),
             //     NodMinigunnerView.SHP_FILE_COLOR_MAPPER);
-            //
-            //
+            
+            
             raiSpriteFrameManager.LoadAllTexturesFromShpFile(MCVView.SHP_FILE_NAME);
             spriteSheet.LoadUnitFramesFromSpriteFrames(
                 MCVView.SPRITE_KEY,
                 raiSpriteFrameManager.GetSpriteFramesForUnit(MCVView.SHP_FILE_NAME),
                 MCVView.SHP_FILE_COLOR_MAPPER);
-            //
+
+
+            raiSpriteFrameManager.LoadAllTexturesFromShpFile(JeepView.SHP_FILE_NAME);
+            spriteSheet.LoadUnitFramesFromSpriteFrames(
+                JeepView.SPRITE_KEY,
+                raiSpriteFrameManager.GetSpriteFramesForUnit(JeepView.SHP_FILE_NAME),
+                JeepView.SHP_FILE_COLOR_MAPPER);
+
             // raiSpriteFrameManager.LoadAllTexturesFromShpFile(SandbagView.SHP_FILE_NAME);
             // spriteSheet.LoadUnitFramesFromSpriteFrames(
             //     SandbagView.SPRITE_KEY,
@@ -438,6 +445,7 @@ namespace mike_and_conquer_monogame.main
             // unitView.type = "Jeep";
             // unitView.color = Color.Blue;
             // unitViewList.Add(unitView);
+            gameWorldView.AddJeepView(id, x, y);
         }
 
         public void AddMCV(int id, int x, int y)
@@ -579,10 +587,16 @@ namespace mike_and_conquer_monogame.main
 
         public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
-            if (unitPositionChangedEventData.ID == gameWorldView.mcvView.ID)
+            if (gameWorldView.mcvView != null && unitPositionChangedEventData.ID == gameWorldView.mcvView.ID)
             {
                 gameWorldView.mcvView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
                 gameWorldView.mcvView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+
+            }
+            if (gameWorldView.jeepView != null && unitPositionChangedEventData.ID == gameWorldView.jeepView.ID)
+            {
+                gameWorldView.jeepView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+                gameWorldView.jeepView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
 
             }
 

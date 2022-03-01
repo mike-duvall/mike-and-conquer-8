@@ -56,6 +56,10 @@
 /copy:Shp/mcv.shp
 
 
+#begin Shp/jeep.shp
+/copy:Shp/jeep.shp
+
+
 
 #begin clear1.tem
 /copy:clear1.tem
