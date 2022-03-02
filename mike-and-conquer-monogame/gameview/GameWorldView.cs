@@ -341,13 +341,12 @@ namespace mike_and_conquer.gameview
 
             MikeAndConquerGame.instance.GraphicsDevice.Viewport = mapViewport;
 
+
             UpdateMapTileRenderTarget(gameTime); // mapTileRenderTarget:  Just map tiles, as palette values
-            UpdateShadowOnlyRenderTarget(
-                gameTime); // shadowOnlyRenderTarget:  shadows of units and trees, as palette values
+            UpdateShadowOnlyRenderTarget(gameTime); // shadowOnlyRenderTarget:  shadows of units and trees, as palette values
             UpdateMapTileAndShadowsRenderTarget(); // mapTileAndShadowsRenderTarget:  Drawing mapTileRenderTarget with shadowOnlyRenderTarget shadows mapped to it, as palette values
             UpdateMapTileVisibilityRenderTarget(gameTime); // mapTileVisibilityRenderTarget
-            UpdateUnitsAndTerrainRenderTarget(
-                gameTime); //    unitsAndTerrainRenderTarget:    draw mapTileAndShadowsRenderTarget, then units and terrain
+            UpdateUnitsAndTerrainRenderTarget(gameTime); //    unitsAndTerrainRenderTarget:    draw mapTileAndShadowsRenderTarget, then units and terrain
             DrawAndApplyPaletteAndMapTileVisbility();
 
             //            DrawMrf16Texture();
