@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.main;
+using Newtonsoft.Json;
 // using mike_and_conquer.gameevent;
 // using mike_and_conquer.gameworld.humancontroller;
 // using mike_and_conquer.main;
@@ -37,7 +40,8 @@ namespace mike_and_conquer_simulation.gameworld
         public static int MAP_TILE_WIDTH_IN_LEPTONS = 256;
 
 
-        // private GDIPlayer gdiPlayer;
+
+        private GDIPlayer gdiPlayer;
         // private NodPlayer nodPlayer;
         //
         // public List<Sandbag> sandbagList;
@@ -491,6 +495,11 @@ namespace mike_and_conquer_simulation.gameworld
         //
         //
         // }
+
+        public void Update()
+        {
+            gdiPlayer.Update();
+        }
 
 
         public class BadMinigunnerLocationException : Exception
@@ -1118,5 +1127,45 @@ namespace mike_and_conquer_simulation.gameworld
         //         }
         //     }
         // }
+        public Minigunner CreateMinigunner(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            return gdiPlayer.CreateMinigunner(xInWorldCoordinates, yInWorldCoordinates);
+
+            // Minigunner minigunner = new Minigunner();
+            // minigunner.GameWorldLocation.X = x;
+            // minigunner.GameWorldLocation.Y = y;
+            // unitList.Add(minigunner);
+            //
+            // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            // simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
+            // MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
+            // eventData.ID = minigunner.ID;
+            // eventData.X = x;
+            // eventData.Y = y;
+            //
+            // simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            //
+            // foreach (SimulationStateListener listener in listeners)
+            // {
+            //     listener.Update(simulationStateUpdateEvent);
+            // }
+            //
+            // return minigunner;
+        }
+
+        public Jeep CreateJeep(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            return gdiPlayer.CreateJeep(xInWorldCoordinates, yInWorldCoordinates);
+        }
+
+        public MCV CreateMCV(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            return gdiPlayer.CreateMCV(xInWorldCoordinates, yInWorldCoordinates);
+        }
+
+        public Unit FindUnitWithUnitId(int unitId)
+        {
+            return gdiPlayer.FindUnitWithUnitId(unitId);
+        }
     }
 }

@@ -35,9 +35,9 @@ namespace mike_and_conquer_simulation.main
 
         public static ManualResetEvent condition;
 
-        private List<Unit> unitList;
+        // private List<Unit> unitList;
 
-        private GameWorld gameworld;
+        private GameWorld gameWorld;
 
         public static void StartSimulation(SimulationStateListener listener)
         {
@@ -67,6 +67,12 @@ namespace mike_and_conquer_simulation.main
 
             new SimulationMain();
             SimulationMain.instance.AddListener(listener);
+
+            Pickup here
+            Get this code working
+
+            PlayerController playerController = new MonogameUIHumanPlayerController();
+            SimulationMain.instance.SetGDIPlayerController(playerController);
 
             condition = new ManualResetEvent(false);
             Thread backgroundThread = new Thread(new ThreadStart(SimulationMain.Main));
@@ -189,7 +195,7 @@ namespace mike_and_conquer_simulation.main
             listeners = new List<SimulationStateListener>();
             listeners.Add(new SimulationStateHistoryListener(this));
 
-            unitList = new List<Unit>();
+            // unitList = new List<Unit>();
 
             simulationOptions = new SimulationOptions();
 
@@ -204,10 +210,11 @@ namespace mike_and_conquer_simulation.main
 
         private void Update()
         {
-            foreach (Unit unit in unitList)
-            {
-                unit.Update();
-            }
+            // foreach (Unit unit in unitList)
+            // {
+            //     unit.Update();
+            // }
+            gameWorld.Update();
 
         }
 
@@ -248,79 +255,110 @@ namespace mike_and_conquer_simulation.main
             return list;
         }
 
-        internal Minigunner CreateMinigunner(int x, int y)
+        // internal Minigunner CreateMinigunner(int x, int y)
+        // {
+        //
+        //     Minigunner minigunner = new Minigunner();
+        //     minigunner.GameWorldLocation.X = x;
+        //     minigunner.GameWorldLocation.Y = y;
+        //     unitList.Add(minigunner);
+        //
+        //     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+        //     simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
+        //     MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
+        //     eventData.ID = minigunner.ID;
+        //     eventData.X = x;
+        //     eventData.Y = y;
+        //
+        //     simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+        //
+        //     foreach (SimulationStateListener listener in listeners)
+        //     {
+        //         listener.Update(simulationStateUpdateEvent);
+        //     }
+        //
+        //     return minigunner;
+        // }
+
+        internal Minigunner CreateMinigunner(int xInWorldCoordinates, int yInWorldCoordinates)
         {
 
-            Minigunner minigunner = new Minigunner();
-            minigunner.GameWorldLocation.X = x;
-            minigunner.GameWorldLocation.Y = y;
-            unitList.Add(minigunner);
+            return gameWorld.CreateMinigunner(xInWorldCoordinates, yInWorldCoordinates);
 
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
-            MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
-            eventData.ID = minigunner.ID;
-            eventData.X = x;
-            eventData.Y = y;
-
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            foreach (SimulationStateListener listener in listeners)
-            {
-                listener.Update(simulationStateUpdateEvent);
-            }
-
-            return minigunner;
+            // Minigunner minigunner = new Minigunner();
+            // minigunner.GameWorldLocation.X = x;
+            // minigunner.GameWorldLocation.Y = y;
+            // unitList.Add(minigunner);
+            //
+            // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            // simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
+            // MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
+            // eventData.ID = minigunner.ID;
+            // eventData.X = x;
+            // eventData.Y = y;
+            //
+            // simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            //
+            // foreach (SimulationStateListener listener in listeners)
+            // {
+            //     listener.Update(simulationStateUpdateEvent);
+            // }
+            //
+            // return minigunner;
         }
 
-        internal Jeep CreateJeep(int x, int y)
+
+        internal Jeep CreateJeep(int xInWorldCoordinates, int yInWorldCoordinates)
         {
 
-            Jeep jeep = new Jeep();
-            jeep.GameWorldLocation.X = x;
-            jeep.GameWorldLocation.Y = y;
-            unitList.Add(jeep);
+            return gameWorld.CreateJeep(xInWorldCoordinates, yInWorldCoordinates);
 
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
-            JeepCreateEventData eventData = new JeepCreateEventData();
-            eventData.ID = jeep.ID;
-            eventData.X = x;
-            eventData.Y = y;
-
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            foreach (SimulationStateListener listener in listeners)
-            {
-                listener.Update(simulationStateUpdateEvent);
-            }
-
-            return jeep;
+            // Jeep jeep = new Jeep();
+            // jeep.GameWorldLocation.X = x;
+            // jeep.GameWorldLocation.Y = y;
+            // unitList.Add(jeep);
+            //
+            // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            // simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
+            // JeepCreateEventData eventData = new JeepCreateEventData();
+            // eventData.ID = jeep.ID;
+            // eventData.X = x;
+            // eventData.Y = y;
+            //
+            // simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            //
+            // foreach (SimulationStateListener listener in listeners)
+            // {
+            //     listener.Update(simulationStateUpdateEvent);
+            // }
+            //
+            // return jeep;
         }
 
-        internal MCV CreateMCV(int x, int y)
+        internal MCV CreateMCV(int xInWorldCoordinates, int yInWorldCoordinates)
         {
+            return gameWorld.CreateMCV(xInWorldCoordinates, yInWorldCoordinates);
 
-            MCV mcv = new MCV();
-            mcv.GameWorldLocation.X = x;
-            mcv.GameWorldLocation.Y = y;
-            unitList.Add(mcv);
-
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
-            MCVCreateEventData eventData = new MCVCreateEventData();
-            eventData.ID = mcv.ID;
-            eventData.X = x;
-            eventData.Y = y;
-
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            foreach (SimulationStateListener listener in listeners)
-            {
-                listener.Update(simulationStateUpdateEvent);
-            }
-
-            return mcv;
+            // MCV mcv = new MCV();
+            // mcv.GameWorldLocation.X = x;
+            // mcv.GameWorldLocation.Y = y;
+            // unitList.Add(mcv);
+            //
+            // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            // simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
+            // MCVCreateEventData eventData = new MCVCreateEventData();
+            // eventData.ID = mcv.ID;
+            // eventData.X = x;
+            // eventData.Y = y;
+            //
+            // simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            //
+            // foreach (SimulationStateListener listener in listeners)
+            // {
+            //     listener.Update(simulationStateUpdateEvent);
+            // }
+            //
+            // return mcv;
         }
 
 
@@ -350,17 +388,19 @@ namespace mike_and_conquer_simulation.main
 
         private Unit FindUnitWithUnitId(int unitId)
         {
-            Unit foundUnit = null;
+            // Unit foundUnit = null;
+            //
+            // foreach (Unit unit in unitList)
+            // {
+            //     if (unit.ID == unitId)
+            //     {
+            //         foundUnit = unit;
+            //     }
+            // }
+            //
+            // return foundUnit;
 
-            foreach (Unit unit in unitList)
-            {
-                if (unit.ID == unitId)
-                {
-                    foundUnit = unit;
-                }
-            }
-
-            return foundUnit;
+            return gameWorld.FindUnitWithUnitId(unitId);
         }
 
 
@@ -415,15 +455,16 @@ namespace mike_and_conquer_simulation.main
 
             SimulationMain.globalId = 1;
 
-            lock (unitList)
-            {
-                unitList.Clear();
-            }
+            // gam
+            // lock (unitList)
+            // {
+            //     unitList.Clear();
+            // }
 
-            gameworld = new GameWorld();
-            gameworld.InitializeDefaultMap();
+            gameWorld = new GameWorld();
+            gameWorld.InitializeDefaultMap();
 
-            EmitInitializeScenarioEvent(27, 23, gameworld.gameMap.MapTileInstanceList, gameworld.terrainItemList);
+            EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
 
             // EmitInitializeScenarioEvent(27, 23);
         }

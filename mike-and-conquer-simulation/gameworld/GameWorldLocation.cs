@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace mike_and_conquer_simulation.main
+namespace mike_and_conquer_simulation.gameworld
 {
     internal class GameWorldLocation
     {

@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.main;
 using Newtonsoft.Json;
 
-namespace mike_and_conquer_simulation.main
+namespace mike_and_conquer_simulation.gameworld
 {
-    internal class MCV : Unit
+    internal class Jeep : Unit
     {
+
+
         public enum State { IDLE, MOVING, ATTACKING, LANDING_AT_MAP_SQUARE };
         public State state;
 
@@ -24,13 +23,13 @@ namespace mike_and_conquer_simulation.main
         double movementDistanceEpsilon;
         private float movementDelta;
 
-        public MCV()
+        public Jeep()
         {
             state = State.IDLE;
             currentCommand = Command.NONE;
             this.movementDistanceEpsilon = 0.1f;
-            float speedFromCncInLeptons = 12;  // 12 leptons, for MCV, MPH_MEDIUM_SLOW = 12
-            // float speedFromCncInLeptons = 30;  // 30 leptons, for Jeep, MPH_MEDIUM_FAST = 30
+            // float speedFromCncInLeptons = 12;  // 12 leptons, for MCV, MPH_MEDIUM_SLOW = 12
+            float speedFromCncInLeptons = 30;  // 30 leptons, for Jeep, MPH_MEDIUM_FAST = 30
 
 
             float pixelsPerSquare = 24;
