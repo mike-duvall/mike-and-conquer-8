@@ -1,6 +1,8 @@
 ﻿
 
 // using mike_and_conquer.gameobjects;
+
+using mike_and_conquer.gameobjects;
 using mike_and_conquer.gamesprite;
 
 namespace mike_and_conquer.gameview
@@ -18,6 +20,7 @@ namespace mike_and_conquer.gameview
 
         public GdiMinigunnerView(int id,  int xInWorldCoordinates, int yInWorldCoordinates) : base( id, SPRITE_KEY, xInWorldCoordinates, yInWorldCoordinates)
         {
+            this.unitSize = new UnitSize(12, 16);
 
         }
 

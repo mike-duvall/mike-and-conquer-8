@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.Xna.Framework;
+using mike_and_conquer.gameobjects;
 // using mike_and_conquer.gameobjects;
 using mike_and_conquer.gamesprite;
 using mike_and_conquer_monogame.main;
@@ -13,11 +14,13 @@ namespace mike_and_conquer.gameview
     public class MinigunnerView : UnitView
     {
         private UnitSprite unitSprite;
-        // private UnitSelectionCursor unitSelectionCursor;
+        private UnitSelectionCursor unitSelectionCursor;
         private DestinationSquare destinationSquare;
         // private Minigunner myMinigunner;
         private bool drawDestinationSquare;
 
+
+        public bool Selected { get; set; }
 
         // public int XInWorldCoordinates { get; set; }
         // public int YInWorldCoordinates { get; set; }
@@ -48,10 +51,15 @@ namespace mike_and_conquer.gameview
             this.unitSprite.drawBoundingRectangle = false;
             this.unitSprite.drawShadow = true;
 
-            // this.unitSelectionCursor = new UnitSelectionCursor(myMinigunner, (int)this.myMinigunner.GameWorldLocation.WorldCoordinatesAsVector2.X, (int)this.myMinigunner.GameWorldLocation.WorldCoordinatesAsVector2.Y);
+            this.unitSize = new UnitSize(12, 16);
+
+
+            this.unitSelectionCursor = new UnitSelectionCursor(this, XInWorldCoordinates, YInWorldCoordinates);
             // this.destinationSquare = new DestinationSquare();
             this.drawDestinationSquare = false;
             SetupAnimations();
+            this.selectionCursorOffset = new Point(-6, -10);
+
         }
 
 
@@ -90,7 +98,7 @@ namespace mike_and_conquer.gameview
 
         public void Update(GameTime gameTime)
         {
-            // unitSelectionCursor.Update(gameTime);
+            unitSelectionCursor.Update(gameTime);
         }
 
 
@@ -124,10 +132,10 @@ namespace mike_and_conquer.gameview
 
             unitSprite.DrawNoShadow(gameTime, spriteBatch, worldCoordinatesAsVector2, SpriteSortLayers.UNIT_DEPTH);
 
-            // if (myMinigunner.selected)
-            // {
-            //     unitSelectionCursor.DrawNoShadow(gameTime, spriteBatch, SpriteSortLayers.UNIT_DEPTH);
-            // }
+            if (Selected)
+            {
+                unitSelectionCursor.DrawNoShadow(gameTime, spriteBatch, SpriteSortLayers.UNIT_DEPTH);
+            }
 
         }
 
@@ -155,6 +163,11 @@ namespace mike_and_conquer.gameview
             //     unitSelectionCursor.DrawShadowOnly(gameTime, spriteBatch, SpriteSortLayers.UNIT_DEPTH);
             // }
 
+            if (Selected)
+            {
+                unitSelectionCursor.DrawShadowOnly(gameTime, spriteBatch, SpriteSortLayers.UNIT_DEPTH);
+            }
+
 
         }
 
@@ -162,6 +175,27 @@ namespace mike_and_conquer.gameview
         public void SetAnimate(bool animateFlag)
         {
             unitSprite.SetAnimate(animateFlag);
+        }
+
+
+        public bool ContainsPoint(int mouseX, int mouseY)
+        {
+            Rectangle clickDetectionRectangle = CreateClickDetectionRectangle();
+            return clickDetectionRectangle.Contains(new Point(mouseX, mouseY));
+        }
+
+
+        internal Rectangle CreateClickDetectionRectangle()
+        {
+
+            int unitWidth = 12;
+            int unitHeight = 12;
+
+            int x = (int)(XInWorldCoordinates - (unitWidth / 2));
+            int y = (int)(YInWorldCoordinates - unitHeight) + (int)(1);
+
+            Rectangle rectangle = new Rectangle(x, y, unitWidth, unitHeight);
+            return rectangle;
         }
 
 

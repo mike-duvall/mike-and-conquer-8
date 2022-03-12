@@ -37,6 +37,8 @@ namespace mike_and_conquer_simulation.main
 
         // private List<Unit> unitList;
 
+
+//        public static bool simulationRunning = false;
         private GameWorld gameWorld;
 
         public static void StartSimulation(SimulationStateListener listener)
@@ -68,11 +70,7 @@ namespace mike_and_conquer_simulation.main
             new SimulationMain();
             SimulationMain.instance.AddListener(listener);
 
-            Pickup here
-            Get this code working
-
-            PlayerController playerController = new MonogameUIHumanPlayerController();
-            SimulationMain.instance.SetGDIPlayerController(playerController);
+            // SimulationMain.instance.SetGDIPlayerController(playerController);
 
             condition = new ManualResetEvent(false);
             Thread backgroundThread = new Thread(new ThreadStart(SimulationMain.Main));
@@ -85,6 +83,11 @@ namespace mike_and_conquer_simulation.main
             // EmitInitializeScenarioEvent(27,23);
 
 
+        }
+
+        private void SetGDIPlayerController(PlayerController playerController)
+        {
+            gameWorld.SetGDIPlayerController(playerController);
         }
 
         private static void EmitInitializeScenarioEvent(
@@ -158,7 +161,6 @@ namespace mike_and_conquer_simulation.main
             while (true)
             {
 
-
                 int sleepTime = (int) SimulationMain.instance.simulationOptions.CurrentGameSpeed;
                 TimerHelper.SleepForNoMoreThan(sleepTime);
 
@@ -171,18 +173,20 @@ namespace mike_and_conquer_simulation.main
 
                 while (!doneWaiting)
                 {
-                
-                     currentTicks = DateTime.Now.Ticks;
-                     delta = (currentTicks - previousTicks) / TimeSpan.TicksPerMillisecond;
-                     if (delta >= sleepTime)
-                     {
-                         doneWaiting = true;
-                     }
+
+                    currentTicks = DateTime.Now.Ticks;
+                    delta = (currentTicks - previousTicks) / TimeSpan.TicksPerMillisecond;
+                    if (delta >= sleepTime)
+                    {
+                        doneWaiting = true;
+                    }
 
 
                 }
+
                 // logger.LogInformation("delta=" + delta);
                 previousTicks = currentTicks;
+
             }
 
         }
@@ -196,6 +200,8 @@ namespace mike_and_conquer_simulation.main
             listeners.Add(new SimulationStateHistoryListener(this));
 
             // unitList = new List<Unit>();
+
+            gameWorld = new GameWorld();
 
             simulationOptions = new SimulationOptions();
 
@@ -461,7 +467,7 @@ namespace mike_and_conquer_simulation.main
             //     unitList.Clear();
             // }
 
-            gameWorld = new GameWorld();
+            gameWorld.ResetScenario();
             gameWorld.InitializeDefaultMap();
 
             EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
@@ -469,16 +475,56 @@ namespace mike_and_conquer_simulation.main
             // EmitInitializeScenarioEvent(27, 23);
         }
 
+        public void StartScenario(PlayerController playerController)
+        {
+
+            // SimulationStateUpdateEvent resetScenarioEvent = new SimulationStateUpdateEvent();
+            // resetScenarioEvent.EventType = "ResetScenario";
+            //
+            // PublishEvent(resetScenarioEvent);
+            //
+            // lock (simulationStateUpdateEventsHistory)
+            // {
+            //     simulationStateUpdateEventsHistory.Clear();
+            // }
+
+            SimulationMain.globalId = 1;
+
+            // gam
+            // lock (unitList)
+            // {
+            //     unitList.Clear();
+            // }
+
+            gameWorld.StartScenario(playerController);
+            gameWorld.InitializeDefaultMap();
+
+            EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
+
+        }
+
+
         internal void PostCommand(RawCommand incomingAdminCommand)
         {
 
             AsyncSimulationCommand command = ConvertRawCommand(incomingAdminCommand);
 
+            // lock (inputCommandQueue)
+            // {
+            //     inputCommandQueue.Enqueue(command);
+            // }
+
+            this.PostCommand(command);
+
+        }
+
+
+        public void PostCommand(AsyncSimulationCommand command)
+        {
             lock (inputCommandQueue)
             {
                 inputCommandQueue.Enqueue(command);
             }
-
 
         }
 

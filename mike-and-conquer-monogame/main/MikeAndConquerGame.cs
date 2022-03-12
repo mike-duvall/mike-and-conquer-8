@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks.Sources;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +10,6 @@ using mike_and_conquer.gameview;
 using mike_and_conquer.openralocal;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
-using mike_and_conquer_simulation.gameworld;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -142,7 +140,6 @@ namespace mike_and_conquer_monogame.main
 
             // gameWorld.InitializeNavigationGraph();
             gameWorldView.LoadContent();
-
 
 
 

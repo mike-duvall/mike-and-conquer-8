@@ -246,7 +246,7 @@ namespace mike_and_conquer_simulation.gameworld
                 }
             }
 
-
+            inputStream.Close();
 
 
 
@@ -498,7 +498,11 @@ namespace mike_and_conquer_simulation.gameworld
 
         public void Update()
         {
-            gdiPlayer.Update();
+            if (gdiPlayer != null)
+            {
+                gdiPlayer.Update();
+            }
+
         }
 
 
@@ -1166,6 +1170,45 @@ namespace mike_and_conquer_simulation.gameworld
         public Unit FindUnitWithUnitId(int unitId)
         {
             return gdiPlayer.FindUnitWithUnitId(unitId);
+        }
+
+        public void SetGDIPlayerController(PlayerController playerController)
+        {
+            gdiPlayer = new GDIPlayer(playerController);
+        }
+
+
+        // public GameState HandleReset()
+        // {
+        //     // gdiMinigunnerList.Clear();
+        //     gdiPlayer.HandleReset();
+        //     nodPlayer.HandleReset();
+        //     // nodMinigunnerList.Clear();
+        //     sandbagList.Clear();
+        //     nodTurretList.Clear();
+        //     projectile120MmList.Clear();
+        //     nodTurretList.Clear();
+        //     projectile120MmList.Clear();
+        //     // mcv = null;
+        //     // gdiConstructionYard = null;
+        //     // gdiBarracks = null;
+        //     gameMap.Reset();
+        //     InitializeNavigationGraph();
+        //     return new PlayingGameState();
+        // }
+
+
+        public void ResetScenario()
+        {
+            gdiPlayer.HandleReset();
+            // gameMap.Reset();
+            InitializeDefaultMap();
+        }
+
+        public void StartScenario(PlayerController playerController)
+        {
+            gdiPlayer = new GDIPlayer(playerController);
+            InitializeDefaultMap();
         }
     }
 }

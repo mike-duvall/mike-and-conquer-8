@@ -1183,12 +1183,12 @@ namespace mike_and_conquer.gameview
             // {
             //     nodTurretView.Update(gameTime);
             // }
-            //
-            // foreach (MinigunnerView minigunnerView in gdiMinigunnerViewList)
-            // {
-            //     minigunnerView.Update(gameTime);
-            // }
-            //
+            
+            foreach (MinigunnerView minigunnerView in gdiMinigunnerViewList)
+            {
+                minigunnerView.Update(gameTime);
+            }
+            
             // if (mcvView != null)
             // {
             //     mcvView.Update(gameTime);
