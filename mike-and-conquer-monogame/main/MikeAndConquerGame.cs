@@ -597,6 +597,15 @@ namespace mike_and_conquer_monogame.main
 
             }
 
+            foreach (MinigunnerView minigunnerView in gameWorldView.GdiMinigunnerViewList)
+            {
+                if (minigunnerView.ID == unitPositionChangedEventData.ID)
+                {
+                    minigunnerView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+                    minigunnerView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+                }
+            }
+
         }
 
 

@@ -4,6 +4,8 @@ using mike_and_conquer.gameobjects;
 // using mike_and_conquer.gameobjects;
 using mike_and_conquer.gamesprite;
 using mike_and_conquer_monogame.main;
+using mike_and_conquer_simulation.commands;
+using mike_and_conquer_simulation.main;
 using AnimationSequence = mike_and_conquer.util.AnimationSequence;
 using GameTime = Microsoft.Xna.Framework.GameTime;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
@@ -199,6 +201,22 @@ namespace mike_and_conquer.gameview
         }
 
 
+        public void OrderToMoveToDestination(Point centerOfSquare)
+        {
+            // StartScenarioCommand command = new StartScenarioCommand();
+            // command.GDIPlayerController = new HumanPlayerController();
+            //
+            // SimulationMain.instance.PostCommand(command);
 
+
+            OrderUnitToMoveCommand command = new OrderUnitToMoveCommand();
+            command.UnitId = this.ID;
+            command.DestinationXInWorldCoordinates = centerOfSquare.X;
+            command.DestinationYInWorldCoordinates = centerOfSquare.Y;
+
+            SimulationMain.instance.PostCommand(command);
+
+
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using mike_and_conquer_monogame.main;
@@ -1494,5 +1495,17 @@ namespace mike_and_conquer.gameview
         }
 
 
+        public MapTileInstanceView FindMapTileInstanceView(int mouseX, int mouseY)
+        {
+            foreach (MapTileInstanceView mapTileInstanceView in this.MapTileInstanceViewList)
+            {
+                if (mapTileInstanceView.ContainsPoint(mouseX, mouseY))
+                {
+                    return mapTileInstanceView;
+                }
+            }
+            throw new Exception("Unable to find MapTileInstance at coordinates, x:" + mouseX + ", y:" + mouseY);
+
+        }
     }
 }

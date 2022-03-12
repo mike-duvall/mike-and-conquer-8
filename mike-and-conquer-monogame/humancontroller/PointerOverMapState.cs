@@ -58,10 +58,10 @@ namespace mike_and_conquer.gameworld.humancontroller
                 //     handledEvent = CheckForAndHandleLeftClickOnEnemyUnit(mouseWorldLocationPoint);
                 // }
                 //
-                // if (!handledEvent)
-                // {
-                //     handledEvent = CheckForAndHandleLeftClickOnMap(mouseWorldLocationPoint);
-                // }
+                if (!handledEvent)
+                {
+                    handledEvent = CheckForAndHandleLeftClickOnMap(mouseWorldLocationPoint);
+                }
             }
 
             if (MouseInputUtil.RightMouseButtonClicked(newMouseState, oldMouseState))
@@ -175,6 +175,62 @@ namespace mike_and_conquer.gameworld.humancontroller
         //
         // }
         //
+
+        private bool CheckForAndHandleLeftClickOnMap(Point mouseLocation)
+        {
+        
+            int mouseX = mouseLocation.X;
+            int mouseY = mouseLocation.Y;
+        
+            bool unitOrderedToMove = false;
+        
+            foreach (MinigunnerView nextMinigunner in GameWorldView.instance.GdiMinigunnerViewList)
+            {
+                if (nextMinigunner.Selected == true)
+                {
+                    // if (GameWorld.instance.IsValidMoveDestination(new Point(mouseX, mouseY)))
+                    // {
+                    MapTileInstanceView clickedMapTileInstance =
+                        GameWorldView.instance.FindMapTileInstanceView(mouseX, mouseY);
+
+        
+        
+                        Point centerOfSquare = clickedMapTileInstance.GetCenter();
+                        nextMinigunner.OrderToMoveToDestination(centerOfSquare);
+                        unitOrderedToMove = true;
+                    // }
+                }
+            }
+        
+            // MCV mcv = GameWorld.instance.MCV;
+            // if (mcv != null)
+            // {
+            //     if (mcv.selected == true)
+            //     {
+            //         if (GameWorld.instance.IsValidMoveDestination(new Point(mouseX, mouseY)))
+            //         {
+            //             MapTileInstance clickedMapTileInstance =
+            //                 GameWorld.instance.FindMapTileInstance(
+            //                     MapTileLocation.CreateFromWorldCoordinates(mouseX, mouseY));
+            //
+            //             Point centerOfSquare = clickedMapTileInstance.GetCenter();
+            //             mcv.OrderToMoveToDestination(centerOfSquare);
+            //             unitOrderedToMove = true;
+            //         }
+            //
+            //     }
+            // }
+            //
+            // if (unitOrderedToMove)
+            // {
+            //     MikeAndConquerGame.instance.SoundManager.PlayUnitAffirmative1();
+            // }
+            return true;
+        
+        }
+        
+
+
 
         // internal Boolean CheckForAndHandleLeftClickOnEnemyUnit(Point mouseLocation)
         // {
