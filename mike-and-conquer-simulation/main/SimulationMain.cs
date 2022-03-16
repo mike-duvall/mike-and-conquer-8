@@ -483,10 +483,10 @@ namespace mike_and_conquer_simulation.main
             //
             // PublishEvent(resetScenarioEvent);
             //
-            // lock (simulationStateUpdateEventsHistory)
-            // {
-            //     simulationStateUpdateEventsHistory.Clear();
-            // }
+            lock (simulationStateUpdateEventsHistory)
+            {
+                simulationStateUpdateEventsHistory.Clear();
+            }
 
             SimulationMain.globalId = 1;
 
@@ -576,7 +576,11 @@ namespace mike_and_conquer_simulation.main
                 return new ResetScenarioCommand();
 
             }
+            else if (rawCommand.CommandType.Equals(StartScenarioCommand.CommandName))
+            {
+                return new StartScenarioCommand();
 
+            }
             else if (rawCommand.CommandType.Equals(OrderUnitToMoveCommand.CommandName))
             {
 

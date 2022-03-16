@@ -116,7 +116,11 @@ namespace mike_and_conquer_simulation.gameworld
 
         public void Update()
         {
-            playerController.Update();
+            if (playerController != null)
+            {
+                playerController.Update();
+            }
+
             // UpdateGDIMinigunners();
             UpdateUnits();
 

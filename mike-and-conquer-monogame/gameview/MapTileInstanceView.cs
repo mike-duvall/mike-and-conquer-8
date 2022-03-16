@@ -163,7 +163,7 @@ namespace mike_and_conquer.gameview
 
 
 
-        // TODO:  Consider pulling map shroud code into seprate class(es)
+        // TODO:  Consider pulling map shroud code into separate class(es)
         private void InitializeMapTileShroudMappingList()
         {
             mapTileShroudMappingList = new List<MapTileShroudMapping>();

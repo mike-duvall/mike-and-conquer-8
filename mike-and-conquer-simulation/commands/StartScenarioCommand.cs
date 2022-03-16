@@ -7,7 +7,7 @@ namespace mike_and_conquer_simulation.commands
     {
 
 
-        public const string CommandName = "StartSCenario";
+        public const string CommandName = "StartScenario";
 
         public PlayerController GDIPlayerController { get; set; }
 

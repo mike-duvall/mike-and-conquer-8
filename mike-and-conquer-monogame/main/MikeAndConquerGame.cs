@@ -625,6 +625,13 @@ namespace mike_and_conquer_monogame.main
 
         public void InitializeScenario(InitializeScenarioEventData initializeScenarioEventData)
         {
+
+            gameWorldView.HandleReset();
+            hasScenarioBeenInitialized = false;
+            mapWidth = -10;
+            mapHeight = -10;
+
+
             this.mapWidth = initializeScenarioEventData.MapWidth;
             this.mapHeight = initializeScenarioEventData.MapHeight;
 
