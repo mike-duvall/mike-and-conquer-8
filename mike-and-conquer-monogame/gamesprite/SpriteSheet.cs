@@ -49,7 +49,24 @@ namespace mike_and_conquer.gamesprite
 
         public Texture2D GetTextureForKey(string key)
         {
-            return individualTextureMap[key];
+            if (individualTextureMap.ContainsKey(key))
+            {
+                return individualTextureMap[key];
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+        public void SetTextureForKey(string key, Texture2D texture)
+        {
+            if (individualTextureMap.ContainsKey(key))
+            {
+                individualTextureMap.Remove(key);
+            }
+            individualTextureMap.Add(key,texture);
         }
 
 

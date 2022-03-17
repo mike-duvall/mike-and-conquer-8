@@ -45,13 +45,23 @@ namespace mike_and_conquer.gamesprite
             get { return height; }
         }
 
+        private const string BorderTextureKey = "TerrainSpriteBorderTexture";
+
 
         public TerrainSprite(string spriteListKey, Point position )
         {
             unitFrameList = MikeAndConquerGame.instance.SpriteSheet.GetUnitFramesForShpFile(spriteListKey);
             unitFrameImageIndex = 0;
 
-            spriteBorderRectangleTexture = CreateSpriteBorderRectangleTexture();
+
+            spriteBorderRectangleTexture = MikeAndConquerGame.instance.SpriteSheet.GetTextureForKey(BorderTextureKey);
+
+            if (spriteBorderRectangleTexture == null)
+            {
+                spriteBorderRectangleTexture = CreateSpriteBorderRectangleTexture();
+                MikeAndConquerGame.instance.SpriteSheet.SetTextureForKey(BorderTextureKey, spriteBorderRectangleTexture);
+
+            }
 
             spriteOrigin = new Vector2(GameWorldView.MAP_TILE_WIDTH / 2, GameWorldView.MAP_TILE_HEIGHT / 2);
 
