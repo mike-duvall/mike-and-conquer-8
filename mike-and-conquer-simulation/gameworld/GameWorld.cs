@@ -1201,12 +1201,16 @@ namespace mike_and_conquer_simulation.gameworld
         public void ResetScenario()
         {
             gdiPlayer.HandleReset();
+            terrainItemList.Clear();
             // gameMap.Reset();
             InitializeDefaultMap();
         }
 
         public void StartScenario(PlayerController playerController)
         {
+
+            terrainItemList.Clear();
+
             gdiPlayer = new GDIPlayer(playerController);
             InitializeDefaultMap();
         }
