@@ -14,7 +14,6 @@ using Newtonsoft.Json;
 // using GetGDIMinigunnerByIdGameEvent = mike_and_conquer.gameevent.GetGDIMinigunnerByIdGameEvent;
 // using CreateNodMinigunnerGameEvent = mike_and_conquer.gameevent.CreateNodMinigunnerGameEvent;
 // using GetNodMinigunnerByIdGameEvent = mike_and_conquer.gameevent.GetNodMinigunnerByIdGameEvent;
-// using ResetGameGameEvent = mike_and_conquer.gameevent.ResetGameGameEvent;
 // using GetCurrentGameStateGameEvent = mike_and_conquer.gameevent.GetCurrentGameStateGameEvent;
 // using CreateSandbagGameEvent = mike_and_conquer.gameevent.CreateSandbagGameEvent;
 
@@ -1178,24 +1177,6 @@ namespace mike_and_conquer_simulation.gameworld
         }
 
 
-        // public GameState HandleReset()
-        // {
-        //     // gdiMinigunnerList.Clear();
-        //     gdiPlayer.HandleReset();
-        //     nodPlayer.HandleReset();
-        //     // nodMinigunnerList.Clear();
-        //     sandbagList.Clear();
-        //     nodTurretList.Clear();
-        //     projectile120MmList.Clear();
-        //     nodTurretList.Clear();
-        //     projectile120MmList.Clear();
-        //     // mcv = null;
-        //     // gdiConstructionYard = null;
-        //     // gdiBarracks = null;
-        //     gameMap.Reset();
-        //     InitializeNavigationGraph();
-        //     return new PlayingGameState();
-        // }
 
 
         public void ResetScenario()

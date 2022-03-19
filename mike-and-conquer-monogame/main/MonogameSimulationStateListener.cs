@@ -65,13 +65,6 @@ namespace mike_and_conquer_monogame.main
                 mikeAndConquerGame.PostCommand(command);
 
             }
-            else if (anEvent.EventType.Equals("ResetScenario"))
-            {
-                ResetScenarioCommand command = new ResetScenarioCommand();
-
-                mikeAndConquerGame.PostCommand(command);
-            }
-
 
 
         }

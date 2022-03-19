@@ -569,13 +569,6 @@ namespace mike_and_conquer_simulation.main
                 return createdUnit;
 
             }
-
-            else if (rawCommand.CommandType.Equals(ResetScenarioCommand.CommandName))
-            {
-
-                return new ResetScenarioCommand();
-
-            }
             else if (rawCommand.CommandType.Equals(StartScenarioCommand.CommandName))
             {
                 return new StartScenarioCommand();
