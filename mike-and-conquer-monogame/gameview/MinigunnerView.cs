@@ -22,7 +22,6 @@ namespace mike_and_conquer.gameview
         private bool drawDestinationSquare;
 
 
-        public bool Selected { get; set; }
 
         // public int XInWorldCoordinates { get; set; }
         // public int YInWorldCoordinates { get; set; }
@@ -169,7 +168,6 @@ namespace mike_and_conquer.gameview
             {
                 unitSelectionCursor.DrawShadowOnly(gameTime, spriteBatch, SpriteSortLayers.UNIT_DEPTH);
             }
-
 
         }
 

@@ -5,7 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer.gameworld.humancontroller;
+using mike_and_conquer_monogame.commands;
+using mike_and_conquer_monogame.main;
 using mike_and_conquer_simulation.commands;
+using mike_and_conquer_simulation.commands.commandbody;
 using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.domain;
 using Newtonsoft.Json;
@@ -34,19 +37,32 @@ namespace mike_and_conquer_simulation.rest.controller
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult PostAdminCommand([FromBody] RestRawCommand incomingRawCommand)
+        public ActionResult PostAdminCommand([FromBody] RestRawCommandUI incomingRawCommand)
         {
             try
             {
-                // RawCommand rawCommand = new RawCommand();
-                // rawCommand.CommandType = incomingRawCommand.CommandType;
-                // rawCommand.CommandData = incomingRawCommand.CommandData;
-                //
-                // SimulationMain.instance.PostCommand(rawCommand);
-                StartScenarioCommand command = new StartScenarioCommand();
-                command.GDIPlayerController = new HumanPlayerController();
+                RawCommandUI rawCommand = new RawCommandUI();
+                rawCommand.CommandType = incomingRawCommand.CommandType;
+                rawCommand.CommandData = incomingRawCommand.CommandData;
 
-                SimulationMain.instance.PostCommand(command);
+
+                // if (rawCommand.CommandType.Equals(SelectUnitCommand.CommandName))
+                // {
+                //
+                //     SelectUnitCommandBody commandBody =
+                //         JsonConvert.DeserializeObject<SelectUnitCommandBody>(rawCommand.CommandData);
+                //
+                //     SelectUnitCommand command = new SelectUnitCommand(commandBody.UnitId);
+                //     command.Process();
+                //
+                // }
+                // else
+                // {
+                    // SimulationMain.instance.PostCommand(rawCommand);
+                    MikeAndConquerGame.instance.PostCommand(rawCommand);
+
+                // }
+
 
                 return new OkObjectResult(new {Message = "Command Accepted"});
 

@@ -15,6 +15,8 @@ namespace mike_and_conquer_monogame.main
 
         public int ID { get; set; }
 
+        public bool Selected { get; set; }
+
 
         public String type;
 

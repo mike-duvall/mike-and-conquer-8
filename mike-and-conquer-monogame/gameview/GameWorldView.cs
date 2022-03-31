@@ -234,6 +234,7 @@ namespace mike_and_conquer.gameview
         }
 
 
+
         internal void Draw(GameTime gameTime)
         {
             MapZoom = GameOptions.instance.MapZoomLevel;
@@ -532,6 +533,33 @@ namespace mike_and_conquer.gameview
 
 
             spriteBatch.End();
+        }
+
+
+        public UnitView GetUnitViewById(int unitId)
+        {
+            if (mcvView != null && mcvView.ID == unitId)
+            {
+                return mcvView;
+            }
+            else if (jeepView != null && jeepView.ID == unitId)
+            {
+                return jeepView;
+            }
+            else
+            {
+                foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+                {
+                    if (nextMinigunnerView.ID == unitId)
+                    {
+                        return nextMinigunnerView;
+                    }
+                }
+
+            }
+
+            return null;
+
         }
 
         private void UpdateMapTileAndShadowsRenderTarget()
@@ -1509,5 +1537,6 @@ namespace mike_and_conquer.gameview
             throw new Exception("Unable to find MapTileInstance at coordinates, x:" + mouseX + ", y:" + mouseY);
 
         }
+
     }
 }

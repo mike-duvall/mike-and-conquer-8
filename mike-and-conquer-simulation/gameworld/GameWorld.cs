@@ -1178,7 +1178,6 @@ namespace mike_and_conquer_simulation.gameworld
 
 
 
-
         public void ResetScenario()
         {
             gdiPlayer.HandleReset();

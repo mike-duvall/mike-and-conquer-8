@@ -9,11 +9,11 @@ namespace mike_and_conquer_monogame.main
     public class GameOptions
     {
 
-        public bool DrawTerrainBorder = false;
+        public bool DrawTerrainBorder = true;
         public bool DrawBlockingTerrainBorder = false;
 
-        public bool IsFullScreen = true;
-        // public bool IsFullScreen = false;
+        // public bool IsFullScreen = true;
+        public bool IsFullScreen = false;
 
         // public bool DrawShroud = true;
         public bool DrawShroud = false;
