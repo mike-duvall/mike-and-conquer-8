@@ -13,6 +13,7 @@
     <StartupObject></StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <!-- Comment out line below to run locally -->
     <OutputPath>\\192.168.0.186\buildoutput</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Local|AnyCPU'">

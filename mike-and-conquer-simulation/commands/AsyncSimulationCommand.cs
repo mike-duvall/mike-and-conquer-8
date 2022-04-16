@@ -70,6 +70,12 @@ namespace mike_and_conquer_simulation.commands
             }
         }
 
+        public Exception ThrownException
+        {
+            get { return thrownException; }
+        }
+
+
 
     }
 }

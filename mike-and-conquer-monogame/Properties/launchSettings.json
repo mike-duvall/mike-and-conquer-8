@@ -2,6 +2,7 @@
   "profiles": {
     "mike-and-conquer-monogame": {
       "commandName": "Project",
+      // comment out lines below to run locally
       "remoteDebugEnabled": true,
       "remoteDebugMachine": "192.168.0.186"
     }

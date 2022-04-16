@@ -158,7 +158,9 @@ namespace mike_and_conquer_simulation.gameworld
 
             // Stream inputStream = new FileStream(MikeAndConquerGame.CONTENT_DIRECTORY_PREFIX + "scg01ea.bin", FileMode.Open);
             string location = Assembly.GetEntryAssembly().Location;
-            location = location.Remove(42);
+            int locationOfDll = location.IndexOf("mike-and-conquer-monogame.dll");
+            location = location.Remove(locationOfDll - 1);
+
             Assembly assembly =  Assembly.GetEntryAssembly();
             string filePath = location + "\\Content\\" + "scg01ea.bin";
             Stream inputStream = new FileStream( filePath, FileMode.Open);

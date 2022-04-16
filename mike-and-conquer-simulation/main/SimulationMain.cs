@@ -154,7 +154,11 @@ namespace mike_and_conquer_simulation.main
 
 
                 int sleepTime = (int) SimulationMain.instance.simulationOptions.CurrentGameSpeed;
-                TimerHelper.SleepForNoMoreThan(sleepTime);
+                //TimerHelper.SleepForNoMoreThan(sleepTime, logger);
+                TimerHelper.SleepForNoMoreThan2(sleepTime);
+                // TimerHelper.SleepForNoMoreThan(sleepTime);
+                //Thread.Sleep(1);
+
 
 
                 SimulationMain.instance.Tick();
@@ -175,7 +179,7 @@ namespace mike_and_conquer_simulation.main
 
 
                 }
-                // logger.LogInformation("delta=" + delta);
+                // logger.LogInformation("delta=" + delta + ",  sleepTime=" + sleepTime);
                 previousTicks = currentTicks;
             }
 
@@ -219,6 +223,11 @@ namespace mike_and_conquer_simulation.main
                 {
                     AsyncSimulationCommand anEvent = inputCommandQueue.Dequeue();
                     anEvent.Process();
+                    if (anEvent.ThrownException != null)
+                    {
+                        string errorMessage = "Exception thrown processing command '" + anEvent.ToString() + "' in SimulationMain.ProcessInputEventQueue().  Exception stacktrace follows:";
+                        logger.LogError(anEvent.ThrownException, errorMessage);
+                    }
                 }
             }
         }
