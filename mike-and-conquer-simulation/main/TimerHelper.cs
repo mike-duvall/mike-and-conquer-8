@@ -77,7 +77,6 @@ namespace mike_and_conquer_simulation.main
                 
         }
 
-
         public static void SleepForNoMoreThan(double milliseconds)
         {
             // Assumption is that Thread.Sleep(t) will sleep for at least (t), and at most (t + timerResolution)
