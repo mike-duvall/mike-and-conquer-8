@@ -33,6 +33,10 @@ namespace mike_and_conquer.gamesprite
 
         private static void InitializeMissingMappingMask()
         {
+            if (blankMask != null)
+            {
+                blankMask.Dispose();
+            }
             blankMask = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, 24, 24);
             Color[] colorData = new Color[blankMask.Width * blankMask.Height];
             int numPixels = 24 * 24;
