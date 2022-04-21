@@ -33,20 +33,24 @@ namespace mike_and_conquer.gamesprite
 
         private static void InitializeMissingMappingMask()
         {
-            if (blankMask != null)
-            {
-                blankMask.Dispose();
-            }
-            blankMask = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, 24, 24);
-            Color[] colorData = new Color[blankMask.Width * blankMask.Height];
-            int numPixels = 24 * 24;
-            for (int i = 0; i < numPixels; i++)
-            {
-                Color xnaColor = new Color(16, 0, 0, 1);
-                colorData[i] = xnaColor;
-            }
+            const string BlankMaskTextureKey = "BlankMaskTextureKey";
 
-            blankMask.SetData(colorData);
+            blankMask = MikeAndConquerGame.instance.SpriteSheet.GetTextureForKey(BlankMaskTextureKey);
+
+            if (blankMask == null)
+            {
+                blankMask = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, 24, 24);
+                Color[] colorData = new Color[blankMask.Width * blankMask.Height];
+                int numPixels = 24 * 24;
+                for (int i = 0; i < numPixels; i++)
+                {
+                    Color xnaColor = new Color(16, 0, 0, 1);
+                    colorData[i] = xnaColor;
+                }
+
+                blankMask.SetData(colorData);
+
+            }
         }
 
 

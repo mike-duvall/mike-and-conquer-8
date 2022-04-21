@@ -53,7 +53,6 @@ namespace mike_and_conquer.gamesprite
             unitFrameList = MikeAndConquerGame.instance.SpriteSheet.GetUnitFramesForShpFile(spriteListKey);
             unitFrameImageIndex = 0;
 
-            // spriteBorderRectangleTexture = CreateSpriteBorderRectangleTexture();
             spriteBorderRectangleTexture = MikeAndConquerGame.instance.SpriteSheet.GetTextureForKey(BorderTextureKey);
 
             if (spriteBorderRectangleTexture == null)
@@ -78,41 +77,13 @@ namespace mike_and_conquer.gamesprite
 
         private void InitializeNoShadowTexture()
         {
-            // Texture2D sourceTexture = unitFrameList[0].Texture;
-            // noShadowTexture = TextureUtil.CopyTexture(sourceTexture);
-            //
-            // List<int> shadowIndexList = unitFrameList[0].ShadowIndexList;
-            // noShadowTexture = TextureUtil.UpdateShadowPixelsToTransparent(noShadowTexture, shadowIndexList);
             noShadowTexture = unitFrameList[0].Texture;
-
         }
 
 
         private void InitializeShadowOnlyTexture(Point positionInWorldCoordinates)
         {
-            // shadowOnlytexture2D =
-            //     new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, noShadowTexture.Width, noShadowTexture.Height);
-            //
-            // Color[] texturePixelData = new Color[shadowOnlytexture2D.Width * shadowOnlytexture2D.Height];
-            // shadowOnlytexture2D.GetData(texturePixelData);
-            //
-            // List<int> shadowIndexList = unitFrameList[unitFrameImageIndex].ShadowIndexList;
-            //
-            // int topLeftXOfSpriteInWorldCoordinates = positionInWorldCoordinates.X;
-            // int topLeftYOfSpriteInWorldCoordinates = positionInWorldCoordinates.Y; 
-            //
-            // Color[]  texturePixelDatWithShadowsUpdated = ShadowHelper.UpdateShadowPixels(
-            //     topLeftXOfSpriteInWorldCoordinates,
-            //     topLeftYOfSpriteInWorldCoordinates,
-            //     texturePixelData,
-            //     shadowIndexList,
-            //     shadowOnlytexture2D.Width,
-            //     this.palette
-            // );
-            //
-            // shadowOnlytexture2D.SetData(texturePixelDatWithShadowsUpdated);
             shadowOnlytexture2D = unitFrameList[0].ShadowOnlyTexture;
-
         }
 
         // This old Draw() method maps the shadow pixels on the fly and is too slow

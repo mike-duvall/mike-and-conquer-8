@@ -46,12 +46,6 @@ namespace mike_and_conquer.gamesprite
             return mapTileFrameMap[tmpFileName];
         }
 
-
-        // public Texture2D GetTextureForKey(string key)
-        // {
-        //     return individualTextureMap[key];
-        // }
-
         public Texture2D GetTextureForKey(string key)
         {
             if (individualTextureMap.ContainsKey(key))
