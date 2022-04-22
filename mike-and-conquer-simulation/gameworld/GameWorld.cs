@@ -245,7 +245,7 @@ namespace mike_and_conquer_simulation.gameworld
             }
 
 
-
+            inputStream.Close();
 
 
         }

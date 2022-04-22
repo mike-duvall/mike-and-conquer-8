@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using mike_and_conquer.gamesprite;
+using mike_and_conquer.gameview;
 using mike_and_conquer.main;
 using mike_and_conquer_monogame.main;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
@@ -50,24 +52,36 @@ namespace mike_and_conquer.util
 
         public static Texture2D CreateSpriteBorderRectangleTexture(Color color, int width, int height)
         {
-            Texture2D rectangle = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, width, height);
-            Color[] data = new Color[rectangle.Width * rectangle.Height];
-            FillHorizontalLine(data, rectangle.Width, rectangle.Height, 0, color);
-            FillHorizontalLine(data, rectangle.Width, rectangle.Height, rectangle.Height - 1, color);
-            FillVerticalLine(data, rectangle.Width, rectangle.Height, 0, color);
-            FillVerticalLine(data, rectangle.Width, rectangle.Height, rectangle.Width - 1, color);
 
-            int centerX = (rectangle.Width / 2);
-            int centerY = (rectangle.Height / 2);
+            string borderRectangleName = "BorderRectangle-Color-R-" + color.R + "-G-" + color.G + "-B-" + color.B +
+                                         "-width-" + width + "-height-" + height;
 
-            // Check how this works for even sized sprites with true center
+            Texture2D rectangleTexture = MikeAndConquerGame.instance.SpriteSheet.GetTextureForKey(borderRectangleName);
 
-            int centerOffset = (centerY * rectangle.Width) + centerX;
+            if (rectangleTexture == null)
+            {
 
-            data[centerOffset] = Color.Red;
+                rectangleTexture = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, width, height);
+                Color[] data = new Color[rectangleTexture.Width * rectangleTexture.Height];
+                FillHorizontalLine(data, rectangleTexture.Width, rectangleTexture.Height, 0, color);
+                FillHorizontalLine(data, rectangleTexture.Width, rectangleTexture.Height, rectangleTexture.Height - 1, color);
+                FillVerticalLine(data, rectangleTexture.Width, rectangleTexture.Height, 0, color);
+                FillVerticalLine(data, rectangleTexture.Width, rectangleTexture.Height, rectangleTexture.Width - 1, color);
 
-            rectangle.SetData(data);
-            return rectangle;
+                int centerX = (rectangleTexture.Width / 2);
+                int centerY = (rectangleTexture.Height / 2);
+
+                // Check how this works for even sized sprites with true center
+
+                int centerOffset = (centerY * rectangleTexture.Width) + centerX;
+                data[centerOffset] = Color.Red;
+
+                rectangleTexture.SetData(data);
+
+                MikeAndConquerGame.instance.SpriteSheet.SetTextureForKey(borderRectangleName, rectangleTexture);
+            }
+
+            return rectangleTexture;
         }
 
         private static void FillHorizontalLine(Color[] data, int width, int height, int lineIndex, Color color)

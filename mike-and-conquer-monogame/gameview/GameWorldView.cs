@@ -775,6 +775,8 @@ namespace mike_and_conquer.gameview
         public void HandleReset()
         {
             gdiMinigunnerViewList.Clear();
+            mapTileInstanceViewList.Clear();
+            terrainViewList.Clear();
             // nodMinigunnerViewList.Clear();
             // sandbagViewList.Clear();
             // nodTurretViewList.Clear();
