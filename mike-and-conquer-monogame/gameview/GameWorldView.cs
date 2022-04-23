@@ -513,11 +513,6 @@ namespace mike_and_conquer.gameview
             // }
 
 
-            foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
-            {
-                nextTerrainView.DrawShadowOnly(gameTime, spriteBatch);
-            }
-
             if (GameWorldView.instance.mcvView != null)
             {
                 GameWorldView.instance.mcvView.DrawShadowOnly(gameTime, spriteBatch);
@@ -528,6 +523,14 @@ namespace mike_and_conquer.gameview
             {
                 GameWorldView.instance.jeepView.DrawShadowOnly(gameTime, spriteBatch);
             }
+
+
+
+            foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
+            {
+                nextTerrainView.DrawShadowOnly(gameTime, spriteBatch);
+            }
+
 
 
             spriteBatch.End();
@@ -694,13 +697,6 @@ namespace mike_and_conquer.gameview
             // }
 
 
-
-
-            foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
-            {
-                nextTerrainView.DrawNoShadow(gameTime, spriteBatch);
-            }
-
             if (GameWorldView.instance.mcvView != null)
             {
                 GameWorldView.instance.mcvView.DrawNoShadow(gameTime, spriteBatch);
@@ -710,6 +706,15 @@ namespace mike_and_conquer.gameview
             {
                 GameWorldView.instance.jeepView.DrawNoShadow(gameTime, spriteBatch);
             }
+
+
+
+
+            foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
+            {
+                nextTerrainView.DrawNoShadow(gameTime, spriteBatch);
+            }
+
 
 
 
