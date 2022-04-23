@@ -20,6 +20,11 @@
     <OutputPath></OutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="gameobjects\**" />
+    <EmbeddedResource Remove="gameobjects\**" />
+    <None Remove="gameobjects\**" />
+  </ItemGroup>
+  <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
   </ItemGroup>
   <ItemGroup>
@@ -38,7 +43,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="gameobjects\" />
     <Folder Include="gamestate\" />
     <Folder Include="gamesprite\" />
     <Folder Include="openra\" />
