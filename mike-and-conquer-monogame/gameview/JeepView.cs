@@ -62,7 +62,7 @@ namespace mike_and_conquer.gameview
             this.drawDestinationSquare = false;
 
             AnimationSequence animationSequence = new AnimationSequence(1);
-            animationSequence.AddFrame(0);
+            animationSequence.AddFrame(8);
             unitSprite.AddAnimationSequence(0, animationSequence);
 
         }

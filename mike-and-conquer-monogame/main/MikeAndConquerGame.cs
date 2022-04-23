@@ -595,6 +595,8 @@ namespace mike_and_conquer_monogame.main
             }
             if (gameWorldView.jeepView != null && unitPositionChangedEventData.ID == gameWorldView.jeepView.ID)
             {
+                // MikeAndConquerGame.instance.logger.LogError("Jeep: " +  gameWorldView.jeepView.XInWorldCoordinates  + " to " + unitPositionChangedEventData.XInWorldCoordinates);
+                // MikeAndConquerGame.instance.logger.LogError("Jeep:  newX=" + unitPositionChangedEventData.XInWorldCoordinates);
                 gameWorldView.jeepView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
                 gameWorldView.jeepView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
 
