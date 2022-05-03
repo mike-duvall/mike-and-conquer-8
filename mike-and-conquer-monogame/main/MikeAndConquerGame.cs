@@ -660,8 +660,16 @@ namespace mike_and_conquer_monogame.main
                 // MikeAndConquerGame.instance.logger.LogError("Jeep:  newX=" + unitPositionChangedEventData.XInWorldCoordinates);
                 gameWorldView.jeepView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
                 gameWorldView.jeepView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
-
             }
+            foreach (MinigunnerView minigunnerView in gameWorldView.GdiMinigunnerViewList)
+            {
+                if (minigunnerView.ID == unitPositionChangedEventData.ID)
+                {
+                    minigunnerView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+                    minigunnerView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+                }
+            }
+
 
         }
 
