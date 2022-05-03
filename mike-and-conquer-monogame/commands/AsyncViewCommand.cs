@@ -2,7 +2,7 @@
 using ManualResetEvent = System.Threading.ManualResetEvent;
 
 
-namespace mike_and_conquer_simulation.commands
+namespace mike_and_conquer_monogame.commands
 {
     public abstract class AsyncViewCommand
     {

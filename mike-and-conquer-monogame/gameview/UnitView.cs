@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using mike_and_conquer.gameview;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -14,9 +15,24 @@ namespace mike_and_conquer_monogame.main
 
         public int ID { get; set; }
 
+        public bool Selected { get; set; }
+
 
         public String type;
 
         public Color color;
+
+        protected UnitSize unitSize;
+
+        public UnitSize UnitSize
+        {
+            get { return unitSize; }
+        }
+
+        protected Point selectionCursorOffset;
+        public Point SelectionCursorOffset
+        {
+            get { return selectionCursorOffset; }
+        }
     }
 }

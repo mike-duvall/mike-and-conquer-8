@@ -1478,5 +1478,42 @@ namespace mike_and_conquer.gameview
                     middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, 1.0f);
             }
         }
+
+        public bool ContainsPoint(int mouseX, int mouseY)
+        {
+            int width = GameWorldView.MAP_TILE_WIDTH;
+            int height = GameWorldView.MAP_TILE_HEIGHT;
+
+
+            Point mapTileInstanceViewInWorldCoordinates =
+                MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
+                    yInWorldMapTileCoordinates));
+
+            int leftX = mapTileInstanceViewInWorldCoordinates.X - (width / 2);
+            int topY = mapTileInstanceViewInWorldCoordinates.Y - (height / 2);
+
+            Rectangle boundRectangle = new Rectangle(leftX, topY, width, height);
+            return boundRectangle.Contains(new Point(mouseX, mouseY));
+        }
+
+
+        public Point GetCenter()
+        {
+            return MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
+                yInWorldMapTileCoordinates));
+        }
+
+
+        public static Point ConvertMapTileCoordinatesToWorldCoordinates(Point pointInWorldMapSquareCoordinates)
+        {
+
+            int xInWorldCoordinates = (pointInWorldMapSquareCoordinates.X * GameWorldView.MAP_TILE_WIDTH) +
+                                      (GameWorldView.MAP_TILE_WIDTH / 2);
+            int yInWorldCoordinates = pointInWorldMapSquareCoordinates.Y * GameWorldView.MAP_TILE_HEIGHT +
+                                      (GameWorldView.MAP_TILE_HEIGHT / 2);
+
+            return new Point(xInWorldCoordinates, yInWorldCoordinates);
+        }
+
     }
 }

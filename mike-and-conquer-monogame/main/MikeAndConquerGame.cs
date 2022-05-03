@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks.Sources;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mike_and_conquer.externalcontrol;
 using mike_and_conquer.gamesprite;
 using mike_and_conquer.gamestate;
 using mike_and_conquer.gameview;
+using mike_and_conquer.gameworld.humancontroller;
 using mike_and_conquer.openralocal;
+using mike_and_conquer_monogame.commands;
+using mike_and_conquer_monogame.commands.commandbody;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.gameworld;
+using mike_and_conquer_simulation.main;
+using Newtonsoft.Json;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -101,6 +108,60 @@ namespace mike_and_conquer_monogame.main
 
 
             MikeAndConquerGame.instance = this;
+        }
+
+
+        internal void PostCommand(RawCommandUI rawCommandUi)
+        {
+
+            AsyncViewCommand command = ConvertRawCommand(rawCommandUi);
+
+            // lock (inputCommandQueue)
+            // {
+            //     inputCommandQueue.Enqueue(command);
+            // }
+
+            this.PostCommand(command);
+
+
+        }
+
+        internal AsyncViewCommand ConvertRawCommand(RawCommandUI rawCommand)
+        {
+
+
+            if (rawCommand.CommandType.Equals(StartScenarioUICommand.CommandName))
+            {
+
+                StartScenarioUICommand command = new StartScenarioUICommand(new HumanPlayerController());
+                return command;
+
+            }
+            else if (rawCommand.CommandType.Equals(SelectUnitCommand.CommandName))
+            {
+                SelectUnitCommandBody commandBody =
+                    JsonConvert.DeserializeObject<SelectUnitCommandBody>(rawCommand.CommandData);
+
+                SelectUnitCommand command = new SelectUnitCommand(commandBody.UnitId);
+                return command;
+            }
+            else if (rawCommand.CommandType.Equals(LeftClickCommand.CommandName))
+            {
+                LeftClickCommandBody commandBody =
+                    JsonConvert.DeserializeObject<LeftClickCommandBody>(rawCommand.CommandData);
+
+                LeftClickCommand command =
+                    new LeftClickCommand(commandBody.XInWorldCoordinates, commandBody.YInWorldCoordinates);
+                return command;
+            }
+
+            else
+            {
+                throw new Exception("Unknown CommandType:" + rawCommand.CommandType);
+            }
+
+
+
         }
 
 
@@ -723,6 +784,98 @@ namespace mike_and_conquer_monogame.main
         //         currentGameStateView = new MissionFailedGameStateView();
         //     }
         // }
+
+        public void StartScenario(PlayerController playerController)
+        {
+            StartScenarioCommand command = new StartScenarioCommand();
+            command.GDIPlayerController = playerController;
+            SimulationMain.instance.PostCommand(command);
+
+        }
+
+        public void SelectUnit(int unitId)
+        {
+
+            UnitView unitView = this.gameWorldView.GetUnitViewById(unitId);
+
+            Vector2 unitViewLocationAsWorldCoordinates = new Vector2();
+            unitViewLocationAsWorldCoordinates.X = unitView.XInWorldCoordinates;
+            unitViewLocationAsWorldCoordinates.Y = unitView.YInWorldCoordinates - 10;
+
+            Vector2 transformedLocation =
+                GameWorldView.instance.ConvertWorldCoordinatesToScreenCoordinates(unitViewLocationAsWorldCoordinates);
+
+            int screenWidth = GameWorldView.instance.ScreenWidth;
+            int screenHeight = GameWorldView.instance.ScreenHeight;
+
+
+
+
+
+            // It appears that this mouse clicking code needs to run in a thread other than the main game processing thread
+            // maybe because it has sleeps in it?
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                /* run your code here */
+                // Console.WriteLine("Hello, world");
+                MouseInputHandler.DoLeftMouseClick((uint)transformedLocation.X, (uint)transformedLocation.Y, screenWidth, screenHeight);
+
+            }).Start();
+
+        }
+
+        public void LeftClick(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            Vector2 unitViewLocationAsWorldCoordinates = new Vector2();
+            unitViewLocationAsWorldCoordinates.X = xInWorldCoordinates;
+            unitViewLocationAsWorldCoordinates.Y = yInWorldCoordinates - 10;
+
+            Vector2 transformedLocation =
+                GameWorldView.instance.ConvertWorldCoordinatesToScreenCoordinates(unitViewLocationAsWorldCoordinates);
+
+            int screenWidth = GameWorldView.instance.ScreenWidth;
+            int screenHeight = GameWorldView.instance.ScreenHeight;
+
+
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                /* run your code here */
+                // Console.WriteLine("Hello, world");
+                MouseInputHandler.DoLeftMouseClick((uint)transformedLocation.X, (uint)transformedLocation.Y, screenWidth, screenHeight);
+
+            }).Start();
+
+        }
+
+        public UnitView GetUnitViewByIdByEvent(int unitId)
+        {
+            // GetCopyOfEventHistoryCommand anEvent = new GetCopyOfEventHistoryCommand();
+            //
+            // lock (inputCommandQueue)
+            // {
+            //     inputCommandQueue.Enqueue(anEvent);
+            // }
+            //
+            // List<SimulationStateUpdateEvent> list = anEvent.GetCopyOfEventHistory();
+            // return list;
+
+            GetUnitViewCommand command = new GetUnitViewCommand(unitId);
+
+            lock (inputCommandQueue)
+            {
+                inputCommandQueue.Enqueue(command);
+            }
+
+            UnitView unitView = command.GetUnitView();
+            return unitView;
+        }
+
+        public UnitView GetUnitViewById(int unitId)
+        {
+            return gameWorldView.GetUnitViewById(unitId);
+        }
 
 
 
