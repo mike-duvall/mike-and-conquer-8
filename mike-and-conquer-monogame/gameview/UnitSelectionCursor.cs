@@ -205,46 +205,60 @@ namespace mike_and_conquer.gameview
         // }
 
 
+
         private Texture2D CreateUnitSelectionTexture(int width, int height, int horizontalLength, int verticalLength)
         {
-            Color cncPalleteColorWhite = new Color(255, 255, 255, 255);
 
-            Texture2D rectangle =
-                new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, width, height);
+            string unitSelectionTextureKey = "UnitSelectionTexture-width-" + width + "-height-" + height;
 
-            Color[] data = new Color[rectangle.Width * rectangle.Height];
 
-            int startX = 0;
-            int startY = 0;
+            Texture2D unitSelectionTexture = MikeAndConquerGame.instance.SpriteSheet.GetTextureForKey(unitSelectionTextureKey);
 
-            // top left
-            DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
-            DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
+            if (unitSelectionTexture == null)
+            {
+                Color cncPalleteColorWhite = new Color(255, 255, 255, 255);
 
-            // bottom left
-            startY = height - verticalLength;
-            DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
-            startY = height - 1;
-            DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
+                unitSelectionTexture =
+                    new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, width, height);
 
-            // top right
-            startX = width - horizontalLength;
-            startY = 0;
-            DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
-            startX = width - 1;
-            DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
+                Color[] data = new Color[unitSelectionTexture.Width * unitSelectionTexture.Height];
 
-            // bottom right
-            startY = height - verticalLength;
-            DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
-            startX = width - horizontalLength;
+                int startX = 0;
+                int startY = 0;
 
-            startY = height - 1;
-            DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
+                // top left
+                DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
+                DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
 
-            rectangle.SetData(data);
+                // bottom left
+                startY = height - verticalLength;
+                DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
+                startY = height - 1;
+                DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
 
-            return rectangle;
+                // top right
+                startX = width - horizontalLength;
+                startY = 0;
+                DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
+                startX = width - 1;
+                DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
+
+                // bottom right
+                startY = height - verticalLength;
+                DrawVerticalLine(data, cncPalleteColorWhite, width, height, startX, startY, verticalLength);
+                startX = width - horizontalLength;
+
+                startY = height - 1;
+                DrawHorizontalLine(data, cncPalleteColorWhite, width, height, startX, startY, horizontalLength);
+
+                unitSelectionTexture.SetData(data);
+
+                MikeAndConquerGame.instance.SpriteSheet.SetTextureForKey(unitSelectionTextureKey, unitSelectionTexture);
+
+            }
+
+
+            return unitSelectionTexture;
         }
 
         Texture2D InitializeSelectionCursor()
