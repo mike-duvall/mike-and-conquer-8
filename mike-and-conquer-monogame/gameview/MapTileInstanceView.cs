@@ -33,6 +33,9 @@ namespace mike_and_conquer.gameview
 
         private List<MapTileShroudMapping> mapTileShroudMappingList;
 
+        private Rectangle boundingRectangle;
+        private bool boundingRectangleInitialized;
+
         public enum MapTileVisibility
         {
             NotVisible,
@@ -1479,22 +1482,53 @@ namespace mike_and_conquer.gameview
             }
         }
 
+        // public bool ContainsPoint(int mouseX, int mouseY)
+        // {
+        //     int width = GameWorldView.MAP_TILE_WIDTH;
+        //     int height = GameWorldView.MAP_TILE_HEIGHT;
+        //
+        //
+        //     Point mapTileInstanceViewInWorldCoordinates =
+        //         MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
+        //             yInWorldMapTileCoordinates));
+        //
+        //     int leftX = mapTileInstanceViewInWorldCoordinates.X - (width / 2);
+        //     int topY = mapTileInstanceViewInWorldCoordinates.Y - (height / 2);
+        //
+        //     Rectangle boundRectangle = new Rectangle(leftX, topY, width, height);
+        //     return boundRectangle.Contains(new Point(mouseX, mouseY));
+        // }
+
         public bool ContainsPoint(int mouseX, int mouseY)
         {
-            int width = GameWorldView.MAP_TILE_WIDTH;
-            int height = GameWorldView.MAP_TILE_HEIGHT;
-
-
-            Point mapTileInstanceViewInWorldCoordinates =
-                MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
-                    yInWorldMapTileCoordinates));
-
-            int leftX = mapTileInstanceViewInWorldCoordinates.X - (width / 2);
-            int topY = mapTileInstanceViewInWorldCoordinates.Y - (height / 2);
-
-            Rectangle boundRectangle = new Rectangle(leftX, topY, width, height);
-            return boundRectangle.Contains(new Point(mouseX, mouseY));
+            return GetBoundingRectangle().Contains(new Point(mouseX, mouseY));
         }
+
+
+        private Rectangle GetBoundingRectangle()
+        {
+
+
+            if (boundingRectangleInitialized == false)
+            {
+                int width = GameWorldView.MAP_TILE_WIDTH;
+                int height = GameWorldView.MAP_TILE_HEIGHT;
+
+                Point mapTileInstanceViewInWorldCoordinates =
+                    MapTileInstanceView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(xInWorldMapTileCoordinates,
+                        yInWorldMapTileCoordinates));
+
+                int leftX = mapTileInstanceViewInWorldCoordinates.X - (width / 2);
+                int topY = mapTileInstanceViewInWorldCoordinates.Y - (height / 2);
+
+                boundingRectangle = new Rectangle(leftX, topY, width, height);
+                boundingRectangleInitialized = true;
+            }
+
+            return boundingRectangle;
+
+        }
+
 
 
         public Point GetCenter()
