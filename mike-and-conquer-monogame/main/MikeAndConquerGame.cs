@@ -442,8 +442,12 @@ namespace mike_and_conquer_monogame.main
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                MikeAndConquerGame.instance.logger.LogError("Exiting because Escape key was pressed");
                 Exit();
+            }
 
             // TODO: Add your update logic here
             
@@ -817,6 +821,9 @@ namespace mike_and_conquer_monogame.main
             int screenHeight = GameWorldView.instance.ScreenHeight;
 
 
+            Point windowPosition = Window.Position;
+
+            int x = 0;
 
 
 
@@ -842,8 +849,12 @@ namespace mike_and_conquer_monogame.main
             Vector2 transformedLocation =
                 GameWorldView.instance.ConvertWorldCoordinatesToScreenCoordinates(unitViewLocationAsWorldCoordinates);
 
+            Point windowPosition = Window.Position;
+
             int screenWidth = GameWorldView.instance.ScreenWidth;
             int screenHeight = GameWorldView.instance.ScreenHeight;
+
+            int x = 0;
 
 
             new Thread(() =>

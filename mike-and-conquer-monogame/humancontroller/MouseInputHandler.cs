@@ -131,11 +131,12 @@ namespace mike_and_conquer.externalcontrol
             uint y3 = SendInput(1, ref mouseInput, mouseInputStructSize);
 
             mouseInput.mkhi.mi.dwFlags = mouseDownFlag;
-            mouseInput.mkhi.mi.time = (uint)DateTime.Now.Ticks;
+            // mouseInput.mkhi.mi.time = (uint)DateTime.Now.Ticks;
+            mouseInput.mkhi.mi.time = 0;
             uint y = SendInput(1, ref mouseInput, mouseInputStructSize);
-
+            
             System.Threading.Thread.Sleep(1000);
-
+            
             mouseInput.mkhi.mi.dwFlags = mouseUpFlag;
             uint y2 = SendInput(1, ref mouseInput, mouseInputStructSize);
 
@@ -164,7 +165,9 @@ namespace mike_and_conquer.externalcontrol
             uint y3 = SendInput(1, ref mouseInput, mouseInputStructSize);
 
             mouseInput.mkhi.mi.dwFlags = mouseDownFlag;
-            mouseInput.mkhi.mi.time = (uint)DateTime.Now.Ticks;
+            // mouseInput.mkhi.mi.time = (uint)DateTime.Now.Ticks;
+            mouseInput.mkhi.mi.time = 0;
+
             uint y = SendInput(1, ref mouseInput, mouseInputStructSize);
 
             System.Threading.Thread.Sleep(1000);
@@ -205,7 +208,15 @@ namespace mike_and_conquer.externalcontrol
             INPUT mouseInput = new INPUT();
             mouseInput.type = 0;
             mouseInput.mkhi.mi.mouseData = 0;
-            mouseInput.mkhi.mi.time = (uint)DateTime.Now.Ticks;
+
+            // Setting time to Ticks seems to sometimes activate screensaver and/or turn monitor off
+            // Not sure why
+            // See https://comp.os.ms-windows.programmer.win32.narkive.com/QSgTykc6/simulating-mouse-buton-press-isung-sendinput-activates-screensaver-and-turns-offmonitor
+            // And https://docs.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-mouseinput
+            // It seems that setting time to zero let's windows provide it's own time
+            //            mouseInput.mkhi.mi.time = (uint)DateTime.Now.Ticks;
+            mouseInput.mkhi.mi.time = 0;
+
             mouseInput.mkhi.mi.dx = (int)normalizedMouseX;
             mouseInput.mkhi.mi.dy = (int)normalizedMouseY;
             return mouseInput;
