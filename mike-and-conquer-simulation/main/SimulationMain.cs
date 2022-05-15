@@ -572,11 +572,6 @@ namespace mike_and_conquer_simulation.main
         public void StartScenario(PlayerController playerController)
         {
 
-            // SimulationStateUpdateEvent resetScenarioEvent = new SimulationStateUpdateEvent();
-            // resetScenarioEvent.EventType = "ResetScenario";
-            //
-            // PublishEvent(resetScenarioEvent);
-            //
             lock (simulationStateUpdateEventsHistory)
             {
                 simulationStateUpdateEventsHistory.Clear();

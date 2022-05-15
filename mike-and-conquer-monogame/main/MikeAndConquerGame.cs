@@ -173,14 +173,14 @@ namespace mike_and_conquer_monogame.main
             }
         }
 
-        public void ResetScenario()
-        {
-            // unitViewList.Clear();
-            gameWorldView.HandleReset();
-            hasScenarioBeenInitialized = false;
-            mapWidth = -10;
-            mapHeight = -10;
-        }
+        // public void ResetScenario()
+        // {
+        //     // unitViewList.Clear();
+        //     gameWorldView.HandleReset();
+        //     hasScenarioBeenInitialized = false;
+        //     mapWidth = -10;
+        //     mapHeight = -10;
+        // }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here

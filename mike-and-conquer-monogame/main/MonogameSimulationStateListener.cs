@@ -1,4 +1,6 @@
-﻿using mike_and_conquer_monogame.commands;
+﻿using System;
+using Microsoft.Extensions.Logging;
+using mike_and_conquer_monogame.commands;
 using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 
@@ -65,11 +67,9 @@ namespace mike_and_conquer_monogame.main
                 mikeAndConquerGame.PostCommand(command);
 
             }
-            else if (anEvent.EventType.Equals("ResetScenario"))
+            else
             {
-                ResetScenarioCommand command = new ResetScenarioCommand();
-
-                mikeAndConquerGame.PostCommand(command);
+                MikeAndConquerGame.instance.logger.LogInformation("Ignored event:" + anEvent.EventType);
             }
 
 
