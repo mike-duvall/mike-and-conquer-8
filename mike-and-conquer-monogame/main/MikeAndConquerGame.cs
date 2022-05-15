@@ -820,13 +820,6 @@ namespace mike_and_conquer_monogame.main
             int screenWidth = GameWorldView.instance.ScreenWidth;
             int screenHeight = GameWorldView.instance.ScreenHeight;
 
-
-            Point windowPosition = Window.Position;
-
-            int x = 0;
-
-
-
             // It appears that this mouse clicking code needs to run in a thread other than the main game processing thread
             // maybe because it has sleeps in it?
             new Thread(() =>
@@ -890,6 +883,7 @@ namespace mike_and_conquer_monogame.main
             UnitView unitView = command.GetUnitView();
             return unitView;
         }
+
 
         public UnitView GetUnitViewById(int unitId)
         {

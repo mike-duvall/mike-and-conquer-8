@@ -584,15 +584,8 @@ namespace mike_and_conquer_simulation.main
 
             SimulationMain.globalId = 1;
 
-            // gam
-            // lock (unitList)
-            // {
-            //     unitList.Clear();
-            // }
-
             gameWorld.StartScenario(playerController);
-            gameWorld.InitializeDefaultMap();
-
+            
             EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
 
         }
