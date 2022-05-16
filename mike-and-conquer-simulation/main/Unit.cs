@@ -11,7 +11,7 @@ namespace mike_and_conquer_simulation.main
             get { return gameWorldLocation; }
         }
 
-        public int ID { get; set; }
+        public int UnitId { get; set; }
 
         public abstract void Update();
 

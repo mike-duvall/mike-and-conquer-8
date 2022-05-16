@@ -39,7 +39,7 @@ namespace mike_and_conquer_simulation.rest.controller
                 anEvent.EventData = simulationStateUpdateEvent.EventData;
                 // anEvent.X = simulationStateUpdateEvent.X;
                 // anEvent.Y = simulationStateUpdateEvent.Y;
-                // anEvent.ID = simulationStateUpdateEvent.ID;
+                // anEvent.UnitId = simulationStateUpdateEvent.UnitId;
                 restReturnList.Add(anEvent);
             }
 

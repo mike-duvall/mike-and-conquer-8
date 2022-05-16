@@ -245,11 +245,11 @@ namespace mike_and_conquer.gameview
 
         public UnitView GetUnitViewById(int unitId)
         {
-            if (mcvView != null && mcvView.ID == unitId)
+            if (mcvView != null && mcvView.UnitId == unitId)
             {
                 return mcvView;
             }
-            else if (jeepView != null && jeepView.ID == unitId)
+            else if (jeepView != null && jeepView.UnitId == unitId)
             {
                 return jeepView;
             }
@@ -257,7 +257,7 @@ namespace mike_and_conquer.gameview
             {
                 foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
                 {
-                    if (nextMinigunnerView.ID == unitId)
+                    if (nextMinigunnerView.UnitId == unitId)
                     {
                         return nextMinigunnerView;
                     }

@@ -78,7 +78,7 @@ namespace mike_and_conquer_simulation.rest.controller
 
             RestUnit restUnit = new RestUnit();
 
-            restUnit.UnitId = unitView.ID;
+            restUnit.UnitId = unitView.UnitId;
             restUnit.Selected = unitView.Selected;
 
             return new OkObjectResult(restUnit);

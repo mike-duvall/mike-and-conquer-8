@@ -13,7 +13,7 @@ namespace mike_and_conquer_monogame.main
         public int XInWorldCoordinates { get; set; }
         public int YInWorldCoordinates { get; set; }
 
-        public int ID { get; set; }
+        public int UnitId { get; set; }
 
         public bool Selected { get; set; }
 

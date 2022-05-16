@@ -40,10 +40,10 @@ namespace mike_and_conquer.gameview
         //     SetupAnimations();
         // }
 
-        protected MinigunnerView(int id,string spriteListKey, int xInWorldCoordinates, int yInWorldCoordinates)
+        protected MinigunnerView(int unitId,string spriteListKey, int xInWorldCoordinates, int yInWorldCoordinates)
         {
             // this.myMinigunner = minigunner;
-            this.ID = id;
+            this.UnitId = unitId;
             this.XInWorldCoordinates = xInWorldCoordinates;
             this.YInWorldCoordinates = yInWorldCoordinates;
             this.unitSprite = new UnitSprite(spriteListKey);
@@ -178,7 +178,7 @@ namespace mike_and_conquer.gameview
 
 
             OrderUnitToMoveCommand command = new OrderUnitToMoveCommand();
-            command.UnitId = this.ID;
+            command.UnitId = this.UnitId;
             command.DestinationXInWorldCoordinates = centerOfSquare.X;
             command.DestinationYInWorldCoordinates = centerOfSquare.Y;
 

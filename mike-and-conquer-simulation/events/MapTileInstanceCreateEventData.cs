@@ -4,7 +4,7 @@
     {
 
 
-        public int ID { get; set; }
+        public int MapTileInstanceId { get; set; }
 
 
         public int XInWorldMapTileCoordinates { get; }
@@ -26,9 +26,9 @@
         {
         }
 
-        public MapTileInstanceCreateEventData(int id, int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates, string textureKey, byte imageIndex, bool isBlockingTerrain,  string visibility)
+        public MapTileInstanceCreateEventData(int mapTileInstanceId, int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates, string textureKey, byte imageIndex, bool isBlockingTerrain,  string visibility)
         {
-            ID = id;
+            MapTileInstanceId = mapTileInstanceId;
             XInWorldMapTileCoordinates = xInWorldMapTileCoordinates;
             YInWorldMapTileCoordinates = yInWorldMapTileCoordinates;
             TextureKey = textureKey;

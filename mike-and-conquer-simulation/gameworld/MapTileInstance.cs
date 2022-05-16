@@ -9,7 +9,7 @@ namespace mike_and_conquer_simulation.gameworld
     internal class MapTileInstance
     {
 
-        public int ID { get; set; }
+        public int MapTileInstanceId { get; set; }
 
         private MapTileLocation mapTileLocation;
 
@@ -69,7 +69,7 @@ namespace mike_and_conquer_simulation.gameworld
             this.imageIndex = imageIndex;
             this.isBlockingTerrain = isBlockingTerrain;
             this.Visibility = MapTileInstance.MapTileVisibility.NotVisible;
-            this.ID = SimulationMain.globalId++;
+            this.MapTileInstanceId = SimulationMain.globalId++;
         }
 
 

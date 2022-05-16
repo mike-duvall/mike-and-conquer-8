@@ -489,7 +489,7 @@ namespace mike_and_conquer_monogame.main
         public void AddMinigunner(int id, int x, int y)
         {
             // UnitView unitView = new UnitView();
-            // unitView.ID = id;
+            // unitView.UnitId = id;
             // unitView.XInWorldCoordinates = x;
             // unitView.YInWorldCoordinates = y;
             // unitView.type = "Minigunner";
@@ -504,7 +504,7 @@ namespace mike_and_conquer_monogame.main
         public void AddJeep(int id, int x, int y)
         {
             // UnitView unitView = new UnitView();
-            // unitView.ID = id;
+            // unitView.UnitId = id;
             // unitView.XInWorldCoordinates = x;
             // unitView.YInWorldCoordinates = y;
             // unitView.type = "Jeep";
@@ -519,7 +519,7 @@ namespace mike_and_conquer_monogame.main
             // // jeepX = x;
             // // jeepY = y;
             // UnitView unitView = new UnitView();
-            // unitView.ID = id;
+            // unitView.UnitId = id;
             // unitView.XInWorldCoordinates = x;
             // unitView.YInWorldCoordinates = y;
             // unitView.type = "MCV";
@@ -645,20 +645,20 @@ namespace mike_and_conquer_monogame.main
 
         // public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         // {
-        //     UnitView unitView = FindUnitViewById(unitPositionChangedEventData.ID);
+        //     UnitView unitView = FindUnitViewById(unitPositionChangedEventData.UnitId);
         //     unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
         //     unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
         // }
 
         public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
-            if (gameWorldView.mcvView != null && unitPositionChangedEventData.ID == gameWorldView.mcvView.ID)
+            if (gameWorldView.mcvView != null && unitPositionChangedEventData.UnitId == gameWorldView.mcvView.UnitId)
             {
                 gameWorldView.mcvView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
                 gameWorldView.mcvView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
 
             }
-            if (gameWorldView.jeepView != null && unitPositionChangedEventData.ID == gameWorldView.jeepView.ID)
+            if (gameWorldView.jeepView != null && unitPositionChangedEventData.UnitId == gameWorldView.jeepView.UnitId)
             {
                 // MikeAndConquerGame.instance.logger.LogError("Jeep: " +  gameWorldView.jeepView.XInWorldCoordinates  + " to " + unitPositionChangedEventData.XInWorldCoordinates);
                 // MikeAndConquerGame.instance.logger.LogError("Jeep:  newX=" + unitPositionChangedEventData.XInWorldCoordinates);
@@ -667,7 +667,7 @@ namespace mike_and_conquer_monogame.main
             }
             foreach (MinigunnerView minigunnerView in gameWorldView.GdiMinigunnerViewList)
             {
-                if (minigunnerView.ID == unitPositionChangedEventData.ID)
+                if (minigunnerView.UnitId == unitPositionChangedEventData.UnitId)
                 {
                     minigunnerView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
                     minigunnerView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
@@ -683,7 +683,7 @@ namespace mike_and_conquer_monogame.main
         // {
         //     foreach (UnitView unitView in unitViewList)
         //     {
-        //         if (unitView.ID == id)
+        //         if (unitView.UnitId == id)
         //         {
         //             return unitView;
         //         }

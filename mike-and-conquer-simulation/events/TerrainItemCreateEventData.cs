@@ -4,7 +4,7 @@
     {
 
 
-        //     public int ID { get; set; }
+        //     public int UnitId { get; set; }
         //
         //
         public int XInWorldMapTileCoordinates { get; }
@@ -32,7 +32,7 @@
         //
         //     public TerrainItemCreateEventData(int id, int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates, string textureKey, byte imageIndex, bool isBlockingTerrain,  string visibility)
         //     {
-        //         ID = id;
+        //         UnitId = id;
         //         XInWorldMapTileCoordinates = xInWorldMapTileCoordinates;
         //         YInWorldMapTileCoordinates = yInWorldMapTileCoordinates;
         //         TextureKey = textureKey;

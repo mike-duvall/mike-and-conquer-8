@@ -23,7 +23,7 @@ namespace mike_and_conquer_monogame.main
                 MinigunnerCreateEventData eventData =
                     JsonConvert.DeserializeObject<MinigunnerCreateEventData>(anEvent.EventData);
 
-                AddMinigunnerCommand command = new AddMinigunnerCommand(eventData.ID, eventData.X, eventData.Y);
+                AddMinigunnerCommand command = new AddMinigunnerCommand(eventData.UnitId, eventData.X, eventData.Y);
 
                 mikeAndConquerGame.PostCommand(command);
                 
@@ -33,7 +33,7 @@ namespace mike_and_conquer_monogame.main
                 JeepCreateEventData eventData =
                     JsonConvert.DeserializeObject<JeepCreateEventData>(anEvent.EventData);
 
-                AddJeepCommand command = new AddJeepCommand(eventData.ID, eventData.X, eventData.Y);
+                AddJeepCommand command = new AddJeepCommand(eventData.UnitId, eventData.X, eventData.Y);
 
                 mikeAndConquerGame.PostCommand(command);
 
@@ -43,7 +43,7 @@ namespace mike_and_conquer_monogame.main
                 MCVCreateEventData eventData =
                     JsonConvert.DeserializeObject<MCVCreateEventData>(anEvent.EventData);
 
-                AddMCVCommand command = new AddMCVCommand(eventData.ID, eventData.X, eventData.Y);
+                AddMCVCommand command = new AddMCVCommand(eventData.UnitId, eventData.X, eventData.Y);
 
                 mikeAndConquerGame.PostCommand(command);
 

@@ -98,7 +98,7 @@ namespace mike_and_conquer_simulation.main
             foreach (MapTileInstance mapTileInstance in mapTileInstanceList)
             {
                 MapTileInstanceCreateEventData mapTileCreateEventData = new MapTileInstanceCreateEventData(
-                    mapTileInstance.ID,
+                    mapTileInstance.MapTileInstanceId,
                     mapTileInstance.MapTileLocation.XInWorldMapTileCoordinates,
                     mapTileInstance.MapTileLocation.YInWorldMapTileCoordinates,
                     mapTileInstance.TextureKey,
@@ -274,7 +274,7 @@ namespace mike_and_conquer_simulation.main
             // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             // simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
             // MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
-            // eventData.ID = minigunner.ID;
+            // eventData.UnitId = minigunner.UnitId;
             // eventData.X = x;
             // eventData.Y = y;
             //
@@ -301,7 +301,7 @@ namespace mike_and_conquer_simulation.main
             // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             // simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
             // JeepCreateEventData eventData = new JeepCreateEventData();
-            // eventData.ID = jeep.ID;
+            // eventData.UnitId = jeep.UnitId;
             // eventData.X = x;
             // eventData.Y = y;
             //
@@ -328,7 +328,7 @@ namespace mike_and_conquer_simulation.main
             // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             // simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
             // MCVCreateEventData eventData = new MCVCreateEventData();
-            // eventData.ID = mcv.ID;
+            // eventData.UnitId = mcv.UnitId;
             // eventData.X = x;
             // eventData.Y = y;
             //
@@ -373,7 +373,7 @@ namespace mike_and_conquer_simulation.main
             //
             // foreach (Unit unit in unitList)
             // {
-            //     if (unit.ID == unitId)
+            //     if (unit.UnitId == unitId)
             //     {
             //         foundUnit = unit;
             //     }

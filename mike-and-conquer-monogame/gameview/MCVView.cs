@@ -45,10 +45,10 @@ namespace mike_and_conquer.gameview
         // }
 
 
-        public MCVView(int id,  int xInWorldCoordinates, int yInWorldCoordinates)
+        public MCVView(int unitId,  int xInWorldCoordinates, int yInWorldCoordinates)
         {
             // this.myMCV = mcv;
-            this.ID = id;
+            this.UnitId = unitId;
             this.XInWorldCoordinates = xInWorldCoordinates;
             this.YInWorldCoordinates = yInWorldCoordinates;
 

@@ -74,7 +74,7 @@ namespace mike_and_conquer_simulation.gameworld
         //     Minigunner foundMinigunner = null;
         //     foreach (Minigunner nextMinigunner in gdiMinigunnerList)
         //     {
-        //         if (nextMinigunner.ID == id)
+        //         if (nextMinigunner.UnitId == id)
         //         {
         //             foundMinigunner = nextMinigunner;
         //         }
@@ -257,7 +257,7 @@ namespace mike_and_conquer_simulation.gameworld
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
             MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
-            eventData.ID = minigunner.ID;
+            eventData.UnitId = minigunner.UnitId;
             eventData.X = xInWorldCoordinates;
             eventData.Y = yInWorldCoordinates;
 
@@ -284,7 +284,7 @@ namespace mike_and_conquer_simulation.gameworld
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
             JeepCreateEventData eventData = new JeepCreateEventData();
-            eventData.ID = jeep.ID;
+            eventData.UnitId = jeep.UnitId;
             eventData.X = xInWorldCoordinates;
             eventData.Y = yInWorldCoordinates;
 
@@ -310,7 +310,7 @@ namespace mike_and_conquer_simulation.gameworld
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
             MCVCreateEventData eventData = new MCVCreateEventData();
-            eventData.ID = mcv.ID;
+            eventData.UnitId = mcv.UnitId;
             eventData.X = xInWorldCoordinates;
             eventData.Y = yInWorldCoordinates;
 
@@ -333,7 +333,7 @@ namespace mike_and_conquer_simulation.gameworld
 
             foreach (Unit unit in unitList)
             {
-                if (unit.ID == unitId)
+                if (unit.UnitId == unitId)
                 {
                     foundUnit = unit;
                 }
