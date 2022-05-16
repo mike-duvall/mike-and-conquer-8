@@ -72,7 +72,7 @@ namespace mike_and_conquer_simulation.main
                     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
                     simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
                     UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
-                    eventData.ID = this.UnitId;
+                    eventData.UnitId = this.UnitId;
                     eventData.Timestamp = DateTime.Now.Ticks;
 
 
