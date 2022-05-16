@@ -353,7 +353,7 @@ namespace mike_and_conquer_simulation.main
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
             UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
-            eventData.ID = unitId;
+            eventData.UnitId = unitId;
             eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
             eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
             eventData.Timestamp = DateTime.Now.Ticks;

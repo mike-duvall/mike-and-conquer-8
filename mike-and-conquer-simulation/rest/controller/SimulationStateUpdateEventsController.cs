@@ -7,12 +7,14 @@ using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.main;
 using mike_and_conquer_simulation.rest.domain;
-// using WeatherForecast = mike_and_conquer_simulation.rest.domain.WeatherForecast;
+
 
 namespace mike_and_conquer_simulation.rest.controller
 {
     [ApiController]
-    [Route("[controller]")]
+    // [Route("[controller]")]
+    [Route("simulation/query/events")]
+
     public class SimulationStateUpdateEventsController : ControllerBase
     {
 
