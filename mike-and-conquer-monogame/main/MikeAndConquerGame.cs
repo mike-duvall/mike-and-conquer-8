@@ -115,12 +115,6 @@ namespace mike_and_conquer_monogame.main
         {
 
             AsyncViewCommand command = ConvertRawCommand(rawCommandUi);
-
-            // lock (inputCommandQueue)
-            // {
-            //     inputCommandQueue.Enqueue(command);
-            // }
-
             this.PostCommand(command);
 
 
@@ -173,14 +167,6 @@ namespace mike_and_conquer_monogame.main
             }
         }
 
-        // public void ResetScenario()
-        // {
-        //     // unitViewList.Clear();
-        //     gameWorldView.HandleReset();
-        //     hasScenarioBeenInitialized = false;
-        //     mapWidth = -10;
-        //     mapHeight = -10;
-        // }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
