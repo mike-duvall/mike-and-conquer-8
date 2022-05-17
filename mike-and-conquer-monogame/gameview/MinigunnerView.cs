@@ -205,6 +205,9 @@ namespace mike_and_conquer.gameview
 
 
             // TODO: Is this a memory leak?
+            // Thinking not, as it's just a struct with two values and helper functions
+            // As opposed to something consumes resources on the graphics card?
+            // It doesn't have a Dispose method
             Rectangle rectangle = new Rectangle(x, y, unitWidth, unitHeight);
             return rectangle;
         }
