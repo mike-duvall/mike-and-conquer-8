@@ -19,9 +19,9 @@ namespace mike_and_conquer.gameview
         Texture2D boundingRectangle;
 
         // private GameObject myGameObject;
-        private UnitView myUnitView;
+        private readonly UnitView myUnitView;
 
-        private Texture2D selectionCursorTexture;
+        private readonly Texture2D selectionCursorTexture;
         private Vector2 selectionCursorPosition;
 
 
