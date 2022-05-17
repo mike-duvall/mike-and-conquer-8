@@ -19,7 +19,6 @@ namespace mike_and_conquer_simulation.rest.controller
 {
     [ApiController]
     //    [Route("[controller]")]
-    //    [Route("api/[controller]")]
     [Route("ui/command")]
 
 
@@ -44,25 +43,8 @@ namespace mike_and_conquer_simulation.rest.controller
                 RawCommandUI rawCommand = new RawCommandUI();
                 rawCommand.CommandType = incomingRawCommand.CommandType;
                 rawCommand.CommandData = incomingRawCommand.CommandData;
-
-
-                // if (rawCommand.CommandType.Equals(SelectUnitCommand.CommandName))
-                // {
-                //
-                //     SelectUnitCommandBody commandBody =
-                //         JsonConvert.DeserializeObject<SelectUnitCommandBody>(rawCommand.CommandData);
-                //
-                //     SelectUnitCommand command = new SelectUnitCommand(commandBody.UnitId);
-                //     command.Process();
-                //
-                // }
-                // else
-                // {
-                // SimulationMain.instance.PostCommand(rawCommand);
+                
                 MikeAndConquerGame.instance.PostCommand(rawCommand);
-
-                // }
-
 
                 return new OkObjectResult(new { Message = "Command Accepted" });
 
@@ -74,29 +56,6 @@ namespace mike_and_conquer_simulation.rest.controller
                 return ValidationProblem(e.Message);
             }
         }
-
-
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-
-        [HttpGet]
-        public IEnumerable<MonogameWeatherForecast> Get()
-        {
-            _logger.LogInformation("This is some test logging from monogame.  And, Mike is cool");
-            _logger.LogWarning("This is some test logging from monogame.  And, Mike is cool");
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new MonogameWeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-                .ToArray();
-        }
-
 
     }
 }
