@@ -2,7 +2,7 @@
 
 namespace mike_and_conquer_simulation.commands
 {
-    internal class OrderUnitToMoveCommand : AsyncSimulationCommand
+    public class OrderUnitToMoveCommand : AsyncSimulationCommand
     {
 
         public const string CommandName = "OrderUnitMove";

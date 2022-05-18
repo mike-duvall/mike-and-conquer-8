@@ -1,5 +1,5 @@
 ﻿using mike_and_conquer_monogame.main;
-using mike_and_conquer_simulation.commands;
+
 
 namespace mike_and_conquer_monogame.commands
 {
@@ -7,13 +7,13 @@ namespace mike_and_conquer_monogame.commands
     {
 
 
-        private int id;
+        private int unitId;
         private int x;
         private int y;
 
-        public AddMCVCommand(int id, int x, int y)
+        public AddMCVCommand(int unitId, int x, int y)
         {
-            this.id = id;
+            this.unitId = unitId;
             this.x = x;
             this.y = y;
         }
@@ -21,7 +21,7 @@ namespace mike_and_conquer_monogame.commands
         protected override void ProcessImpl()
         {
             MikeAndConquerGame.instance.AddMCV(
-                id, x, y);
+                unitId, x, y);
 
         }
     }

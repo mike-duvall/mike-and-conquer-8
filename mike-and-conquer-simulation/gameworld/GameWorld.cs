@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using mike_and_conquer_simulation.main;
 // using mike_and_conquer.gameevent;
 // using mike_and_conquer.gameworld.humancontroller;
 // using mike_and_conquer.main;
@@ -37,7 +38,7 @@ namespace mike_and_conquer_simulation.gameworld
         public static int MAP_TILE_WIDTH_IN_LEPTONS = 256;
 
 
-        // private GDIPlayer gdiPlayer;
+        private GDIPlayer gdiPlayer;
         // private NodPlayer nodPlayer;
         //
         // public List<Sandbag> sandbagList;
@@ -247,6 +248,15 @@ namespace mike_and_conquer_simulation.gameworld
 
             inputStream.Close();
 
+
+        }
+
+        public void Update()
+        {
+            if (gdiPlayer != null)
+            {
+                gdiPlayer.Update();
+            }
 
         }
 
@@ -515,6 +525,43 @@ namespace mike_and_conquer_simulation.gameworld
                 }
             }
         }
+
+
+        public Minigunner CreateMinigunner(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            return gdiPlayer.CreateMinigunner(xInWorldCoordinates, yInWorldCoordinates);
+        }
+
+        public Jeep CreateJeep(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            return gdiPlayer.CreateJeep(xInWorldCoordinates, yInWorldCoordinates);
+        }
+
+        public MCV CreateMCV(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            return gdiPlayer.CreateMCV(xInWorldCoordinates, yInWorldCoordinates);
+        }
+
+        public Unit FindUnitWithUnitId(int unitId)
+        {
+            return gdiPlayer.FindUnitWithUnitId(unitId);
+        }
+
+        public void SetGDIPlayerController(PlayerController playerController)
+        {
+            gdiPlayer = new GDIPlayer(playerController);
+        }
+
+
+
+        public void ResetScenario()
+        {
+            gdiPlayer.HandleReset();
+            terrainItemList.Clear();
+            // gameMap.Reset();
+            InitializeDefaultMap();
+        }
+
 
 
         // public Minigunner AddGdiMinigunner(Point positionInWorldCoordinates)
@@ -994,107 +1041,117 @@ namespace mike_and_conquer_simulation.gameworld
 
         }
 
-//         public  bool IsValidMoveDestination(Point pointInWorldCoordinates)
-//         {
-//             bool isValidMoveDestination = true;
-// //            MapTileInstance clickedMapTileInstance =
-// //                FindMapTileInstanceAllowNull(pointInWorldCoordinates.X, pointInWorldCoordinates.Y);
-//
-//             MapTileInstance clickedMapTileInstance =
-//                 FindMapTileInstanceAllowNull(
-//                     MapTileLocation.CreateFromWorldCoordinates(pointInWorldCoordinates.X, pointInWorldCoordinates.Y));
-//
-//
-//             if (clickedMapTileInstance == null)
-//             {
-//                 isValidMoveDestination = false;
-//             }
-//             else if (clickedMapTileInstance.IsBlockingTerrain)
-//             {
-//                 isValidMoveDestination = false;
-//             }
-//
-//
-//             foreach (Sandbag nextSandbag in MikeAndConquerGame.instance.gameWorld.sandbagList)
-//             {
-//
-//                 if (nextSandbag.ContainsPoint(pointInWorldCoordinates))
-//                 {
-//                     isValidMoveDestination = false;
-//                 }
-//             }
-//
-//             if (GDIConstructionYard != null)
-//             {
-//                 if (GDIConstructionYard.ContainsPoint(pointInWorldCoordinates))
-//                 {
-//                     isValidMoveDestination = false;
-//                 }
-//             }
-//
-//             return isValidMoveDestination;
-//         }
-//
-//         public bool IsPointOverEnemy(Point pointInWorldCoordinates)
-//         {
-//             // foreach (Minigunner nextNodMinigunner in nodMinigunnerList)
-//             // {
-//             //     if (nextNodMinigunner.ContainsPoint(pointInWorldCoordinates.X, pointInWorldCoordinates.Y))
-//             //     {
-//             //         return true;
-//             //     }
-//             // }
-//             //
-//             // return false;
-//             //
-//             return nodPlayer.IsPointOverMinigunner(pointInWorldCoordinates);
-//         }
-//
-//         public bool IsPointOverMCV(Point pointInWorldCoordinates)
-//         {
-//
-//             // if (this.mcv != null)
-//             // {
-//             //     if (mcv.ContainsPoint(pointInWorldCoordinates.X, pointInWorldCoordinates.Y))
-//             //     {
-//             //         return true;
-//             //     }
-//             // }
-//             //
-//             // return false;
-//
-//             return gdiPlayer.IsPointOverMCV(pointInWorldCoordinates);
-//         }
-//
-//
-//         public bool IsAMinigunnerSelected()
-//         {
-//             // foreach (Minigunner nextMinigunner in gdiMinigunnerList)
-//             // {
-//             //     if (nextMinigunner.selected)
-//             //     {
-//             //         return true;
-//             //     }
-//             // }
-//             // return false;
-//             return gdiPlayer.IsAMinigunnerSelected();
-//         }
-//
-//         public bool IsAnMCVSelected()
-//         {
-//             // if (mcv != null)
-//             // {
-//             //     return mcv.selected;
-//             // }
-//             //
-//             // return false;
-//             return gdiPlayer.IsAnMCVSelected();
-//         }
-//
-//         public bool IsAnyUnitSelected()
-//         {
-//             return IsAMinigunnerSelected() || IsAnMCVSelected();
-//         }
+
+        public void StartScenario(PlayerController playerController)
+        {
+
+            terrainItemList.Clear();
+
+            gdiPlayer = new GDIPlayer(playerController);
+            InitializeDefaultMap();
+        }
+
+        //         public  bool IsValidMoveDestination(Point pointInWorldCoordinates)
+        //         {
+        //             bool isValidMoveDestination = true;
+        // //            MapTileInstance clickedMapTileInstance =
+        // //                FindMapTileInstanceAllowNull(pointInWorldCoordinates.X, pointInWorldCoordinates.Y);
+        //
+        //             MapTileInstance clickedMapTileInstance =
+        //                 FindMapTileInstanceAllowNull(
+        //                     MapTileLocation.CreateFromWorldCoordinates(pointInWorldCoordinates.X, pointInWorldCoordinates.Y));
+        //
+        //
+        //             if (clickedMapTileInstance == null)
+        //             {
+        //                 isValidMoveDestination = false;
+        //             }
+        //             else if (clickedMapTileInstance.IsBlockingTerrain)
+        //             {
+        //                 isValidMoveDestination = false;
+        //             }
+        //
+        //
+        //             foreach (Sandbag nextSandbag in MikeAndConquerGame.instance.gameWorld.sandbagList)
+        //             {
+        //
+        //                 if (nextSandbag.ContainsPoint(pointInWorldCoordinates))
+        //                 {
+        //                     isValidMoveDestination = false;
+        //                 }
+        //             }
+        //
+        //             if (GDIConstructionYard != null)
+        //             {
+        //                 if (GDIConstructionYard.ContainsPoint(pointInWorldCoordinates))
+        //                 {
+        //                     isValidMoveDestination = false;
+        //                 }
+        //             }
+        //
+        //             return isValidMoveDestination;
+        //         }
+        //
+        //         public bool IsPointOverEnemy(Point pointInWorldCoordinates)
+        //         {
+        //             // foreach (Minigunner nextNodMinigunner in nodMinigunnerList)
+        //             // {
+        //             //     if (nextNodMinigunner.ContainsPoint(pointInWorldCoordinates.X, pointInWorldCoordinates.Y))
+        //             //     {
+        //             //         return true;
+        //             //     }
+        //             // }
+        //             //
+        //             // return false;
+        //             //
+        //             return nodPlayer.IsPointOverMinigunner(pointInWorldCoordinates);
+        //         }
+        //
+        //         public bool IsPointOverMCV(Point pointInWorldCoordinates)
+        //         {
+        //
+        //             // if (this.mcv != null)
+        //             // {
+        //             //     if (mcv.ContainsPoint(pointInWorldCoordinates.X, pointInWorldCoordinates.Y))
+        //             //     {
+        //             //         return true;
+        //             //     }
+        //             // }
+        //             //
+        //             // return false;
+        //
+        //             return gdiPlayer.IsPointOverMCV(pointInWorldCoordinates);
+        //         }
+        //
+        //
+        //         public bool IsAMinigunnerSelected()
+        //         {
+        //             // foreach (Minigunner nextMinigunner in gdiMinigunnerList)
+        //             // {
+        //             //     if (nextMinigunner.selected)
+        //             //     {
+        //             //         return true;
+        //             //     }
+        //             // }
+        //             // return false;
+        //             return gdiPlayer.IsAMinigunnerSelected();
+        //         }
+        //
+        //         public bool IsAnMCVSelected()
+        //         {
+        //             // if (mcv != null)
+        //             // {
+        //             //     return mcv.selected;
+        //             // }
+        //             //
+        //             // return false;
+        //             return gdiPlayer.IsAnMCVSelected();
+        //         }
+        //
+        //         public bool IsAnyUnitSelected()
+        //         {
+        //             return IsAMinigunnerSelected() || IsAnMCVSelected();
+        //         }
 
 
         // public void RemoveMCV()

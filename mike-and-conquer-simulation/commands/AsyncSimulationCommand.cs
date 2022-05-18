@@ -4,7 +4,7 @@ using ManualResetEvent = System.Threading.ManualResetEvent;
 
 namespace mike_and_conquer_simulation.commands
 {
-    internal abstract class AsyncSimulationCommand
+    public abstract class AsyncSimulationCommand
     {
         protected Object result;
         private ManualResetEvent condition;

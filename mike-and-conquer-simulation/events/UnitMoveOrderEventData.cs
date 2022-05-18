@@ -5,7 +5,7 @@
         public int DestinationXInWorldCoordinates { get; set; }
         public int DestinationYInWorldCoordinates { get; set; }
         
-        public int ID { get; set; }
+        public int UnitId { get; set; }
 
         public long Timestamp { get; set; }
 

@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks.Sources;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mike_and_conquer.externalcontrol;
 using mike_and_conquer.gamesprite;
 using mike_and_conquer.gamestate;
 using mike_and_conquer.gameview;
+using mike_and_conquer.gameworld.humancontroller;
 using mike_and_conquer.openralocal;
+using mike_and_conquer_monogame.commands;
+using mike_and_conquer_monogame.commands.commandbody;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.gameworld;
+using mike_and_conquer_simulation.main;
+using Newtonsoft.Json;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -104,6 +111,54 @@ namespace mike_and_conquer_monogame.main
         }
 
 
+        internal void PostCommand(RawCommandUI rawCommandUi)
+        {
+
+            AsyncViewCommand command = ConvertRawCommand(rawCommandUi);
+            this.PostCommand(command);
+
+
+        }
+
+        internal AsyncViewCommand ConvertRawCommand(RawCommandUI rawCommand)
+        {
+
+
+            if (rawCommand.CommandType.Equals(StartScenarioUICommand.CommandName))
+            {
+
+                StartScenarioUICommand command = new StartScenarioUICommand(new HumanPlayerController());
+                return command;
+
+            }
+            else if (rawCommand.CommandType.Equals(SelectUnitCommand.CommandName))
+            {
+                SelectUnitCommandBody commandBody =
+                    JsonConvert.DeserializeObject<SelectUnitCommandBody>(rawCommand.CommandData);
+
+                SelectUnitCommand command = new SelectUnitCommand(commandBody.UnitId);
+                return command;
+            }
+            else if (rawCommand.CommandType.Equals(LeftClickCommand.CommandName))
+            {
+                LeftClickCommandBody commandBody =
+                    JsonConvert.DeserializeObject<LeftClickCommandBody>(rawCommand.CommandData);
+
+                LeftClickCommand command =
+                    new LeftClickCommand(commandBody.XInWorldCoordinates, commandBody.YInWorldCoordinates);
+                return command;
+            }
+
+            else
+            {
+                throw new Exception("Unknown CommandType:" + rawCommand.CommandType);
+            }
+
+
+
+        }
+
+
         public void PostCommand(AsyncViewCommand command)
         {
             lock (inputCommandQueue)
@@ -112,14 +167,6 @@ namespace mike_and_conquer_monogame.main
             }
         }
 
-        public void ResetScenario()
-        {
-            // unitViewList.Clear();
-            gameWorldView.HandleReset();
-            hasScenarioBeenInitialized = false;
-            mapWidth = -10;
-            mapHeight = -10;
-        }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -381,8 +428,12 @@ namespace mike_and_conquer_monogame.main
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                MikeAndConquerGame.instance.logger.LogError("Exiting because Escape key was pressed");
                 Exit();
+            }
 
             // TODO: Add your update logic here
             
@@ -424,7 +475,7 @@ namespace mike_and_conquer_monogame.main
         public void AddMinigunner(int id, int x, int y)
         {
             // UnitView unitView = new UnitView();
-            // unitView.ID = id;
+            // unitView.UnitId = id;
             // unitView.XInWorldCoordinates = x;
             // unitView.YInWorldCoordinates = y;
             // unitView.type = "Minigunner";
@@ -439,7 +490,7 @@ namespace mike_and_conquer_monogame.main
         public void AddJeep(int id, int x, int y)
         {
             // UnitView unitView = new UnitView();
-            // unitView.ID = id;
+            // unitView.UnitId = id;
             // unitView.XInWorldCoordinates = x;
             // unitView.YInWorldCoordinates = y;
             // unitView.type = "Jeep";
@@ -454,7 +505,7 @@ namespace mike_and_conquer_monogame.main
             // // jeepX = x;
             // // jeepY = y;
             // UnitView unitView = new UnitView();
-            // unitView.ID = id;
+            // unitView.UnitId = id;
             // unitView.XInWorldCoordinates = x;
             // unitView.YInWorldCoordinates = y;
             // unitView.type = "MCV";
@@ -580,27 +631,35 @@ namespace mike_and_conquer_monogame.main
 
         // public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         // {
-        //     UnitView unitView = FindUnitViewById(unitPositionChangedEventData.ID);
+        //     UnitView unitView = FindUnitViewById(unitPositionChangedEventData.UnitId);
         //     unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
         //     unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
         // }
 
         public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
-            if (gameWorldView.mcvView != null && unitPositionChangedEventData.ID == gameWorldView.mcvView.ID)
+            if (gameWorldView.mcvView != null && unitPositionChangedEventData.UnitId == gameWorldView.mcvView.UnitId)
             {
                 gameWorldView.mcvView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
                 gameWorldView.mcvView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
 
             }
-            if (gameWorldView.jeepView != null && unitPositionChangedEventData.ID == gameWorldView.jeepView.ID)
+            if (gameWorldView.jeepView != null && unitPositionChangedEventData.UnitId == gameWorldView.jeepView.UnitId)
             {
                 // MikeAndConquerGame.instance.logger.LogError("Jeep: " +  gameWorldView.jeepView.XInWorldCoordinates  + " to " + unitPositionChangedEventData.XInWorldCoordinates);
                 // MikeAndConquerGame.instance.logger.LogError("Jeep:  newX=" + unitPositionChangedEventData.XInWorldCoordinates);
                 gameWorldView.jeepView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
                 gameWorldView.jeepView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
-
             }
+            foreach (MinigunnerView minigunnerView in gameWorldView.GdiMinigunnerViewList)
+            {
+                if (minigunnerView.UnitId == unitPositionChangedEventData.UnitId)
+                {
+                    minigunnerView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+                    minigunnerView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+                }
+            }
+
 
         }
 
@@ -610,7 +669,7 @@ namespace mike_and_conquer_monogame.main
         // {
         //     foreach (UnitView unitView in unitViewList)
         //     {
-        //         if (unitView.ID == id)
+        //         if (unitView.UnitId == id)
         //         {
         //             return unitView;
         //         }
@@ -723,6 +782,99 @@ namespace mike_and_conquer_monogame.main
         //         currentGameStateView = new MissionFailedGameStateView();
         //     }
         // }
+
+        public void StartScenario(PlayerController playerController)
+        {
+            StartScenarioCommand command = new StartScenarioCommand();
+            command.GDIPlayerController = playerController;
+            SimulationMain.instance.PostCommand(command);
+
+        }
+
+        public void SelectUnit(int unitId)
+        {
+
+            UnitView unitView = this.gameWorldView.GetUnitViewById(unitId);
+
+            Vector2 unitViewLocationAsWorldCoordinates = new Vector2();
+            unitViewLocationAsWorldCoordinates.X = unitView.XInWorldCoordinates;
+            unitViewLocationAsWorldCoordinates.Y = unitView.YInWorldCoordinates - 10;
+
+            Vector2 transformedLocation =
+                GameWorldView.instance.ConvertWorldCoordinatesToScreenCoordinates(unitViewLocationAsWorldCoordinates);
+
+            int screenWidth = GameWorldView.instance.ScreenWidth;
+            int screenHeight = GameWorldView.instance.ScreenHeight;
+
+            // It appears that this mouse clicking code needs to run in a thread other than the main game processing thread
+            // maybe because it has sleeps in it?
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                /* run your code here */
+                // Console.WriteLine("Hello, world");
+                MouseInputHandler.DoLeftMouseClick((uint)transformedLocation.X, (uint)transformedLocation.Y, screenWidth, screenHeight);
+
+            }).Start();
+
+        }
+
+        public void LeftClick(int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            Vector2 unitViewLocationAsWorldCoordinates = new Vector2();
+            unitViewLocationAsWorldCoordinates.X = xInWorldCoordinates;
+            unitViewLocationAsWorldCoordinates.Y = yInWorldCoordinates - 10;
+
+            Vector2 transformedLocation =
+                GameWorldView.instance.ConvertWorldCoordinatesToScreenCoordinates(unitViewLocationAsWorldCoordinates);
+
+            Point windowPosition = Window.Position;
+
+            int screenWidth = GameWorldView.instance.ScreenWidth;
+            int screenHeight = GameWorldView.instance.ScreenHeight;
+
+            int x = 0;
+
+
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                /* run your code here */
+                // Console.WriteLine("Hello, world");
+                MouseInputHandler.DoLeftMouseClick((uint)transformedLocation.X, (uint)transformedLocation.Y, screenWidth, screenHeight);
+
+            }).Start();
+
+        }
+
+        public UnitView GetUnitViewByIdByEvent(int unitId)
+        {
+            // GetCopyOfEventHistoryCommand anEvent = new GetCopyOfEventHistoryCommand();
+            //
+            // lock (inputCommandQueue)
+            // {
+            //     inputCommandQueue.Enqueue(anEvent);
+            // }
+            //
+            // List<SimulationStateUpdateEvent> list = anEvent.GetCopyOfEventHistory();
+            // return list;
+
+            GetUnitViewCommand command = new GetUnitViewCommand(unitId);
+
+            lock (inputCommandQueue)
+            {
+                inputCommandQueue.Enqueue(command);
+            }
+
+            UnitView unitView = command.GetUnitView();
+            return unitView;
+        }
+
+
+        public UnitView GetUnitViewById(int unitId)
+        {
+            return gameWorldView.GetUnitViewById(unitId);
+        }
 
 
 

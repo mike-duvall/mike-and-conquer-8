@@ -46,7 +46,7 @@ namespace mike_and_conquer_simulation.main
             this.movementDistanceEpsilon = 1.5f;  
 
             this.gameWorldLocation = GameWorldLocation.CreateFromWorldCoordinates(0, 0);
-            this.ID = SimulationMain.globalId++;
+            this.UnitId = SimulationMain.globalId++;
 
         }
 
@@ -71,7 +71,7 @@ namespace mike_and_conquer_simulation.main
                     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
                     simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
                     UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
-                    eventData.ID = this.ID;
+                    eventData.UnitId = this.UnitId;
                     eventData.Timestamp = DateTime.Now.Ticks;
 
 
@@ -107,7 +107,7 @@ namespace mike_and_conquer_simulation.main
                     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
                     simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
                     UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
-                    eventData.ID = this.ID;
+                    eventData.UnitId = this.UnitId;
 
 
                     eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);

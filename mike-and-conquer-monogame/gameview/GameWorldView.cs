@@ -1,6 +1,7 @@
 ﻿
 
 
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Input;
 using mike_and_conquer_monogame.main;
@@ -239,6 +240,33 @@ namespace mike_and_conquer.gameview
             DrawMap(gameTime);
             // DrawSidebar(gameTime);
             // DrawGameCursor(gameTime);
+        }
+
+
+        public UnitView GetUnitViewById(int unitId)
+        {
+            if (mcvView != null && mcvView.UnitId == unitId)
+            {
+                return mcvView;
+            }
+            else if (jeepView != null && jeepView.UnitId == unitId)
+            {
+                return jeepView;
+            }
+            else
+            {
+                foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+                {
+                    if (nextMinigunnerView.UnitId == unitId)
+                    {
+                        return nextMinigunnerView;
+                    }
+                }
+
+            }
+
+            return null;
+
         }
 
 
@@ -525,13 +553,10 @@ namespace mike_and_conquer.gameview
             }
 
 
-
             foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
             {
                 nextTerrainView.DrawShadowOnly(gameTime, spriteBatch);
             }
-
-
 
             spriteBatch.End();
         }
@@ -1190,12 +1215,12 @@ namespace mike_and_conquer.gameview
             // {
             //     nodTurretView.Update(gameTime);
             // }
-            //
-            // foreach (MinigunnerView minigunnerView in gdiMinigunnerViewList)
-            // {
-            //     minigunnerView.Update(gameTime);
-            // }
-            //
+            
+            foreach (MinigunnerView minigunnerView in gdiMinigunnerViewList)
+            {
+                minigunnerView.Update(gameTime);
+            }
+            
             // if (mcvView != null)
             // {
             //     mcvView.Update(gameTime);
@@ -1500,6 +1525,19 @@ namespace mike_and_conquer.gameview
             return new XnaPoint(xInWorldCoordinates, yInWorldCoordinates);
         }
 
+
+        public MapTileInstanceView FindMapTileInstanceView(int mouseX, int mouseY)
+        {
+            foreach (MapTileInstanceView mapTileInstanceView in this.MapTileInstanceViewList)
+            {
+                if (mapTileInstanceView.ContainsPoint(mouseX, mouseY))
+                {
+                    return mapTileInstanceView;
+                }
+            }
+            throw new Exception("Unable to find MapTileInstance at coordinates, x:" + mouseX + ", y:" + mouseY);
+
+        }
 
     }
 }
