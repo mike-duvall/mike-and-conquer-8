@@ -28,7 +28,7 @@ namespace mike_and_conquer_simulation.main
 
         public static ILoggerFactory loggerFactory;
 
-        private static ILogger logger;
+        public static ILogger logger;
 
 
         public static SimulationMain instance;
@@ -348,7 +348,6 @@ namespace mike_and_conquer_simulation.main
         {
 
             Unit foundUnit = FindUnitWithUnitId(unitId);
-            foundUnit.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
@@ -364,6 +363,10 @@ namespace mike_and_conquer_simulation.main
             {
                 listener.Update(simulationStateUpdateEvent);
             }
+
+
+            foundUnit.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+
 
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using mike_and_conquer.pathfinding;
 using mike_and_conquer_simulation.main;
 // using mike_and_conquer.gameevent;
 // using mike_and_conquer.gameworld.humancontroller;
@@ -86,7 +87,7 @@ namespace mike_and_conquer_simulation.gameworld
         //     get { return gdiPlayer.MCV; }
         // }
         //
-        // public NavigationGraph navigationGraph;
+        public NavigationGraph navigationGraph;
 
         // private List<AsyncGameEvent> gameEvents;
 
@@ -143,7 +144,8 @@ namespace mike_and_conquer_simulation.gameworld
         public void InitializeDefaultMap()
         {
             LoadMap();
-            // navigationGraph = new NavigationGraph(this.gameMap.numColumns, this.gameMap.numRows);
+             navigationGraph = new NavigationGraph(this.gameMap.numColumns, this.gameMap.numRows);
+             InitializeNavigationGraph();
         }
 
         // public void InitializeTestMap(int[,] obstacleArray)
@@ -856,53 +858,53 @@ namespace mike_and_conquer_simulation.gameworld
 
 
 
-//         public void InitializeNavigationGraph()
-//         {
-//
-//             navigationGraph.Reset();
-//
-//             foreach (Sandbag nextSandbag in sandbagList)
-//             {
-//                 MapTileLocation sandbagMapTileLocation = nextSandbag.MapTileLocation;
-//                 navigationGraph.MakeNodeBlockingNode(
-//                     sandbagMapTileLocation.WorldMapTileCoordinatesAsPoint.Y,
-//                     sandbagMapTileLocation.WorldMapTileCoordinatesAsPoint.Y);
-//             }
-//
-//
-//             foreach (MapTileInstance nextMapTileInstance in this.gameMap.MapTileInstanceList)
-//             {
-//                 if (nextMapTileInstance.IsBlockingTerrain)
-//                 {
-//
-// //                    MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinatesInVector2(nextMapTileInstance.PositionInWorldCoordinates);
-//                     MapTileLocation mapTileLocation = nextMapTileInstance.MapTileLocation;
-//                     
-//                     navigationGraph.MakeNodeBlockingNode(
-//                         mapTileLocation.WorldMapTileCoordinatesAsPoint.X,
-//                         mapTileLocation.WorldMapTileCoordinatesAsPoint.Y);
-//                 }
-//             }
-//
-//             navigationGraph.RebuildAdajencyGraph();
-//
-//         }
+        public void InitializeNavigationGraph()
+        {
+
+            navigationGraph.Reset();
+
+            // foreach (Sandbag nextSandbag in sandbagList)
+            // {
+            //     MapTileLocation sandbagMapTileLocation = nextSandbag.MapTileLocation;
+            //     navigationGraph.MakeNodeBlockingNode(
+            //         sandbagMapTileLocation.WorldMapTileCoordinatesAsPoint.Y,
+            //         sandbagMapTileLocation.WorldMapTileCoordinatesAsPoint.Y);
+            // }
+
+
+            foreach (MapTileInstance nextMapTileInstance in this.gameMap.MapTileInstanceList)
+            {
+                if (nextMapTileInstance.IsBlockingTerrain)
+                {
+
+//                    MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinatesInVector2(nextMapTileInstance.PositionInWorldCoordinates);
+                    MapTileLocation mapTileLocation = nextMapTileInstance.MapTileLocation;
+                    
+                    navigationGraph.MakeNodeBlockingNode(
+                        mapTileLocation.WorldMapTileCoordinatesAsPoint.X,
+                        mapTileLocation.WorldMapTileCoordinatesAsPoint.Y);
+                }
+            }
+
+            navigationGraph.RebuildAdajencyGraph();
+
+        }
 
 
 
 
 
-        // public Point ConvertMapSquareIndexToWorldCoordinate(int index)
-        // {
-        //     int numColumns = navigationGraph.width;
-        //     Point point = new Point();
-        //     int row = index / numColumns;
-        //     int column = index - (row * numColumns);
-        //
-        //     point.X = (column * GameWorld.MAP_TILE_WIDTH) + (GameWorld.MAP_TILE_WIDTH / 2);
-        //     point.Y = (row * GameWorld.MAP_TILE_HEIGHT) + (GameWorld.MAP_TILE_HEIGHT / 2);
-        //     return point;
-        // }
+        public Point ConvertMapSquareIndexToWorldCoordinate(int index)
+        {
+            int numColumns = navigationGraph.width;
+            Point point = new Point();
+            int row = index / numColumns;
+            int column = index - (row * numColumns);
+        
+            point.X = (column * GameWorld.MAP_TILE_WIDTH) + (GameWorld.MAP_TILE_WIDTH / 2);
+            point.Y = (row * GameWorld.MAP_TILE_HEIGHT) + (GameWorld.MAP_TILE_HEIGHT / 2);
+            return point;
+        }
 
 
         public bool IsPointOnMap(Point pointInWorldCoordinates)

@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using mike_and_conquer.pathfinding;
 using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.gameworld;
 using Newtonsoft.Json;
+
+
+using MapTileInstance = mike_and_conquer_simulation.gameworld.MapTileInstance;
+
+using Point = System.Drawing.Point;
 
 namespace mike_and_conquer_simulation.main
 {
@@ -24,6 +28,13 @@ namespace mike_and_conquer_simulation.main
 
         double movementDistanceEpsilon;
         private float movementDelta;
+
+
+        private List<Point> path;
+
+        private int destinationX;
+        private int destinationY;
+
 
         public Minigunner()
         {
@@ -48,84 +59,381 @@ namespace mike_and_conquer_simulation.main
             this.UnitId = SimulationMain.globalId++;
         }
 
-
-
+        // public override void OrderMoveToDestination(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        // {
+        //     currentCommand = Command.FOLLOW_PATH;
+        //     state = State.MOVING;
+        //     this.destinationXInWorldCoordinates = destinationXInWorldCoordinates;
+        //     this.destinationYInWorldCoordinates = destinationYInWorldCoordinates;
+        // }
 
         public override void OrderMoveToDestination(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
-            currentCommand = Command.FOLLOW_PATH;
-            state = State.MOVING;
-            this.destinationXInWorldCoordinates = destinationXInWorldCoordinates;
-            this.destinationYInWorldCoordinates = destinationYInWorldCoordinates;
+
+            MapTileInstance currentMapTileInstanceLocation =
+                GameWorld.instance.FindMapTileInstance(
+                    MapTileLocation.CreateFromWorldCoordinates((int) this.GameWorldLocation.X, (int) this.GameWorldLocation.Y));
+
+            //     currentMapTileInstanceLocation.ClearSlotForMinigunner(this);
+            int startColumn = (int)this.GameWorldLocation.X / GameWorld.MAP_TILE_WIDTH;
+            int startRow = (int)this.GameWorldLocation.Y / GameWorld.MAP_TILE_HEIGHT;
+            Point startPoint = new Point(startColumn, startRow);
+            
+
+            AStar aStar = new AStar();
+            
+            Point destinationSquare = new Point();
+            destinationSquare.X = destinationXInWorldCoordinates / GameWorld.MAP_TILE_WIDTH;
+            destinationSquare.Y = destinationYInWorldCoordinates / GameWorld.MAP_TILE_HEIGHT;
+            
+            Path foundPath = aStar.FindPath(GameWorld.instance.navigationGraph, startPoint, destinationSquare);
+            
+            this.currentCommand = Command.FOLLOW_PATH;
+            this.state = State.MOVING;
+            
+            List<Point> listOfPoints = new List<Point>();
+            List<Node> nodeList = foundPath.nodeList;
+            foreach (Node node in nodeList)
+            {
+                Point point = GameWorld.instance.ConvertMapSquareIndexToWorldCoordinate(node.id);
+                listOfPoints.Add(point);
+            }
+            
+            this.SetPath(listOfPoints);
+            SetDestination(listOfPoints[0].X, listOfPoints[0].Y);
+
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
+            UnitMovementPlanCreatedEventData eventData = new UnitMovementPlanCreatedEventData();
+            eventData.NumSteps = listOfPoints.Count;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
 
         }
+
+
+
+        private void SetPath(List<Point> listOfPoints)
+        {
+            this.path = listOfPoints;
+        }
+
+        private void SetDestination(int x, int y)
+        {
+            destinationX = x;
+            destinationY = y;
+        }
+
+
+
+
+
+        // public void OrderToMoveToDestination(Point destination)
+        // {
+        //     MapTileInstance currentMapTileInstanceLocation =
+        //         gameWorld.FindMapTileInstance(
+        //             MapTileLocation.CreateFromWorldCoordinatesInVector2(
+        //                 this.GameWorldLocation.WorldCoordinatesAsVector2));
+        //
+        //     currentMapTileInstanceLocation.ClearSlotForMinigunner(this);
+        //     int startColumn = (int)this.GameWorldLocation.WorldCoordinatesAsVector2.X / GameWorld.MAP_TILE_WIDTH;
+        //     int startRow = (int)this.GameWorldLocation.WorldCoordinatesAsVector2.Y / GameWorld.MAP_TILE_HEIGHT;
+        //     Point startPoint = new Point(startColumn, startRow);
+        //
+        //     AStar aStar = new AStar();
+        //
+        //     Point destinationSquare = new Point();
+        //     destinationSquare.X = destination.X / GameWorld.MAP_TILE_WIDTH;
+        //     destinationSquare.Y = destination.Y / GameWorld.MAP_TILE_HEIGHT;
+        //
+        //     Path foundPath = aStar.FindPath(gameWorld.navigationGraph, startPoint, destinationSquare);
+        //
+        //     this.currentCommand = Command.FOLLOW_PATH;
+        //     this.state = State.MOVING;
+        //
+        //     List<Point> listOfPoints = new List<Point>();
+        //     List<Node> nodeList = foundPath.nodeList;
+        //     foreach (Node node in nodeList)
+        //     {
+        //         Point point = gameWorld.ConvertMapSquareIndexToWorldCoordinate(node.id);
+        //         listOfPoints.Add(point);
+        //     }
+        //
+        //     this.SetPath(listOfPoints);
+        //     SetDestination(listOfPoints[0].X, listOfPoints[0].Y);
+        // }
+
+
+
+
+        // public override void Update()
+        // {
+        //
+        //
+        //     if (currentCommand == Command.FOLLOW_PATH)
+        //     {
+        //         if (IsAtDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates))
+        //         {
+        //             currentCommand = Command.NONE;
+        //             state = State.IDLE;
+        //
+        //             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+        //             simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
+        //             UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
+        //             eventData.UnitId = this.UnitId;
+        //             eventData.Timestamp = DateTime.Now.Ticks;
+        //
+        //
+        //             eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);
+        //             eventData.YInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.Y, 0);
+        //
+        //             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+        //
+        //             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+        //
+        //
+        //         }
+        //         else
+        //         {
+        //             if (gameWorldLocation.X < destinationXInWorldCoordinates)
+        //             {
+        //                 gameWorldLocation.X += movementDelta;
+        //             }
+        //             else if (gameWorldLocation.X > destinationXInWorldCoordinates)
+        //             {
+        //                 gameWorldLocation.X -= movementDelta;
+        //             }
+        //
+        //             if (gameWorldLocation.Y < destinationYInWorldCoordinates)
+        //             {
+        //                 gameWorldLocation.Y += movementDelta;
+        //             }
+        //             else if (gameWorldLocation.Y > destinationYInWorldCoordinates)
+        //             {
+        //                 gameWorldLocation.Y -= movementDelta;
+        //             }
+        //
+        //             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+        //             simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
+        //             UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
+        //             eventData.UnitId = this.UnitId;
+        //
+        //
+        //             eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
+        //             eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
+        //
+        //             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+        //
+        //             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+        //
+        //
+        //         }
+        //
+        //     }
+        //
+        // }
+
 
         public override void Update()
         {
-            if (currentCommand == Command.FOLLOW_PATH)
+            // UpdateVisibleMapTiles();
+            if (this.currentCommand == Command.NONE)
             {
-                if (IsAtDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates))
-                {
-                    currentCommand = Command.NONE;
-                    state = State.IDLE;
-
-                    SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                    simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
-                    UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
-                    eventData.UnitId = this.UnitId;
-                    eventData.Timestamp = DateTime.Now.Ticks;
-
-
-                    eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);
-                    eventData.YInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.Y, 0);
-
-                    simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-                    SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
-
-                }
-                else
-                {
-                    if (gameWorldLocation.X < destinationXInWorldCoordinates)
-                    {
-                        gameWorldLocation.X += movementDelta;
-                    }
-                    else if (gameWorldLocation.X > destinationXInWorldCoordinates)
-                    {
-                        gameWorldLocation.X -= movementDelta;
-                    }
-
-                    if (gameWorldLocation.Y < destinationYInWorldCoordinates)
-                    {
-                        gameWorldLocation.Y += movementDelta;
-                    }
-                    else if (gameWorldLocation.Y > destinationYInWorldCoordinates)
-                    {
-                        gameWorldLocation.Y -= movementDelta;
-                    }
-
-                    SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                    simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
-                    UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
-                    eventData.UnitId = this.UnitId;
-
-
-                    eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
-                    eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
-
-                    simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-                    SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
-
-                }
-
+                HandleCommandNone();
             }
-            
+            else if (this.currentCommand == Command.FOLLOW_PATH)
+            {
+                HandleCommandFollowPath();
+            }
+            // else if (this.currentCommand == Command.ATTACK_TARGET)
+            // {
+            //     HandleCommandAttackTarget(gameTime);
+            // }
 
 
         }
+
+
+        private void HandleCommandNone()
+        {
+            this.state = State.IDLE;
+        }
+
+        private void HandleCommandFollowPath()
+        {
+            if (path.Count > 1)
+            {
+                MoveTowardsCurrentDestinationInPath();
+
+            }
+            else if (path.Count == 1)
+            {
+
+                // TODO:  Currently waiting until units almost arrive to assign
+                // them slots on the destination square, but when
+                // handling more than 5 units, will probably need to assign slots
+                // when the move is initiated, rather than up on arrival
+                LandOnFinalDestinationMapSquare();
+            }
+            else
+            {
+                this.currentCommand = Command.NONE;
+            }
+
+        }
+
+
+        private void MoveTowardsCurrentDestinationInPath()
+        {
+            this.state = State.MOVING;
+            Point currentDestinationPoint = path[0];
+            SetDestination(currentDestinationPoint.X, currentDestinationPoint.Y);
+            MoveTowardsDestination(currentDestinationPoint.X, currentDestinationPoint.Y);
+
+            if (IsAtDestination(currentDestinationPoint.X, currentDestinationPoint.Y))
+            {
+                path.RemoveAt(0);
+            }
+
+        }
+
+        void MoveTowardsDestination(int destinationX, int destinationY)
+        {
+
+            // float newX = GameWorldLocation.WorldCoordinatesAsVector2.X;
+            // float newY = GameWorldLocation.WorldCoordinatesAsVector2.Y;
+
+            float newX = GameWorldLocation.X;
+            float newY = GameWorldLocation.Y;
+
+            // double delta = gameTime.ElapsedGameTime.TotalMilliseconds * scaledMovementSpeed;
+
+            float remainingDistanceX = Math.Abs(destinationX - GameWorldLocation.X);
+            float remainingDistanceY = Math.Abs(destinationY - GameWorldLocation.Y);
+            double deltaX = movementDelta;
+            double deltaY = movementDelta;
+
+            if (remainingDistanceX < deltaX)
+            {
+                deltaX = remainingDistanceX;
+            }
+
+            if (remainingDistanceY < deltaY)
+            {
+                deltaY = remainingDistanceY;
+            }
+
+            if (!IsFarEnoughRight(destinationX))
+            {
+                newX += (float)deltaX;
+            }
+            else if (!IsFarEnoughLeft(destinationX))
+            {
+                newX -= (float)deltaX;
+            }
+
+            if (!IsFarEnoughDown(destinationY))
+            {
+                newY += (float)deltaY;
+            }
+            else if (!IsFarEnoughUp(destinationY))
+            {
+                newY -= (float)deltaY;
+            }
+
+
+            // TODO:  Leaving in this commented out code for debugging movement issues.
+            // Should remove it later if end up not needing it
+            //            float xChange = Math.Abs(positionInWorldCoordinates.X - newX);
+            //            float yChange = Math.Abs(positionInWorldCoordinates.Y - newY);
+            //            float changeThreshold = 0.10f;
+            //
+            //            if (xChange < changeThreshold && yChange < changeThreshold)
+            //            {
+            //                MikeAndConquerGame.instance.log.Information("delta:" + delta);
+            //                Boolean isFarEnoughRight = IsFarEnoughRight(destinationX);
+            //                Boolean isFarEnoughLeft = IsFarEnoughLeft(destinationX);
+            //                Boolean isFarEnoughDown = IsFarEnoughDown(destinationY);
+            //                Boolean isFarEnoughUp = IsFarEnoughUp(destinationY);
+            //
+            //                MikeAndConquerGame.instance.log.Information("isFarEnoughRight:" + isFarEnoughRight);
+            //                MikeAndConquerGame.instance.log.Information("isFarEnoughLeft:" + isFarEnoughLeft);
+            //                MikeAndConquerGame.instance.log.Information("isFarEnoughDown:" + isFarEnoughDown);
+            //                MikeAndConquerGame.instance.log.Information("isFarEnoughUp:" + isFarEnoughUp);
+            //                MikeAndConquerGame.instance.log.Information("old:positionInWorldCoordinates=" + positionInWorldCoordinates);
+            //                positionInWorldCoordinates = new Vector2(newX, newY);
+            //                MikeAndConquerGame.instance.log.Information("new:positionInWorldCoordinates=" + positionInWorldCoordinates);
+            //            }
+            //            else
+            //            {
+            //                positionInWorldCoordinates = new Vector2(newX, newY);
+            //            }
+
+            gameWorldLocation = GameWorldLocation.CreateFromWorldCoordinates(newX, newY);
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
+            UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
+            eventData.UnitId = this.UnitId;
+            
+            
+            eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
+            eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
+            
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+
+        }
+
+
+        // TODO:  Update this to make minigunner land on specific minigunner slot
+        // rather than center of the square
+        private void LandOnFinalDestinationMapSquare()
+        {
+
+            if (this.state == State.MOVING)
+            {
+                Point centerOfDestinationSquare = path[0];
+
+                Point currentDestinationPoint = centerOfDestinationSquare;
+
+                SetDestination(currentDestinationPoint.X, currentDestinationPoint.Y);
+
+            }
+
+            this.state = State.LANDING_AT_MAP_SQUARE;
+
+            MoveTowardsDestination( destinationX, destinationY);
+
+            if (IsAtDestination(destinationX, destinationY))
+            {
+                path.RemoveAt(0);
+
+                SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+                simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
+                UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
+                eventData.UnitId = this.UnitId;
+                eventData.Timestamp = DateTime.Now.Ticks;
+                
+                
+                eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);
+                eventData.YInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.Y, 0);
+                
+                simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+                
+                SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+            }
+
+
+        }
+
+
 
         private bool IsAtDestination(int destinationX, int destinationY)
         {
