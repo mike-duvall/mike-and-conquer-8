@@ -1,4 +1,7 @@
 ﻿
+using System.Collections.Generic;
+using System.Diagnostics;
+
 namespace mike_and_conquer_simulation.events
 {
     class UnitMovementPlanCreatedEventData
@@ -12,6 +15,8 @@ namespace mike_and_conquer_simulation.events
         // public long Timestamp { get; set; }
 
         public int NumSteps { get; set; }
+
+        public List<Step> Steps { get; set; }
 
         public const string EventName = "UnitMovementPlanCreated";
 

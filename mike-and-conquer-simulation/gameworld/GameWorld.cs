@@ -890,10 +890,6 @@ namespace mike_and_conquer_simulation.gameworld
 
         }
 
-
-
-
-
         public Point ConvertMapSquareIndexToWorldCoordinate(int index)
         {
             int numColumns = navigationGraph.width;
@@ -905,6 +901,8 @@ namespace mike_and_conquer_simulation.gameworld
             point.Y = (row * GameWorld.MAP_TILE_HEIGHT) + (GameWorld.MAP_TILE_HEIGHT / 2);
             return point;
         }
+
+
 
 
         public bool IsPointOnMap(Point pointInWorldCoordinates)

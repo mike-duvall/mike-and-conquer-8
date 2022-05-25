@@ -107,6 +107,18 @@ namespace mike_and_conquer_simulation.main
             simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
             UnitMovementPlanCreatedEventData eventData = new UnitMovementPlanCreatedEventData();
             eventData.NumSteps = listOfPoints.Count;
+            eventData.Steps = new List<Step>();
+
+            foreach (Point point in listOfPoints)
+            {
+                Step step = new Step();
+
+                MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinates(point.X, point.Y);
+
+                step.X = mapTileLocation.XInWorldMapTileCoordinates;
+                step.Y = mapTileLocation.YInWorldMapTileCoordinates;
+                eventData.Steps.Add(step);
+            }
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
