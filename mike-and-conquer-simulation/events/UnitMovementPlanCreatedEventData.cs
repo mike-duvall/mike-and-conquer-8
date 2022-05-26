@@ -16,7 +16,7 @@ namespace mike_and_conquer_simulation.events
 
         public int NumSteps { get; set; }
 
-        public List<Step> Steps { get; set; }
+        public List<PathStep> PathSteps { get; set; }
 
         public const string EventName = "UnitMovementPlanCreated";
 

@@ -107,17 +107,17 @@ namespace mike_and_conquer_simulation.main
             simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
             UnitMovementPlanCreatedEventData eventData = new UnitMovementPlanCreatedEventData();
             eventData.NumSteps = listOfPoints.Count;
-            eventData.Steps = new List<Step>();
+            eventData.PathSteps = new List<PathStep>();
 
             foreach (Point point in listOfPoints)
             {
-                Step step = new Step();
+                PathStep pathStep = new PathStep();
 
                 MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinates(point.X, point.Y);
 
-                step.X = mapTileLocation.XInWorldMapTileCoordinates;
-                step.Y = mapTileLocation.YInWorldMapTileCoordinates;
-                eventData.Steps.Add(step);
+                pathStep.X = mapTileLocation.XInWorldMapTileCoordinates;
+                pathStep.Y = mapTileLocation.YInWorldMapTileCoordinates;
+                eventData.PathSteps.Add(pathStep);
             }
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);

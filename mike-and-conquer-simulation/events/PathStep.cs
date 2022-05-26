@@ -1,7 +1,7 @@
 ﻿
 namespace mike_and_conquer_simulation.events
 {
-    class Step
+    class PathStep
     {
 
         public int X { get; set; }
