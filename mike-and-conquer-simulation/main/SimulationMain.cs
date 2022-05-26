@@ -346,28 +346,8 @@ namespace mike_and_conquer_simulation.main
 
         public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
-
             Unit foundUnit = FindUnitWithUnitId(unitId);
-
-            // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            // simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
-            // UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
-            // eventData.UnitId = unitId;
-            // eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
-            // eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
-            // eventData.Timestamp = DateTime.Now.Ticks;
-            //
-            // simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-            //
-            // foreach (SimulationStateListener listener in listeners)
-            // {
-            //     listener.Update(simulationStateUpdateEvent);
-            // }
-
-
             foundUnit.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
-
-
         }
 
         private Unit FindUnitWithUnitId(int unitId)

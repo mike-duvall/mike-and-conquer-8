@@ -89,10 +89,34 @@ namespace mike_and_conquer_simulation.main
 
         }
 
+        private void EmitUnitMovementPlanCreatedEvent(List<Point> listOfPoints)
+        {
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
+            UnitMovementPlanCreatedEventData eventData = new UnitMovementPlanCreatedEventData();
+            eventData.NumSteps = listOfPoints.Count;
+            eventData.PathSteps = new List<PathStep>();
+
+            foreach (Point point in listOfPoints)
+            {
+                PathStep pathStep = new PathStep();
+
+                MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinates(point.X, point.Y);
+
+                pathStep.X = mapTileLocation.XInWorldMapTileCoordinates;
+                pathStep.Y = mapTileLocation.YInWorldMapTileCoordinates;
+                eventData.PathSteps.Add(pathStep);
+            }
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+
+        }
+
         public override void OrderMoveToDestination(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
-
-            EmitUnitMoveOrderEvent(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
 
 
             MapTileInstance currentMapTileInstanceLocation =
@@ -127,27 +151,8 @@ namespace mike_and_conquer_simulation.main
             this.SetPath(listOfPoints);
             SetDestination(listOfPoints[0].X, listOfPoints[0].Y);
 
-
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
-            UnitMovementPlanCreatedEventData eventData = new UnitMovementPlanCreatedEventData();
-            eventData.NumSteps = listOfPoints.Count;
-            eventData.PathSteps = new List<PathStep>();
-
-            foreach (Point point in listOfPoints)
-            {
-                PathStep pathStep = new PathStep();
-
-                MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinates(point.X, point.Y);
-
-                pathStep.X = mapTileLocation.XInWorldMapTileCoordinates;
-                pathStep.Y = mapTileLocation.YInWorldMapTileCoordinates;
-                eventData.PathSteps.Add(pathStep);
-            }
-
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+            EmitUnitMoveOrderEvent(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+            EmitUnitMovementPlanCreatedEvent(listOfPoints);
 
         }
 
