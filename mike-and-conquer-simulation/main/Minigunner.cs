@@ -67,8 +67,33 @@ namespace mike_and_conquer_simulation.main
         //     this.destinationYInWorldCoordinates = destinationYInWorldCoordinates;
         // }
 
+
+        private void EmitUnitMoveOrderEvent(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        {
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
+            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
+            eventData.UnitId = this.UnitId;
+            eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
+            eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
+            eventData.Timestamp = DateTime.Now.Ticks;
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+            // foreach (SimulationStateListener listener in listeners)
+            // {
+            //     listener.Update(simulationStateUpdateEvent);
+            // }
+
+        }
+
         public override void OrderMoveToDestination(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
+
+            EmitUnitMoveOrderEvent(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+
 
             MapTileInstance currentMapTileInstanceLocation =
                 GameWorld.instance.FindMapTileInstance(

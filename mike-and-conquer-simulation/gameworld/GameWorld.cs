@@ -877,7 +877,6 @@ namespace mike_and_conquer_simulation.gameworld
                 if (nextMapTileInstance.IsBlockingTerrain)
                 {
 
-//                    MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinatesInVector2(nextMapTileInstance.PositionInWorldCoordinates);
                     MapTileLocation mapTileLocation = nextMapTileInstance.MapTileLocation;
                     
                     navigationGraph.MakeNodeBlockingNode(
