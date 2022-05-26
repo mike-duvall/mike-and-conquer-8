@@ -9,5 +9,4 @@ namespace mike_and_conquer_simulation.rest.domain
         public string CommandData { get; set; }
 
     }
-
 }
