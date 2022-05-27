@@ -281,6 +281,7 @@ namespace mike_and_conquer_simulation.gameworld
             jeep.GameWorldLocation.Y = yInWorldCoordinates;
             unitList.Add(jeep);
 
+
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
             JeepCreateEventData eventData = new JeepCreateEventData();

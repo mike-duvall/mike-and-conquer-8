@@ -68,7 +68,7 @@ namespace mike_and_conquer_simulation.main
         // }
 
 
-        private void EmitUnitMoveOrderEvent(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        private void PublishUnitMoveOrderEvent(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
@@ -82,20 +82,26 @@ namespace mike_and_conquer_simulation.main
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
 
-            // foreach (SimulationStateListener listener in listeners)
-            // {
-            //     listener.Update(simulationStateUpdateEvent);
-            // }
-
         }
 
-        private void EmitUnitMovementPlanCreatedEvent(List<Point> listOfPoints)
+        private void PublishUnitMovementPlanCreatedEvent(List<Point> plannedPathAsPoints)
         {
+            List<PathStep> plannedPathAsPathSteps = ConvertWorldCoordinatePointsToMapTilePathSteps(plannedPathAsPoints);
+
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
-            UnitMovementPlanCreatedEventData eventData = new UnitMovementPlanCreatedEventData();
-            eventData.NumSteps = listOfPoints.Count;
-            eventData.PathSteps = new List<PathStep>();
+
+            UnitMovementPlanCreatedEventData eventData =
+                new UnitMovementPlanCreatedEventData(this.UnitId, plannedPathAsPathSteps);
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+        }
+
+        private List<PathStep> ConvertWorldCoordinatePointsToMapTilePathSteps(List<Point> listOfPoints)
+        {
+            List<PathStep> listOfPathSteps = new List<PathStep>();
 
             foreach (Point point in listOfPoints)
             {
@@ -105,13 +111,10 @@ namespace mike_and_conquer_simulation.main
 
                 pathStep.X = mapTileLocation.XInWorldMapTileCoordinates;
                 pathStep.Y = mapTileLocation.YInWorldMapTileCoordinates;
-                eventData.PathSteps.Add(pathStep);
+                listOfPathSteps.Add(pathStep);
             }
 
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
+            return listOfPathSteps;
 
         }
 
@@ -140,19 +143,20 @@ namespace mike_and_conquer_simulation.main
             this.currentCommand = Command.FOLLOW_PATH;
             this.state = State.MOVING;
             
-            List<Point> listOfPoints = new List<Point>();
-            List<Node> nodeList = foundPath.nodeList;
-            foreach (Node node in nodeList)
+            List<Point> plannedPathAsPoints = new List<Point>();
+            List<Node> plannedPathAsNodes = foundPath.nodeList;
+            foreach (Node node in plannedPathAsNodes)
             {
                 Point point = GameWorld.instance.ConvertMapSquareIndexToWorldCoordinate(node.id);
-                listOfPoints.Add(point);
+                plannedPathAsPoints.Add(point);
             }
             
-            this.SetPath(listOfPoints);
-            SetDestination(listOfPoints[0].X, listOfPoints[0].Y);
+            this.SetPath(plannedPathAsPoints);
+            SetDestination(plannedPathAsPoints[0].X, plannedPathAsPoints[0].Y);
 
-            EmitUnitMoveOrderEvent(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
-            EmitUnitMovementPlanCreatedEvent(listOfPoints);
+
+            PublishUnitMoveOrderEvent(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+            PublishUnitMovementPlanCreatedEvent(plannedPathAsPoints);
 
         }
 
@@ -196,16 +200,16 @@ namespace mike_and_conquer_simulation.main
         //     this.currentCommand = Command.FOLLOW_PATH;
         //     this.state = State.MOVING;
         //
-        //     List<Point> listOfPoints = new List<Point>();
+        //     List<Point> plannedPathAsPoints = new List<Point>();
         //     List<Node> nodeList = foundPath.nodeList;
         //     foreach (Node node in nodeList)
         //     {
         //         Point point = gameWorld.ConvertMapSquareIndexToWorldCoordinate(node.id);
-        //         listOfPoints.Add(point);
+        //         plannedPathAsPoints.Add(point);
         //     }
         //
-        //     this.SetPath(listOfPoints);
-        //     SetDestination(listOfPoints[0].X, listOfPoints[0].Y);
+        //     this.SetPath(plannedPathAsPoints);
+        //     SetDestination(plannedPathAsPoints[0].X, plannedPathAsPoints[0].Y);
         // }
 
 

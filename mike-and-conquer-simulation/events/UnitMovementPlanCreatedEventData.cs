@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -7,11 +8,22 @@ namespace mike_and_conquer_simulation.events
     class UnitMovementPlanCreatedEventData
     {
 
-        public int NumSteps { get; set; }
+        public List<PathStep> PathSteps { get;  }
 
-        public List<PathStep> PathSteps { get; set; }
+        public int UnitId { get;  }
+
+        public long Timestamp { get;  }
+
 
         public const string EventName = "UnitMovementPlanCreated";
+
+        public UnitMovementPlanCreatedEventData(int unitId, List<PathStep> listOfPathSteps)
+        {
+            this.Timestamp = DateTime.Now.Ticks;
+            this.UnitId = unitId;
+            this.PathSteps = listOfPathSteps;
+
+        }
 
     }
 }
