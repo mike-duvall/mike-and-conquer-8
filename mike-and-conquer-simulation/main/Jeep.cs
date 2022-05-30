@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 
@@ -69,21 +65,7 @@ namespace mike_and_conquer_simulation.main
                     currentCommand = Command.NONE;
                     state = State.IDLE;
 
-                    SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                    simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
-                    UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
-                    eventData.UnitId = this.UnitId;
-                    eventData.Timestamp = DateTime.Now.Ticks;
-
-
-                    eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);
-                    eventData.YInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.Y, 0);
-
-                    simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-                    SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
-
+                    PublishUnitArrivedAtDestinationEvent();
                 }
                 else
                 {
@@ -126,6 +108,7 @@ namespace mike_and_conquer_simulation.main
 
 
         }
+
 
         private bool IsAtDestination(int destinationX, int destinationY)
         {

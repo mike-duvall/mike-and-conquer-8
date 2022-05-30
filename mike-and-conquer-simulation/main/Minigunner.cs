@@ -458,21 +458,7 @@ namespace mike_and_conquer_simulation.main
             if (IsAtDestination(destinationX, destinationY))
             {
                 path.RemoveAt(0);
-
-                SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
-                UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
-                eventData.UnitId = this.UnitId;
-                eventData.Timestamp = DateTime.Now.Ticks;
-                
-                
-                eventData.XInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.X, 0);
-                eventData.YInWorldCoordinates = (int) Math.Round(this.gameWorldLocation.Y, 0);
-                
-                simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-                
-                SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
+                PublishUnitArrivedAtDestinationEvent();
             }
 
 
