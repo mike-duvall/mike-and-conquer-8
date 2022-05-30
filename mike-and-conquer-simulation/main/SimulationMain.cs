@@ -76,12 +76,12 @@ namespace mike_and_conquer_simulation.main
             backgroundThread.Start();
             condition.WaitOne();
 
-            // EmitInitializeScenarioEvent(27,23);
+            // PublishInitializeScenarioEvent(27,23);
 
 
         }
 
-        private static void EmitInitializeScenarioEvent(
+        private static void PublishInitializeScenarioEvent(
             int mapWidth,
             int mapHeight,
             List<MapTileInstance> mapTileInstanceList,
@@ -343,6 +343,22 @@ namespace mike_and_conquer_simulation.main
         }
 
 
+        public void PublishUnitMoveOrderEvent(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        {
+            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+            simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
+            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData(
+                unitId,
+                destinationXInWorldCoordinates,
+                destinationYInWorldCoordinates);
+
+            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            instance.PublishEvent(simulationStateUpdateEvent);
+
+        }
+
+
 
         public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
@@ -428,9 +444,9 @@ namespace mike_and_conquer_simulation.main
             gameWorld.ResetScenario();
             gameWorld.InitializeDefaultMap();
 
-            EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
+            PublishInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
 
-            // EmitInitializeScenarioEvent(27, 23);
+            // PublishInitializeScenarioEvent(27, 23);
         }
 
         internal void PostCommand(RawCommand incomingAdminCommand)
@@ -564,7 +580,7 @@ namespace mike_and_conquer_simulation.main
 
             gameWorld.StartScenario(playerController);
             
-            EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
+            PublishInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
 
         }
 

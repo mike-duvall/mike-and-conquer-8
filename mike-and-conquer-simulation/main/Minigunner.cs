@@ -68,21 +68,20 @@ namespace mike_and_conquer_simulation.main
         // }
 
 
-        private void PublishUnitMoveOrderEvent(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
-        {
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
-            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
-            eventData.UnitId = this.UnitId;
-            eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
-            eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
-            eventData.Timestamp = DateTime.Now.Ticks;
-
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
-        }
+        // private void PublishUnitMoveOrderEvent(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        // {
+        //     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
+        //     simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
+        //     UnitMoveOrderEventData eventData = new UnitMoveOrderEventData(
+        //         this.UnitId,
+        //         destinationXInWorldCoordinates,
+        //         destinationYInWorldCoordinates);
+        //
+        //     simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+        //
+        //     SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+        //
+        // }
 
         private void PublishUnitMovementPlanCreatedEvent(List<Point> plannedPathAsPoints)
         {
@@ -155,7 +154,7 @@ namespace mike_and_conquer_simulation.main
             SetDestination(plannedPathAsPoints[0].X, plannedPathAsPoints[0].Y);
 
 
-            PublishUnitMoveOrderEvent(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+            SimulationMain.instance.PublishUnitMoveOrderEvent(this.UnitId, destinationXInWorldCoordinates, destinationYInWorldCoordinates);
             PublishUnitMovementPlanCreatedEvent(plannedPathAsPoints);
 
         }
