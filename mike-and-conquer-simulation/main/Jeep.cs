@@ -87,7 +87,7 @@ namespace mike_and_conquer_simulation.main
                         gameWorldLocation.Y -= movementDelta;
                     }
 
-\                    PublishUnitPositionChangedEventData();
+                    PublishUnitPositionChangedEventData();
 
 
                 }
