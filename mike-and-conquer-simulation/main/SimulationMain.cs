@@ -28,7 +28,7 @@ namespace mike_and_conquer_simulation.main
 
         public static ILoggerFactory loggerFactory;
 
-        private static ILogger logger;
+        public static ILogger logger;
 
 
         public static SimulationMain instance;
@@ -76,12 +76,12 @@ namespace mike_and_conquer_simulation.main
             backgroundThread.Start();
             condition.WaitOne();
 
-            // EmitInitializeScenarioEvent(27,23);
+            // PublishInitializeScenarioEvent(27,23);
 
 
         }
 
-        private static void EmitInitializeScenarioEvent(
+        private static void PublishInitializeScenarioEvent(
             int mapWidth,
             int mapHeight,
             List<MapTileInstance> mapTileInstanceList,
@@ -343,28 +343,27 @@ namespace mike_and_conquer_simulation.main
         }
 
 
-
-        public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        public void PublishUnitMoveOrderEvent(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
-
-            Unit foundUnit = FindUnitWithUnitId(unitId);
-            foundUnit.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
-
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
-            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData();
-            eventData.UnitId = unitId;
-            eventData.DestinationXInWorldCoordinates = destinationXInWorldCoordinates;
-            eventData.DestinationYInWorldCoordinates = destinationYInWorldCoordinates;
-            eventData.Timestamp = DateTime.Now.Ticks;
+            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData(
+                unitId,
+                destinationXInWorldCoordinates,
+                destinationYInWorldCoordinates);
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
-            foreach (SimulationStateListener listener in listeners)
-            {
-                listener.Update(simulationStateUpdateEvent);
-            }
+            instance.PublishEvent(simulationStateUpdateEvent);
 
+        }
+
+
+
+        public void OrderUnitToMove(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        {
+            Unit foundUnit = FindUnitWithUnitId(unitId);
+            foundUnit.OrderMoveToDestination(destinationXInWorldCoordinates, destinationYInWorldCoordinates);
         }
 
         private Unit FindUnitWithUnitId(int unitId)
@@ -445,9 +444,9 @@ namespace mike_and_conquer_simulation.main
             gameWorld.ResetScenario();
             gameWorld.InitializeDefaultMap();
 
-            EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
+            PublishInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
 
-            // EmitInitializeScenarioEvent(27, 23);
+            // PublishInitializeScenarioEvent(27, 23);
         }
 
         internal void PostCommand(RawCommand incomingAdminCommand)
@@ -581,7 +580,7 @@ namespace mike_and_conquer_simulation.main
 
             gameWorld.StartScenario(playerController);
             
-            EmitInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
+            PublishInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
 
         }
 

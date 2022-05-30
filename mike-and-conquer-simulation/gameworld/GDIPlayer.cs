@@ -250,28 +250,12 @@ namespace mike_and_conquer_simulation.gameworld
             Minigunner minigunner = new Minigunner();
             minigunner.GameWorldLocation.X = xInWorldCoordinates;
             minigunner.GameWorldLocation.Y = yInWorldCoordinates;
-            // gdiMinigunnerList.Add(minigunner);
 
             unitList.Add(minigunner);
 
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
-            MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
-            eventData.UnitId = minigunner.UnitId;
-            eventData.X = xInWorldCoordinates;
-            eventData.Y = yInWorldCoordinates;
-
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
-            // foreach (SimulationStateListener listener in listeners)
-            // {
-            //     listener.Update(simulationStateUpdateEvent);
-            // }
+            PublishUnitCreateEvent(MinigunnerCreateEventData.EventName, minigunner.UnitId, xInWorldCoordinates, yInWorldCoordinates);
 
             return minigunner;
-
         }
 
         public Jeep CreateJeep(int xInWorldCoordinates, int yInWorldCoordinates)
@@ -281,23 +265,8 @@ namespace mike_and_conquer_simulation.gameworld
             jeep.GameWorldLocation.Y = yInWorldCoordinates;
             unitList.Add(jeep);
 
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
-            JeepCreateEventData eventData = new JeepCreateEventData();
-            eventData.UnitId = jeep.UnitId;
-            eventData.X = xInWorldCoordinates;
-            eventData.Y = yInWorldCoordinates;
-
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-
-            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-            // foreach (SimulationStateListener listener in listeners)
-            // {
-            //     listener.Update(simulationStateUpdateEvent);
-            // }
-
+            PublishUnitCreateEvent(JeepCreateEventData.EventName, jeep.UnitId, xInWorldCoordinates, yInWorldCoordinates);
             return jeep;
-
         }
 
         public MCV CreateMCV(int xInWorldCoordinates, int yInWorldCoordinates)
@@ -307,23 +276,24 @@ namespace mike_and_conquer_simulation.gameworld
             mcv.GameWorldLocation.Y = yInWorldCoordinates;
             unitList.Add(mcv);
 
+            PublishUnitCreateEvent(MCVCreateEventData.EventName, mcv.UnitId, xInWorldCoordinates, yInWorldCoordinates);
+            return mcv;
+
+        }
+
+
+        private void PublishUnitCreateEvent(string eventType, int unitId, int xInWorldCoordinates, int yInWorldCoordinates)
+        {
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
-            MCVCreateEventData eventData = new MCVCreateEventData();
-            eventData.UnitId = mcv.UnitId;
+            simulationStateUpdateEvent.EventType = eventType;
+            UnitCreateEventData eventData = new UnitCreateEventData();
+            eventData.UnitId = unitId;
             eventData.X = xInWorldCoordinates;
             eventData.Y = yInWorldCoordinates;
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-
-            // foreach (SimulationStateListener listener in listeners)
-            // {
-            //     listener.Update(simulationStateUpdateEvent);
-            // }
-
-            return mcv;
 
         }
 
