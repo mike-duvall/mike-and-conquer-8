@@ -87,19 +87,7 @@ namespace mike_and_conquer_simulation.main
                         gameWorldLocation.Y -= movementDelta;
                     }
 
-                    // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-                    // simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
-                    // UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
-                    // eventData.UnitId = this.UnitId;
-                    //
-                    //
-                    // eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
-                    // eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
-                    //
-                    // simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
-                    //
-                    // SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
-                    PublishUnitPositionChangedEventData();
+\                    PublishUnitPositionChangedEventData();
 
 
                 }
