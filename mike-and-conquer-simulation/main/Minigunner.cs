@@ -104,12 +104,13 @@ namespace mike_and_conquer_simulation.main
 
             foreach (Point point in listOfPoints)
             {
-                PathStep pathStep = new PathStep();
 
                 MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinates(point.X, point.Y);
 
-                pathStep.X = mapTileLocation.XInWorldMapTileCoordinates;
-                pathStep.Y = mapTileLocation.YInWorldMapTileCoordinates;
+                PathStep pathStep = new PathStep(
+                    mapTileLocation.XInWorldMapTileCoordinates,
+                    mapTileLocation.YInWorldMapTileCoordinates);
+
                 listOfPathSteps.Add(pathStep);
             }
 
