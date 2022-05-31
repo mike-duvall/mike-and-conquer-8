@@ -2,10 +2,18 @@
 {
     public class UnitCreateEventData
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        
-        public int UnitId { get; set; }
+
+        public int UnitId { get;  }
+
+        public int X { get;  }
+        public int Y { get;  }
+
+        public UnitCreateEventData(int unitId, int x, int y)
+        {
+            UnitId = unitId;
+            X = x;
+            Y = y;
+        }
 
 
 

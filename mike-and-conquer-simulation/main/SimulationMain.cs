@@ -89,8 +89,6 @@ namespace mike_and_conquer_simulation.main
         {
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = InitializeScenarioEventData.EventName;
-            InitializeScenarioEventData eventData = new InitializeScenarioEventData();
-
 
             List<MapTileInstanceCreateEventData> mapTileInstanceCreateEventDataList =
                 new List<MapTileInstanceCreateEventData>();
@@ -110,8 +108,6 @@ namespace mike_and_conquer_simulation.main
                 mapTileInstanceCreateEventDataList.Add(mapTileCreateEventData);
             }
 
-            eventData.MapTileInstanceCreateEventDataList = mapTileInstanceCreateEventDataList;
-
             List<TerrainItemCreateEventData> terrainItemCreateEventDataList =
                 new List<TerrainItemCreateEventData>();
 
@@ -125,11 +121,11 @@ namespace mike_and_conquer_simulation.main
 
             }
 
-            eventData.TerrainItemCreateEventDataList = terrainItemCreateEventDataList;
-
-            eventData.MapWidth = mapWidth;
-            eventData.MapHeight = mapHeight;
-            
+            InitializeScenarioEventData eventData = new InitializeScenarioEventData(
+                mapWidth,
+                mapHeight,
+                mapTileInstanceCreateEventDataList,
+                terrainItemCreateEventDataList);
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);

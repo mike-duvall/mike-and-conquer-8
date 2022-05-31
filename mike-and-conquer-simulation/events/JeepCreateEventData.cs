@@ -5,7 +5,9 @@
 
         public const string EventName = "JeepCreated";
 
-
+        public JeepCreateEventData(int unitId, int x, int y) : base(unitId, x, y)
+        {
+        }
     }
 }
 

@@ -286,10 +286,10 @@ namespace mike_and_conquer_simulation.gameworld
         {
             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
             simulationStateUpdateEvent.EventType = eventType;
-            UnitCreateEventData eventData = new UnitCreateEventData();
-            eventData.UnitId = unitId;
-            eventData.X = xInWorldCoordinates;
-            eventData.Y = yInWorldCoordinates;
+            UnitCreateEventData eventData = new UnitCreateEventData(
+                unitId,
+                xInWorldCoordinates,
+                yInWorldCoordinates);
 
             simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
 
