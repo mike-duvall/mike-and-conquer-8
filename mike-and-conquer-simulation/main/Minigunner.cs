@@ -87,13 +87,16 @@ namespace mike_and_conquer_simulation.main
         {
             List<PathStep> plannedPathAsPathSteps = ConvertWorldCoordinatePointsToMapTilePathSteps(plannedPathAsPoints);
 
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
-
             UnitMovementPlanCreatedEventData eventData =
                 new UnitMovementPlanCreatedEventData(this.UnitId, plannedPathAsPathSteps);
 
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+            
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = 
+                new SimulationStateUpdateEvent(
+                    UnitMovementPlanCreatedEventData.EventName,
+                    serializedEventData);
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
         }
@@ -104,12 +107,13 @@ namespace mike_and_conquer_simulation.main
 
             foreach (Point point in listOfPoints)
             {
-                PathStep pathStep = new PathStep();
 
                 MapTileLocation mapTileLocation = MapTileLocation.CreateFromWorldCoordinates(point.X, point.Y);
 
-                pathStep.X = mapTileLocation.XInWorldMapTileCoordinates;
-                pathStep.Y = mapTileLocation.YInWorldMapTileCoordinates;
+                PathStep pathStep = new PathStep(
+                    mapTileLocation.XInWorldMapTileCoordinates,
+                    mapTileLocation.YInWorldMapTileCoordinates);
+
                 listOfPathSteps.Add(pathStep);
             }
 

@@ -8,14 +8,12 @@ namespace mike_and_conquer_simulation.events
     class UnitMovementPlanCreatedEventData
     {
 
+        public const string EventName = "UnitMovementPlanCreated";
+
+        public int UnitId { get; }
+        public long Timestamp { get; }
         public List<PathStep> PathSteps { get;  }
 
-        public int UnitId { get;  }
-
-        public long Timestamp { get;  }
-
-
-        public const string EventName = "UnitMovementPlanCreated";
 
         public UnitMovementPlanCreatedEventData(int unitId, List<PathStep> listOfPathSteps)
         {

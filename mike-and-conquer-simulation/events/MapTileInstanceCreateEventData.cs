@@ -20,11 +20,11 @@
 
         public string Visibility { get; }
 
-        public const string EventName = "MapTileInstanceCreated";
+        // public const string EventName = "MapTileInstanceCreated";
 
-        private MapTileInstanceCreateEventData()
-        {
-        }
+        // private MapTileInstanceCreateEventData()
+        // {
+        // }
 
         public MapTileInstanceCreateEventData(int mapTileInstanceId, int xInWorldMapTileCoordinates, int yInWorldMapTileCoordinates, string textureKey, byte imageIndex, bool isBlockingTerrain,  string visibility)
         {

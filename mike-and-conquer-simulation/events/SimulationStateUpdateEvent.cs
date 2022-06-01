@@ -2,14 +2,17 @@
 {
     public class SimulationStateUpdateEvent
     {
-        // public int X { get; set; }
-        // public int Y { get; set; }
-        //
-        // public int UnitId { get; set; }
 
-        public string EventType { get; set; }
+        public string EventType { get;  }
 
-        public string EventData { get; set; }
+        public string EventData { get;  }
+
+        public SimulationStateUpdateEvent(string eventType, string eventData)
+        {
+            EventType = eventType;
+            EventData = eventData;
+        }
+
 
     }
 }

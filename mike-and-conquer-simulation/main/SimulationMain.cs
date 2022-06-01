@@ -87,10 +87,6 @@ namespace mike_and_conquer_simulation.main
             List<MapTileInstance> mapTileInstanceList,
             List<TerrainItem> terrainItemList)
         {
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = InitializeScenarioEventData.EventName;
-            InitializeScenarioEventData eventData = new InitializeScenarioEventData();
-
 
             List<MapTileInstanceCreateEventData> mapTileInstanceCreateEventDataList =
                 new List<MapTileInstanceCreateEventData>();
@@ -110,8 +106,6 @@ namespace mike_and_conquer_simulation.main
                 mapTileInstanceCreateEventDataList.Add(mapTileCreateEventData);
             }
 
-            eventData.MapTileInstanceCreateEventDataList = mapTileInstanceCreateEventDataList;
-
             List<TerrainItemCreateEventData> terrainItemCreateEventDataList =
                 new List<TerrainItemCreateEventData>();
 
@@ -125,13 +119,19 @@ namespace mike_and_conquer_simulation.main
 
             }
 
-            eventData.TerrainItemCreateEventDataList = terrainItemCreateEventDataList;
+            InitializeScenarioEventData eventData = new InitializeScenarioEventData(
+                mapWidth,
+                mapHeight,
+                mapTileInstanceCreateEventDataList,
+                terrainItemCreateEventDataList);
 
-            eventData.MapWidth = mapWidth;
-            eventData.MapHeight = mapHeight;
-            
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+            SimulationStateUpdateEvent simulationStateUpdateEvent = 
+                new SimulationStateUpdateEvent(
+                        InitializeScenarioEventData.EventName,
+                        serializedEventData
+                    );
 
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
 
         }
@@ -345,14 +345,19 @@ namespace mike_and_conquer_simulation.main
 
         public void PublishUnitMoveOrderEvent(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         {
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
             UnitMoveOrderEventData eventData = new UnitMoveOrderEventData(
                 unitId,
                 destinationXInWorldCoordinates,
                 destinationYInWorldCoordinates);
 
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+            SimulationStateUpdateEvent simulationStateUpdateEvent =
+                new SimulationStateUpdateEvent(
+                    UnitMoveOrderEventData.EventName,
+                    serializedEventData);
+
+
 
             instance.PublishEvent(simulationStateUpdateEvent);
 
@@ -390,11 +395,13 @@ namespace mike_and_conquer_simulation.main
 
             foreach (SimulationStateUpdateEvent simulationStateUpdateEvent in simulationStateUpdateEventsHistory)
             {
-                SimulationStateUpdateEvent copyEvent = new SimulationStateUpdateEvent();
-                copyEvent.EventType = simulationStateUpdateEvent.EventType;
                 String copyEventData = new string(simulationStateUpdateEvent.EventData);
 
-                copyEvent.EventData = copyEventData;
+
+                SimulationStateUpdateEvent copyEvent = new SimulationStateUpdateEvent(
+                    simulationStateUpdateEvent.EventType,
+                    copyEventData);
+
                 copyList.Add(copyEvent);
             }
 
@@ -423,8 +430,10 @@ namespace mike_and_conquer_simulation.main
 
         public void ResetScenario()
         {
-            SimulationStateUpdateEvent resetScenarioEvent = new SimulationStateUpdateEvent();
-            resetScenarioEvent.EventType = "ResetScenario";
+            SimulationStateUpdateEvent resetScenarioEvent =
+                new SimulationStateUpdateEvent(
+                    "ResetScenario",
+                    null);
 
             PublishEvent(resetScenarioEvent);
 
