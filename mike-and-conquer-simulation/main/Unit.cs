@@ -24,13 +24,11 @@ namespace mike_and_conquer_simulation.main
 
         protected void PublishUnitArrivedAtDestinationEvent()
         {
-            UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
-            eventData.UnitId = this.UnitId;
-            eventData.Timestamp = DateTime.Now.Ticks;
-
-
-            eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
-            eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
+            UnitArrivedAtDestinationEventData eventData = 
+                new UnitArrivedAtDestinationEventData(
+                    this.UnitId,
+                    (int)Math.Round(this.gameWorldLocation.X, 0),
+                    (int)Math.Round(this.gameWorldLocation.Y, 0));
 
             string serializedEventData = JsonConvert.SerializeObject(eventData);
             SimulationStateUpdateEvent simulationStateUpdateEvent =
