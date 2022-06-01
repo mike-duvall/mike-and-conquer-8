@@ -2,12 +2,22 @@
 {
     public class UnitPositionChangedEventData
     {
-        public int XInWorldCoordinates { get; set; }
-        public int YInWorldCoordinates { get; set; }
-        
-        public int UnitId { get; set; }
 
         public const string EventName = "UnitPositionChanged";
+
+        public int UnitId { get;  }
+        public int XInWorldCoordinates { get;  }
+        public int YInWorldCoordinates { get;  }
+
+
+        public UnitPositionChangedEventData(int unitId, int xInWorldCoordinates, int yInWorldCoordinates)
+        {
+            UnitId = unitId;
+            XInWorldCoordinates = xInWorldCoordinates;
+            YInWorldCoordinates = yInWorldCoordinates;
+        }
+
+
 
     }
 }
