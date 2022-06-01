@@ -24,8 +24,6 @@ namespace mike_and_conquer_simulation.main
 
         protected void PublishUnitArrivedAtDestinationEvent()
         {
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
             UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
             eventData.UnitId = this.UnitId;
             eventData.Timestamp = DateTime.Now.Ticks;
@@ -34,7 +32,12 @@ namespace mike_and_conquer_simulation.main
             eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
             eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
 
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+            SimulationStateUpdateEvent simulationStateUpdateEvent =
+                new SimulationStateUpdateEvent(
+                    UnitArrivedAtDestinationEventData.EventName,
+                    serializedEventData);
+
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
         }
@@ -42,8 +45,6 @@ namespace mike_and_conquer_simulation.main
 
         protected void PublishUnitPositionChangedEventData()
         {
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
             UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
             eventData.UnitId = this.UnitId;
 
@@ -51,7 +52,12 @@ namespace mike_and_conquer_simulation.main
             eventData.XInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.X, 0);
             eventData.YInWorldCoordinates = (int)Math.Round(this.gameWorldLocation.Y, 0);
 
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = 
+                new SimulationStateUpdateEvent(
+                    UnitPositionChangedEventData.EventName,
+                    serializedEventData);
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
         }

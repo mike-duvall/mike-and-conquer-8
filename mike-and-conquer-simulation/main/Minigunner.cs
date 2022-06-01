@@ -87,13 +87,16 @@ namespace mike_and_conquer_simulation.main
         {
             List<PathStep> plannedPathAsPathSteps = ConvertWorldCoordinatePointsToMapTilePathSteps(plannedPathAsPoints);
 
-            SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            simulationStateUpdateEvent.EventType = UnitMovementPlanCreatedEventData.EventName;
-
             UnitMovementPlanCreatedEventData eventData =
                 new UnitMovementPlanCreatedEventData(this.UnitId, plannedPathAsPathSteps);
 
-            simulationStateUpdateEvent.EventData = JsonConvert.SerializeObject(eventData);
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+            
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent = 
+                new SimulationStateUpdateEvent(
+                    UnitMovementPlanCreatedEventData.EventName,
+                    serializedEventData);
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
         }
