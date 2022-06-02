@@ -80,8 +80,7 @@ namespace mike_and_conquer_simulation.main
 
 
         }
-
-        private static void PublishInitializeScenarioEvent(
+        private void PublishInitializeScenarioEvent(
             int mapWidth,
             int mapHeight,
             List<MapTileInstance> mapTileInstanceList,
@@ -132,7 +131,7 @@ namespace mike_and_conquer_simulation.main
                         serializedEventData
                     );
 
-            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+            PublishEvent(simulationStateUpdateEvent);
 
         }
 
@@ -343,25 +342,6 @@ namespace mike_and_conquer_simulation.main
         }
 
 
-        public void PublishUnitMoveOrderEvent(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
-        {
-            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData(
-                unitId,
-                destinationXInWorldCoordinates,
-                destinationYInWorldCoordinates);
-
-
-            string serializedEventData = JsonConvert.SerializeObject(eventData);
-            SimulationStateUpdateEvent simulationStateUpdateEvent =
-                new SimulationStateUpdateEvent(
-                    UnitMoveOrderEventData.EventName,
-                    serializedEventData);
-
-
-
-            instance.PublishEvent(simulationStateUpdateEvent);
-
-        }
 
 
 
@@ -427,36 +407,6 @@ namespace mike_and_conquer_simulation.main
             this.simulationOptions.CurrentGameSpeed = aGameSpeed;
         }
 
-
-        public void ResetScenario()
-        {
-            SimulationStateUpdateEvent resetScenarioEvent =
-                new SimulationStateUpdateEvent(
-                    "ResetScenario",
-                    null);
-
-            PublishEvent(resetScenarioEvent);
-
-            lock (simulationStateUpdateEventsHistory)
-            {
-                simulationStateUpdateEventsHistory.Clear();
-            }
-
-            SimulationMain.globalId = 1;
-
-            // lock (unitList)
-            // {
-            //     unitList.Clear();
-            // }
-
-            // gameWorld = new GameWorld();
-            gameWorld.ResetScenario();
-            gameWorld.InitializeDefaultMap();
-
-            PublishInitializeScenarioEvent(27, 23, gameWorld.gameMap.MapTileInstanceList, gameWorld.terrainItemList);
-
-            // PublishInitializeScenarioEvent(27, 23);
-        }
 
         internal void PostCommand(RawCommand incomingAdminCommand)
         {

@@ -61,5 +61,26 @@ namespace mike_and_conquer_simulation.main
         }
 
 
+        public void PublishUnitMoveOrderEvent(int unitId, int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
+        {
+            UnitMoveOrderEventData eventData = new UnitMoveOrderEventData(
+                unitId,
+                destinationXInWorldCoordinates,
+                destinationYInWorldCoordinates);
+
+
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+            SimulationStateUpdateEvent simulationStateUpdateEvent =
+                new SimulationStateUpdateEvent(
+                    UnitMoveOrderEventData.EventName,
+                    serializedEventData);
+
+
+
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+
+        }
+
+
     }
 }
