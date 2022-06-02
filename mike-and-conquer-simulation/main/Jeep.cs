@@ -53,7 +53,7 @@ namespace mike_and_conquer_simulation.main
             this.destinationXInWorldCoordinates = destinationXInWorldCoordinates;
             this.destinationYInWorldCoordinates = destinationYInWorldCoordinates;
 
-            SimulationMain.instance.PublishUnitMoveOrderEvent(this.UnitId, destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+            PublishUnitMoveOrderEvent(this.UnitId, destinationXInWorldCoordinates, destinationYInWorldCoordinates);
         }
 
         public override void Update()

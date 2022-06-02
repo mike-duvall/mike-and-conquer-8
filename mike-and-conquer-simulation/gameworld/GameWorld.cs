@@ -556,15 +556,6 @@ namespace mike_and_conquer_simulation.gameworld
 
 
 
-        public void ResetScenario()
-        {
-            gdiPlayer.HandleReset();
-            terrainItemList.Clear();
-            // gameMap.Reset();
-            InitializeDefaultMap();
-        }
-
-
 
         // public Minigunner AddGdiMinigunner(Point positionInWorldCoordinates)
         // {

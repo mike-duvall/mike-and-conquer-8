@@ -158,7 +158,7 @@ namespace mike_and_conquer_simulation.main
             SetDestination(plannedPathAsPoints[0].X, plannedPathAsPoints[0].Y);
 
 
-            SimulationMain.instance.PublishUnitMoveOrderEvent(this.UnitId, destinationXInWorldCoordinates, destinationYInWorldCoordinates);
+            PublishUnitMoveOrderEvent(this.UnitId, destinationXInWorldCoordinates, destinationYInWorldCoordinates);
             PublishUnitMovementPlanCreatedEvent(plannedPathAsPoints);
 
         }
