@@ -2,7 +2,7 @@
 {
     public class MCVCreateEventData : UnitCreateEventData
     {
-        public const string EventName = "MCVCreated";
+        public const string EventType = "MCVCreated";
 
         public MCVCreateEventData(int unitId, int x, int y) : base(unitId, x, y)
         {

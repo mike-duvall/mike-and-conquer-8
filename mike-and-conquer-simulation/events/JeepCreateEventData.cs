@@ -3,7 +3,7 @@
     public class JeepCreateEventData : UnitCreateEventData
     {
 
-        public const string EventName = "JeepCreated";
+        public const string EventType = "JeepCreated";
 
         public JeepCreateEventData(int unitId, int x, int y) : base(unitId, x, y)
         {

@@ -8,7 +8,7 @@ namespace mike_and_conquer_simulation.events
     class UnitMovementPlanCreatedEventData
     {
 
-        public const string EventName = "UnitMovementPlanCreated";
+        public const string EventType = "UnitMovementPlanCreated";
 
         public int UnitId { get; }
         public long Timestamp { get; }
