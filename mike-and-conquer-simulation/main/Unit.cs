@@ -33,7 +33,7 @@ namespace mike_and_conquer_simulation.main
             string serializedEventData = JsonConvert.SerializeObject(eventData);
             SimulationStateUpdateEvent simulationStateUpdateEvent =
                 new SimulationStateUpdateEvent(
-                    UnitArrivedAtDestinationEventData.EventName,
+                    UnitArrivedAtDestinationEventData.EventType,
                     serializedEventData);
 
 
@@ -54,7 +54,7 @@ namespace mike_and_conquer_simulation.main
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = 
                 new SimulationStateUpdateEvent(
-                    UnitPositionChangedEventData.EventName,
+                    UnitPositionChangedEventData.EventType,
                     serializedEventData);
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
@@ -72,7 +72,7 @@ namespace mike_and_conquer_simulation.main
             string serializedEventData = JsonConvert.SerializeObject(eventData);
             SimulationStateUpdateEvent simulationStateUpdateEvent =
                 new SimulationStateUpdateEvent(
-                    UnitMoveOrderEventData.EventName,
+                    UnitMoveOrderEventData.EventType,
                     serializedEventData);
 
 

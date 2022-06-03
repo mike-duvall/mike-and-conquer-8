@@ -127,7 +127,7 @@ namespace mike_and_conquer_simulation.main
             string serializedEventData = JsonConvert.SerializeObject(eventData);
             SimulationStateUpdateEvent simulationStateUpdateEvent = 
                 new SimulationStateUpdateEvent(
-                        InitializeScenarioEventData.EventName,
+                        InitializeScenarioEventData.EventType,
                         serializedEventData
                     );
 
@@ -271,7 +271,7 @@ namespace mike_and_conquer_simulation.main
             // unitList.Add(minigunner);
             //
             // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            // simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventName;
+            // simulationStateUpdateEvent.EventType = MinigunnerCreateEventData.EventType;
             // MinigunnerCreateEventData eventData = new MinigunnerCreateEventData();
             // eventData.UnitId = minigunner.UnitId;
             // eventData.X = x;
@@ -298,7 +298,7 @@ namespace mike_and_conquer_simulation.main
             // unitList.Add(jeep);
             //
             // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            // simulationStateUpdateEvent.EventType = JeepCreateEventData.EventName;
+            // simulationStateUpdateEvent.EventType = JeepCreateEventData.EventType;
             // JeepCreateEventData eventData = new JeepCreateEventData();
             // eventData.UnitId = jeep.UnitId;
             // eventData.X = x;
@@ -325,7 +325,7 @@ namespace mike_and_conquer_simulation.main
             // unitList.Add(mcv);
             //
             // SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-            // simulationStateUpdateEvent.EventType = MCVCreateEventData.EventName;
+            // simulationStateUpdateEvent.EventType = MCVCreateEventData.EventType;
             // MCVCreateEventData eventData = new MCVCreateEventData();
             // eventData.UnitId = mcv.UnitId;
             // eventData.X = x;

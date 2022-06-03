@@ -71,7 +71,7 @@ namespace mike_and_conquer_simulation.main
         // private void PublishUnitMoveOrderEvent(int destinationXInWorldCoordinates, int destinationYInWorldCoordinates)
         // {
         //     SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-        //     simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventName;
+        //     simulationStateUpdateEvent.EventType = UnitMoveOrderEventData.EventType;
         //     UnitMoveOrderEventData eventData = new UnitMoveOrderEventData(
         //         this.UnitId,
         //         destinationXInWorldCoordinates,
@@ -95,7 +95,7 @@ namespace mike_and_conquer_simulation.main
 
             SimulationStateUpdateEvent simulationStateUpdateEvent = 
                 new SimulationStateUpdateEvent(
-                    UnitMovementPlanCreatedEventData.EventName,
+                    UnitMovementPlanCreatedEventData.EventType,
                     serializedEventData);
 
             SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
@@ -230,7 +230,7 @@ namespace mike_and_conquer_simulation.main
         //             state = State.IDLE;
         //
         //             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-        //             simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventName;
+        //             simulationStateUpdateEvent.EventType = UnitArrivedAtDestinationEventData.EventType;
         //             UnitArrivedAtDestinationEventData eventData = new UnitArrivedAtDestinationEventData();
         //             eventData.UnitId = this.UnitId;
         //             eventData.Timestamp = DateTime.Now.Ticks;
@@ -266,7 +266,7 @@ namespace mike_and_conquer_simulation.main
         //             }
         //
         //             SimulationStateUpdateEvent simulationStateUpdateEvent = new SimulationStateUpdateEvent();
-        //             simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventName;
+        //             simulationStateUpdateEvent.EventType = UnitPositionChangedEventData.EventType;
         //             UnitPositionChangedEventData eventData = new UnitPositionChangedEventData();
         //             eventData.UnitId = this.UnitId;
         //

@@ -20,7 +20,7 @@
 
         public string Visibility { get; }
 
-        // public const string EventName = "MapTileInstanceCreated";
+        // public const string EventType = "MapTileInstanceCreated";
 
         // private MapTileInstanceCreateEventData()
         // {

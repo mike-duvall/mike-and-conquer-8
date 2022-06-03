@@ -3,7 +3,7 @@
     public class UnitPositionChangedEventData
     {
 
-        public const string EventName = "UnitPositionChanged";
+        public const string EventType = "UnitPositionChanged";
 
         public int UnitId { get;  }
         public int XInWorldCoordinates { get;  }

@@ -6,7 +6,7 @@ namespace mike_and_conquer_simulation.events
     public class UnitArrivedAtDestinationEventData
     {
 
-        public const string EventName = "UnitArrivedAtDestination";
+        public const string EventType = "UnitArrivedAtDestination";
 
 
         public int UnitId { get;  }

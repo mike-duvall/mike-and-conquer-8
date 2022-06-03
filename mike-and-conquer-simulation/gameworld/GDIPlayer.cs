@@ -253,7 +253,7 @@ namespace mike_and_conquer_simulation.gameworld
 
             unitList.Add(minigunner);
 
-            PublishUnitCreateEvent(MinigunnerCreateEventData.EventName, minigunner.UnitId, xInWorldCoordinates, yInWorldCoordinates);
+            PublishUnitCreateEvent(MinigunnerCreateEventData.EventType, minigunner.UnitId, xInWorldCoordinates, yInWorldCoordinates);
 
             return minigunner;
         }
@@ -265,7 +265,7 @@ namespace mike_and_conquer_simulation.gameworld
             jeep.GameWorldLocation.Y = yInWorldCoordinates;
             unitList.Add(jeep);
 
-            PublishUnitCreateEvent(JeepCreateEventData.EventName, jeep.UnitId, xInWorldCoordinates, yInWorldCoordinates);
+            PublishUnitCreateEvent(JeepCreateEventData.EventType, jeep.UnitId, xInWorldCoordinates, yInWorldCoordinates);
             return jeep;
         }
 
@@ -276,7 +276,7 @@ namespace mike_and_conquer_simulation.gameworld
             mcv.GameWorldLocation.Y = yInWorldCoordinates;
             unitList.Add(mcv);
 
-            PublishUnitCreateEvent(MCVCreateEventData.EventName, mcv.UnitId, xInWorldCoordinates, yInWorldCoordinates);
+            PublishUnitCreateEvent(MCVCreateEventData.EventType, mcv.UnitId, xInWorldCoordinates, yInWorldCoordinates);
             return mcv;
 
         }

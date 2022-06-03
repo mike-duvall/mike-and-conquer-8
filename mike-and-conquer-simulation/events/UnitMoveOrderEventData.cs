@@ -5,7 +5,7 @@ namespace mike_and_conquer_simulation.events
     public class UnitMoveOrderEventData
     {
 
-        public const string EventName = "UnitOrderedToMove";
+        public const string EventType = "UnitOrderedToMove";
 
         public int UnitId { get; }
         public long Timestamp { get; }

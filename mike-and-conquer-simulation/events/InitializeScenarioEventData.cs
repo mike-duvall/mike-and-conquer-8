@@ -5,7 +5,7 @@ namespace mike_and_conquer_simulation.events
     public class InitializeScenarioEventData
     {
 
-        public const string EventName = "InitializeScenario";
+        public const string EventType = "InitializeScenario";
 
         public int MapWidth { get;  }
         public int MapHeight { get;  }

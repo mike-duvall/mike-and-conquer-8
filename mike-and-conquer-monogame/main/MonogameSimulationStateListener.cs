@@ -18,7 +18,7 @@ namespace mike_and_conquer_monogame.main
 
         public override void Update(SimulationStateUpdateEvent anEvent)
         {
-            if (anEvent.EventType.Equals(MinigunnerCreateEventData.EventName))
+            if (anEvent.EventType.Equals(MinigunnerCreateEventData.EventType))
             {
                 MinigunnerCreateEventData eventData =
                     JsonConvert.DeserializeObject<MinigunnerCreateEventData>(anEvent.EventData);
@@ -28,7 +28,7 @@ namespace mike_and_conquer_monogame.main
                 mikeAndConquerGame.PostCommand(command);
                 
             }
-            else if (anEvent.EventType.Equals(JeepCreateEventData.EventName))
+            else if (anEvent.EventType.Equals(JeepCreateEventData.EventType))
             {
                 JeepCreateEventData eventData =
                     JsonConvert.DeserializeObject<JeepCreateEventData>(anEvent.EventData);
@@ -38,7 +38,7 @@ namespace mike_and_conquer_monogame.main
                 mikeAndConquerGame.PostCommand(command);
 
             }
-            else if (anEvent.EventType.Equals(MCVCreateEventData.EventName))
+            else if (anEvent.EventType.Equals(MCVCreateEventData.EventType))
             {
                 MCVCreateEventData eventData =
                     JsonConvert.DeserializeObject<MCVCreateEventData>(anEvent.EventData);
@@ -49,7 +49,7 @@ namespace mike_and_conquer_monogame.main
 
             }
 
-            else if (anEvent.EventType.Equals(UnitPositionChangedEventData.EventName))
+            else if (anEvent.EventType.Equals(UnitPositionChangedEventData.EventType))
             {
                 UnitPositionChangedEventData unitPositionChangedEventData =
                     JsonConvert.DeserializeObject<UnitPositionChangedEventData>(anEvent.EventData);
@@ -58,7 +58,7 @@ namespace mike_and_conquer_monogame.main
                 mikeAndConquerGame.PostCommand(command);
 
             }
-            else if (anEvent.EventType.Equals(InitializeScenarioEventData.EventName))
+            else if (anEvent.EventType.Equals(InitializeScenarioEventData.EventType))
             {
                 InitializeScenarioEventData initializeScenarioEventData =
                     JsonConvert.DeserializeObject<InitializeScenarioEventData>(anEvent.EventData);
