@@ -344,16 +344,35 @@ namespace mike_and_conquer_simulation.main
 
             if (IsAtDestination(currentDestinationPoint.X, currentDestinationPoint.Y))
             {
+                PublishUnitArrivedAtPathStep(currentDestinationPoint);
                 path.RemoveAt(0);
             }
 
         }
 
-        void MoveTowardsDestination(int destinationX, int destinationY)
+        private void PublishUnitArrivedAtPathStep(Point pathStepPoint)
         {
 
-            // float newX = GameWorldLocation.WorldCoordinatesAsVector2.X;
-            // float newY = GameWorldLocation.WorldCoordinatesAsVector2.Y;
+            PathStep pathStep = new PathStep(pathStepPoint.X, pathStepPoint.Y);
+
+
+            UnitArrivedAtPathStepEventData eventData =
+                new UnitArrivedAtPathStepEventData(this.UnitId, pathStep);
+
+            string serializedEventData = JsonConvert.SerializeObject(eventData);
+
+
+            SimulationStateUpdateEvent simulationStateUpdateEvent =
+                new SimulationStateUpdateEvent(
+                    UnitArrivedAtPathStepEventData.EventType,
+                    serializedEventData);
+
+            SimulationMain.instance.PublishEvent(simulationStateUpdateEvent);
+        }
+
+
+        void MoveTowardsDestination(int destinationX, int destinationY)
+        {
 
             float newX = GameWorldLocation.X;
             float newY = GameWorldLocation.Y;
@@ -449,8 +468,14 @@ namespace mike_and_conquer_simulation.main
 
             if (IsAtDestination(destinationX, destinationY))
             {
-                path.RemoveAt(0);
+
+                Point centerOfDestinationSquare = path[0];
+
+                Point currentDestinationPoint = centerOfDestinationSquare;
+
+                PublishUnitArrivedAtPathStep(currentDestinationPoint);
                 PublishUnitArrivedAtDestinationEvent();
+                path.RemoveAt(0);
             }
 
 
