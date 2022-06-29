@@ -3,7 +3,7 @@
 
 namespace mike_and_conquer_simulation.main
 {
-    internal class GameWorldLocation
+    public class GameWorldLocation
     {
         private float xInWorldCoordinates;
         private float yInWorldCoordinates;
@@ -30,11 +30,19 @@ namespace mike_and_conquer_simulation.main
             this.yInWorldCoordinates = y;
         }
 
+        public GameWorldLocation(GameWorldLocationBuilder builder)
+        {
+            this.xInWorldCoordinates = builder.WorldCoordinatesX();
+            this.yInWorldCoordinates = builder.WorldCoordinatesY();
+        }
 
         public static GameWorldLocation CreateFromWorldCoordinates(float x, float y)
         {
             return new GameWorldLocation(x, y);
         }
+
+
+
 
         // public Vector2 WorldCoordinatesAsVector2
         // {

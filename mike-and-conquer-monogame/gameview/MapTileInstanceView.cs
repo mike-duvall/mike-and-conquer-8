@@ -26,10 +26,13 @@ namespace mike_and_conquer.gameview
         // private string textureKey;
         private bool isBlockingTerrain;
 
+        public bool isPartOfPath;
+
         private MapTileVisibility visibility;
 
         private Texture2D mapTileBorder;
         private Texture2D mapTileBlockingTerrainBorder;
+        private Texture2D pathIcon;
 
         private List<MapTileShroudMapping> mapTileShroudMappingList;
 
@@ -75,9 +78,19 @@ namespace mike_and_conquer.gameview
                 this.singleTextureSprite.Width,
                 this.singleTextureSprite.Height);
 
+            pathIcon = TextureUtil.CreateSpriteBorderRectangleTexture(
+                Color.BlueViolet,
+                this.singleTextureSprite.Width,
+                this.singleTextureSprite.Height);
+
+
+            pathIcon = TextureUtil.CreateSpriteCenterRectangleTexture(
+                Color.Pink,
+                this.singleTextureSprite.Width,
+                this.singleTextureSprite.Height);
+
 
             InitializeMapTileShroudMappingList();
-
         }
 
 
@@ -147,7 +160,25 @@ namespace mike_and_conquer.gameview
                 false,
                 Color.White);
 
-            if (GameOptions.instance.DrawTerrainBorder)
+
+
+            if (GameOptions.instance.DrawPaths && isPartOfPath)
+            {
+                float defaultScale = 1;
+                float layerDepth = 0;
+                spriteBatch.Draw(pathIcon, worldCoordinatesAsXnaVector2, null, Color.White,
+                    0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
+
+            }
+            else if (GameOptions.instance.DrawBlockingTerrainBorder && this.isBlockingTerrain)
+            {
+                float defaultScale = 1;
+                float layerDepth = 0;
+                spriteBatch.Draw(mapTileBlockingTerrainBorder, worldCoordinatesAsXnaVector2, null,
+                    Color.White, 0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
+            }
+
+            else if (GameOptions.instance.DrawTerrainBorder)
             {
                 float defaultScale = 1;
                 float layerDepth = 0;
@@ -155,13 +186,7 @@ namespace mike_and_conquer.gameview
                     0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
             }
 
-            if (GameOptions.instance.DrawBlockingTerrainBorder && this.isBlockingTerrain)
-            {
-                float defaultScale = 1;
-                float layerDepth = 0;
-                spriteBatch.Draw(mapTileBlockingTerrainBorder, worldCoordinatesAsXnaVector2, null,
-                    Color.White, 0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
-            }
+
         }
 
 

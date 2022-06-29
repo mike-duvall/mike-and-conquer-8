@@ -41,6 +41,8 @@ using ImmutablePalette = mike_and_conquer.openra.ImmutablePalette;
 
 using Matrix = Microsoft.Xna.Framework.Matrix;
 using System.Drawing;
+using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.util;
 
 namespace mike_and_conquer.gameview
 {
@@ -1539,5 +1541,32 @@ namespace mike_and_conquer.gameview
 
         }
 
+        private MapTileInstanceView FindMapTileInstanceViewFromWorldMapTileCoordinates(int xInWorldMapTileCoordinates,
+            int yInWorldMapTileCoordinates)
+        {
+            GameWorldLocationBuilder builder = new GameWorldLocationBuilder();
+            GameWorldLocation location = builder
+                .WorldMapTileCoordinatesX(xInWorldMapTileCoordinates)
+                .WorldMapTileCoordinatesY(yInWorldMapTileCoordinates)
+                .build();
+
+            return FindMapTileInstanceView((int) location.X, (int) location.Y);
+        }
+
+        public void HighlightPath(List<PathStep> pathStepList)
+        {
+            foreach (PathStep pathStep in pathStepList)
+            {
+                MapTileInstanceView foundView =
+                    FindMapTileInstanceViewFromWorldMapTileCoordinates(pathStep.X, pathStep.Y);
+                foundView.isPartOfPath = true;
+
+            }
+
+            redrawBaseMapTiles = true;
+
+
+
+        }
     }
 }

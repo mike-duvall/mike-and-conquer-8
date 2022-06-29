@@ -84,6 +84,43 @@ namespace mike_and_conquer.util
             return rectangleTexture;
         }
 
+
+        public static Texture2D CreateSpriteCenterRectangleTexture(Color color, int width, int height)
+        {
+
+            string borderRectangleName = "CenterRectangle-Color-R-" + color.R + "-G-" + color.G + "-B-" + color.B +
+                                         "-width-" + width + "-height-" + height;
+
+            Texture2D rectangleTexture = MikeAndConquerGame.instance.SpriteSheet.GetTextureForKey(borderRectangleName);
+
+            if (rectangleTexture == null)
+            {
+
+                rectangleTexture = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, width, height);
+                Color[] data = new Color[rectangleTexture.Width * rectangleTexture.Height];
+                FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 12, color, 10, 15);
+                FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 13, color, 10,15);
+                FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 14, color, 10, 15);
+                FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 15, color, 10, 15);
+
+                int centerX = (rectangleTexture.Width / 2);
+                int centerY = (rectangleTexture.Height / 2);
+
+                // Check how this works for even sized sprites with true center
+
+                int centerOffset = (centerY * rectangleTexture.Width) + centerX;
+                data[centerOffset] = Color.Red;
+
+                rectangleTexture.SetData(data);
+
+                MikeAndConquerGame.instance.SpriteSheet.SetTextureForKey(borderRectangleName, rectangleTexture);
+            }
+
+            return rectangleTexture;
+        }
+
+
+
         private static void FillHorizontalLine(Color[] data, int width, int height, int lineIndex, Color color)
         {
             int beginIndex = width * lineIndex;
@@ -92,6 +129,18 @@ namespace mike_and_conquer.util
                 data[i] = color;
             }
         }
+
+        private static void FillHorizontalLineSub(Color[] data, int width, int height, int lineIndex, Color color, int subStart, int subEnd)
+        {
+            int length = subEnd - subStart;
+            int beginIndex = width * lineIndex;
+            for (int i = beginIndex + subStart; i < (beginIndex + subStart + length); ++i)
+            {
+                data[i] = color;
+            }
+        }
+
+
 
         private static void FillVerticalLine(Color[] data, int width, int height, int lineIndex, Color color)
         {
