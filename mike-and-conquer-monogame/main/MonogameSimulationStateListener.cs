@@ -101,9 +101,17 @@ namespace mike_and_conquer_monogame.main
 
                 eventData.PathSteps = pathStepList;
 
-                int yy = 3;
-                HighlightPathCommand command = new HighlightPathCommand(eventData);
-                 mikeAndConquerGame.PostCommand(command);
+                HandleUnitMovementPlanCreatedCommand command = new HandleUnitMovementPlanCreatedCommand(eventData);
+                mikeAndConquerGame.PostCommand(command);
+            }
+            else if (anEvent.EventType.Equals(UnitArrivedAtPathStepEventData.EventType))
+            {
+                UnitArrivedAtPathStepEventData eventData =
+                    JsonConvert.DeserializeObject<UnitArrivedAtPathStepEventData>(anEvent.EventData);
+
+                
+                HandleUnitArrivedAtPathStepCommand command = new HandleUnitArrivedAtPathStepCommand(eventData);
+                mikeAndConquerGame.PostCommand(command);
 
             }
             else

@@ -22,8 +22,8 @@ namespace mike_and_conquer_simulation.main
         public Command currentCommand;
 
 
-        private int destinationXInWorldCoordinates;
-        private int destinationYInWorldCoordinates;
+        // private int destinationXInWorldCoordinates;
+        // private int destinationYInWorldCoordinates;
 
 
         double movementDistanceEpsilon;

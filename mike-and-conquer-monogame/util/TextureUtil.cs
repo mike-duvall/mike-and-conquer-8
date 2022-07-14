@@ -99,27 +99,6 @@ namespace mike_and_conquer.util
                 rectangleTexture = new Texture2D(MikeAndConquerGame.instance.GraphicsDevice, width, height);
                 Color[] data = new Color[rectangleTexture.Width * rectangleTexture.Height];
 
-
-
-                // FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 12, color, 10, 15);
-                // FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 13, color, 10,15);
-                // FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 14, color, 10, 15);
-                // FillHorizontalLineSub(data, rectangleTexture.Width, rectangleTexture.Height, 15, color, 10, 15);
-                // FillHorizontalLine(data, rectangleTexture.Width, rectangleTexture.Height, 12, color);
-                // FillHorizontalLine(data, rectangleTexture.Width, rectangleTexture.Height, 13, color);
-                // FillHorizontalLine(data, rectangleTexture.Width, rectangleTexture.Height, 14, color);
-                // FillHorizontalLine(data, rectangleTexture.Width, rectangleTexture.Height, 15, color);
-
-
-
-                // int centerX = (rectangleTexture.Width / 2);
-                // int centerY = (rectangleTexture.Height / 2);
-                //
-                // // Check how this works for even sized sprites with true center
-                //
-                // int centerOffset = (centerY * rectangleTexture.Width) + centerX;
-                // data[centerOffset] = Color.Red;
-
                 for (int i = 0; i < data.Length; i++)
                 {
                     data[i] = color;

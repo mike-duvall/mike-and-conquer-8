@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 // using mike_and_conquer.gameobjects;
 using mike_and_conquer.gamesprite;
+using mike_and_conquer_monogame.gameview;
 using mike_and_conquer_monogame.main;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.main;
@@ -19,6 +20,7 @@ namespace mike_and_conquer.gameview
         private DestinationSquare destinationSquare;
         // private Minigunner myMinigunner;
         private bool drawDestinationSquare;
+
 
 
         // public int XInWorldCoordinates { get; set; }
@@ -128,6 +130,12 @@ namespace mike_and_conquer.gameview
                 YInWorldCoordinates);
 
             unitSprite.DrawNoShadow(gameTime, spriteBatch, worldCoordinatesAsVector2, SpriteSortLayers.UNIT_DEPTH);
+
+            if (GameOptions.instance.DrawPaths && plannedPathView != null)
+            {
+                plannedPathView.Draw(spriteBatch);
+            }
+
 
             if (Selected)
             {

@@ -5,13 +5,13 @@ using mike_and_conquer_simulation.events;
 
 namespace mike_and_conquer_monogame.commands
 {
-    public class HighlightPathCommand : AsyncViewCommand
+    public class HandleUnitMovementPlanCreatedCommand : AsyncViewCommand
     {
 
 
         private UnitMovementPlanCreatedEventData unitMovementPlanCreatedEventData;
 
-        public HighlightPathCommand(UnitMovementPlanCreatedEventData data)
+        public HandleUnitMovementPlanCreatedCommand(UnitMovementPlanCreatedEventData data)
         {
             this.unitMovementPlanCreatedEventData = data;
         }
@@ -20,7 +20,8 @@ namespace mike_and_conquer_monogame.commands
         {
 
             // MikeAndConquerGame.instance.UpdateUnitPosition(unitPositionChangedEventData);
-            MikeAndConquerGame.instance.HighlightPath(unitMovementPlanCreatedEventData.PathSteps);
+//            MikeAndConquerGame.instance.HighlightPath(unitMovementPlanCreatedEventData.PathSteps);
+            MikeAndConquerGame.instance.UpdateUnitMovementPlan(unitMovementPlanCreatedEventData);
 
         }
     }

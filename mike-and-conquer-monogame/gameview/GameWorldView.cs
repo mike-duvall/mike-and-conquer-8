@@ -151,6 +151,11 @@ namespace mike_and_conquer.gameview
         //
         // private GDIConstructionYardView gdiConstructionYardView;
 
+        public MCVView mcvView;
+
+        public JeepView jeepView;
+
+
 
         private List<MapTileInstanceView> mapTileInstanceViewList;
 
@@ -203,9 +208,6 @@ namespace mike_and_conquer.gameview
 
         public List<TerrainView> terrainViewList;
 
-        public MCVView mcvView;
-
-        public JeepView jeepView;
 
         public static GameWorldView instance;
 
@@ -1553,20 +1555,50 @@ namespace mike_and_conquer.gameview
             return FindMapTileInstanceView((int) location.X, (int) location.Y);
         }
 
-        public void HighlightPath(List<PathStep> pathStepList)
-        {
-            foreach (PathStep pathStep in pathStepList)
-            {
-                MapTileInstanceView foundView =
-                    FindMapTileInstanceViewFromWorldMapTileCoordinates(pathStep.X, pathStep.Y);
-                foundView.isPartOfPath = true;
+        // public void HighlightPath(List<PathStep> pathStepList)
+        // {
+        //     foreach (PathStep pathStep in pathStepList)
+        //     {
+        //         MapTileInstanceView foundView =
+        //             FindMapTileInstanceViewFromWorldMapTileCoordinates(pathStep.X, pathStep.Y);
+        //         foundView.isPartOfPath = true;
+        //
+        //     }
+        //
+        //     redrawBaseMapTiles = true;
+        // }
 
+
+        private UnitView FindUnitById(int unitId)
+        {
+            UnitView foundUnitView = null;
+            foreach (UnitView unitView in gdiMinigunnerViewList)
+            {
+                if (unitView.UnitId == unitId)
+                {
+                    foundUnitView = unitView;
+                    break;
+                }
             }
 
-            redrawBaseMapTiles = true;
-
-
+            return foundUnitView;
 
         }
+
+        public void UpdateUnitMovementPlan(UnitMovementPlanCreatedEventData unitMovementPlanCreatedEventData)
+        {
+            UnitView unitView = FindUnitById(unitMovementPlanCreatedEventData.UnitId);
+            unitView.UpdatePlannedPathView(unitMovementPlanCreatedEventData);
+        }
+
+        public void UpdateUnitMovementPlan(UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData)
+        {
+            UnitView unitView = FindUnitById(unitArrivedAtPathStepEventData.UnitId);
+            unitView.UpdatePlannedPathView(unitArrivedAtPathStepEventData);
+        }
+
+        
+
+
     }
 }

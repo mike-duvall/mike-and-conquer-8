@@ -21,19 +21,19 @@ namespace mike_and_conquer.gameview
         private static Texture2D visibleMask = null;
         private PartiallyVisibileMapTileMask partiallyVisibileMapTileMask;
         private static Vector2 middleOfSpriteInSpriteCoordinates;
-        private static Vector2 middleOfPathSpriteInSpriteCoordinates;
+        // private static Vector2 middleOfPathSpriteInSpriteCoordinates;
 
         private int imageIndex;
         // private string textureKey;
         private bool isBlockingTerrain;
 
-        public bool isPartOfPath;
+        // public bool isPartOfPath;
 
         private MapTileVisibility visibility;
 
         private Texture2D mapTileBorder;
         private Texture2D mapTileBlockingTerrainBorder;
-        private Texture2D pathIcon;
+//        private Texture2D pathIcon;
 
         private List<MapTileShroudMapping> mapTileShroudMappingList;
 
@@ -92,18 +92,18 @@ namespace mike_and_conquer.gameview
 
 
 
-            int pathIconWidth = this.singleTextureSprite.Width / 4;
-            int pathIconHeight = this.singleTextureSprite.Height / 4;
+            // int pathIconWidth = this.singleTextureSprite.Width / 4;
+            // int pathIconHeight = this.singleTextureSprite.Height / 4;
 
 
-            pathIcon = TextureUtil.CreateSpriteCenterRectangleTexture(
-                new Color(0x7e, 0, 0),   // R component get's mapped to pallette color, which is a red in this case
-                pathIconWidth,
-                pathIconHeight);
+            // pathIcon = TextureUtil.CreateSpriteCenterRectangleTexture(
+            //     new Color(0x7e, 0, 0),   // R component get's mapped to pallette color, which is a red in this case
+            //     pathIconWidth,
+            //     pathIconHeight);
 
-            middleOfPathSpriteInSpriteCoordinates = new Vector2();
-            middleOfPathSpriteInSpriteCoordinates.X = pathIconWidth / 2;
-            middleOfPathSpriteInSpriteCoordinates.Y = pathIconHeight / 2;
+            // middleOfPathSpriteInSpriteCoordinates = new Vector2();
+            // middleOfPathSpriteInSpriteCoordinates.X = pathIconWidth / 2;
+            // middleOfPathSpriteInSpriteCoordinates.Y = pathIconHeight / 2;
 
 
             InitializeMapTileShroudMappingList();
@@ -178,14 +178,14 @@ namespace mike_and_conquer.gameview
 
 
 
-            if (GameOptions.instance.DrawPaths && isPartOfPath)
-            {
-                float defaultScale = 1;
-                float layerDepth = 0;
-                spriteBatch.Draw(pathIcon, worldCoordinatesAsXnaVector2, null, Color.White,
-                    0f, middleOfPathSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
-
-            }
+            // if (GameOptions.instance.DrawPaths && isPartOfPath)
+            // {
+            //     float defaultScale = 1;
+            //     float layerDepth = 0;
+            //     spriteBatch.Draw(pathIcon, worldCoordinatesAsXnaVector2, null, Color.White,
+            //         0f, middleOfPathSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
+            //
+            // }
             
             if (GameOptions.instance.DrawBlockingTerrainBorder && this.isBlockingTerrain)
             {
