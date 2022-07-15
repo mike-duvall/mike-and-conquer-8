@@ -43,12 +43,5 @@ namespace mike_and_conquer_simulation.main
 
 
 
-
-        // public Vector2 WorldCoordinatesAsVector2
-        // {
-        //     get { return new Vector2(xInWorldCoordinates, yInWorldCoordinates); }
-        // }
-
-
     }
 }

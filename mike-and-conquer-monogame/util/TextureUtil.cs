@@ -123,15 +123,15 @@ namespace mike_and_conquer.util
             }
         }
 
-        private static void FillHorizontalLineSub(Color[] data, int width, int height, int lineIndex, Color color, int subStart, int subEnd)
-        {
-            int length = subEnd - subStart;
-            int beginIndex = width * lineIndex;
-            for (int i = beginIndex + subStart; i < (beginIndex + subStart + length); ++i)
-            {
-                data[i] = color;
-            }
-        }
+        // private static void FillHorizontalLineSub(Color[] data, int width, int height, int lineIndex, Color color, int subStart, int subEnd)
+        // {
+        //     int length = subEnd - subStart;
+        //     int beginIndex = width * lineIndex;
+        //     for (int i = beginIndex + subStart; i < (beginIndex + subStart + length); ++i)
+        //     {
+        //         data[i] = color;
+        //     }
+        // }
 
 
 

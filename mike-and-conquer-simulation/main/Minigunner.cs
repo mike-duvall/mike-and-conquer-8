@@ -21,14 +21,8 @@ namespace mike_and_conquer_simulation.main
         public enum Command { NONE, ATTACK_TARGET, FOLLOW_PATH };
         public Command currentCommand;
 
-
-        // private int destinationXInWorldCoordinates;
-        // private int destinationYInWorldCoordinates;
-
-
         double movementDistanceEpsilon;
         private float movementDelta;
-
 
         private List<Point> path;
 

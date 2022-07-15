@@ -1555,19 +1555,6 @@ namespace mike_and_conquer.gameview
             return FindMapTileInstanceView((int) location.X, (int) location.Y);
         }
 
-        // public void HighlightPath(List<PathStep> pathStepList)
-        // {
-        //     foreach (PathStep pathStep in pathStepList)
-        //     {
-        //         MapTileInstanceView foundView =
-        //             FindMapTileInstanceViewFromWorldMapTileCoordinates(pathStep.X, pathStep.Y);
-        //         foundView.isPartOfPath = true;
-        //
-        //     }
-        //
-        //     redrawBaseMapTiles = true;
-        // }
-
 
         private UnitView FindUnitById(int unitId)
         {

@@ -14,9 +14,6 @@ namespace mike_and_conquer_monogame.gameview
     class PlannedPathStepView
     {
 
-        // private int x;
-        // private int y;
-
         private Texture2D pathIcon;
 
         private static Vector2 middleOfPathSpriteInSpriteCoordinates;
@@ -29,17 +26,12 @@ namespace mike_and_conquer_monogame.gameview
             this.X = x;
             this.Y = y;
 
-            // int pathIconWidth = this.singleTextureSprite.Width / 4;
-            // int pathIconHeight = this.singleTextureSprite.Height / 4;
-
             int pathIconWidth = GameWorldView.MAP_TILE_WIDTH / 4;
             int pathIconHeight = GameWorldView.MAP_TILE_HEIGHT / 4;
-
 
             middleOfPathSpriteInSpriteCoordinates = new Vector2();
             middleOfPathSpriteInSpriteCoordinates.X = pathIconWidth / 2;
             middleOfPathSpriteInSpriteCoordinates.Y = pathIconHeight / 2;
-
 
             pathIcon = TextureUtil.CreateSpriteCenterRectangleTexture(
                 new Color(0x7e, 0, 0),   // R component get's mapped to pallette color, which is a red in this case
@@ -52,18 +44,10 @@ namespace mike_and_conquer_monogame.gameview
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            // Vector2 worldCoordinatesAsXnaVector2 = new Vector2();
-
-            // Pickup here
-            // Calculate worldCoordaintes from PathStep map tile coordaintes, add here
-            // Then might be ready to test
-
             Point pointInWorldCoordinates =
                 GameWorldView.ConvertMapTileCoordinatesToWorldCoordinates(new Point(this.X, this.Y));
 
             Vector2 worldCoordinatesAsXnaVector2 = new Vector2(pointInWorldCoordinates.X, pointInWorldCoordinates.Y);
-
-
 
             float defaultScale = 1;
             float layerDepth = 0;

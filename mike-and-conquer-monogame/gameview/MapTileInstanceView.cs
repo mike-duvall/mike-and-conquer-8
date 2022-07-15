@@ -21,19 +21,16 @@ namespace mike_and_conquer.gameview
         private static Texture2D visibleMask = null;
         private PartiallyVisibileMapTileMask partiallyVisibileMapTileMask;
         private static Vector2 middleOfSpriteInSpriteCoordinates;
-        // private static Vector2 middleOfPathSpriteInSpriteCoordinates;
 
         private int imageIndex;
         // private string textureKey;
         private bool isBlockingTerrain;
 
-        // public bool isPartOfPath;
 
         private MapTileVisibility visibility;
 
         private Texture2D mapTileBorder;
         private Texture2D mapTileBlockingTerrainBorder;
-//        private Texture2D pathIcon;
 
         private List<MapTileShroudMapping> mapTileShroudMappingList;
 
@@ -78,32 +75,6 @@ namespace mike_and_conquer.gameview
                 new Color(127, 255, 255, 255),
                 this.singleTextureSprite.Width,
                 this.singleTextureSprite.Height);
-
-            // pathIcon = TextureUtil.CreateSpriteBorderRectangleTexture(
-            //     Color.BlueViolet,
-            //     this.singleTextureSprite.Width,
-            //     this.singleTextureSprite.Height);
-
-
-            // pathIcon = TextureUtil.CreateSpriteCenterRectangleTexture(
-            //     new Color(0x7e,0,0),   // R component get's mapped to pallette color, which is a red in this case
-            //     this.singleTextureSprite.Width,
-            //     this.singleTextureSprite.Height);
-
-
-
-            // int pathIconWidth = this.singleTextureSprite.Width / 4;
-            // int pathIconHeight = this.singleTextureSprite.Height / 4;
-
-
-            // pathIcon = TextureUtil.CreateSpriteCenterRectangleTexture(
-            //     new Color(0x7e, 0, 0),   // R component get's mapped to pallette color, which is a red in this case
-            //     pathIconWidth,
-            //     pathIconHeight);
-
-            // middleOfPathSpriteInSpriteCoordinates = new Vector2();
-            // middleOfPathSpriteInSpriteCoordinates.X = pathIconWidth / 2;
-            // middleOfPathSpriteInSpriteCoordinates.Y = pathIconHeight / 2;
 
 
             InitializeMapTileShroudMappingList();

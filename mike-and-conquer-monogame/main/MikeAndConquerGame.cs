@@ -469,11 +469,6 @@ namespace mike_and_conquer_monogame.main
         }
 
 
-        // public void ProcessUnitMovementPlan(List<PathStep> pathStepList)
-        // {
-        //     gameWorldView.HighlightPath(pathStepList);
-        // }
-
         public void AddMinigunner(int id, int x, int y)
         {
             // UnitView unitView = new UnitView();
@@ -878,11 +873,6 @@ namespace mike_and_conquer_monogame.main
             return gameWorldView.GetUnitViewById(unitId);
         }
 
-
-        // public void HighlightPath(List<PathStep> pathSteps)
-        // {
-        //     gameWorldView.HighlightPath(pathSteps);
-        // }
         public void UpdateUnitMovementPlan(UnitMovementPlanCreatedEventData unitMovementPlanCreatedEventData)
         {
             gameWorldView.UpdateUnitMovementPlan(unitMovementPlanCreatedEventData);
