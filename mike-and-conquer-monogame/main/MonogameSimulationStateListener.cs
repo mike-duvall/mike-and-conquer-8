@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_monogame.commands;
+using mike_and_conquer_monogame.commands.mapper;
 using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -72,36 +73,10 @@ namespace mike_and_conquer_monogame.main
             }
             else if (anEvent.EventType.Equals(UnitMovementPlanCreatedEventData.EventType))
             {
-                // Pickup here
-                // When received path planning event, mark the appropriate MapTileInstanceViews as partOfPath = true
 
+                HandleUnitMovementPlanCreatedCommand command =
+                    HandleUnitMovementPlanCreatedCommandMapper.ConvertToCommand(anEvent.EventData);
 
-                UnitMovementPlanCreatedEventData eventData =
-                     JsonConvert.DeserializeObject<UnitMovementPlanCreatedEventData>(anEvent.EventData);
-
-
-                // var rawEventData =
-                //     JsonConvert.DeserializeObject(anEvent.EventData);
-                //
-                // var pathSteps = rawEventData["PathSteps"];
-
-                List<PathStep> pathStepList = new List<PathStep>();
-
-
-                var jsonObject = JObject.Parse(anEvent.EventData);
-                var pathSteps = jsonObject["PathSteps"];
-
-                foreach(JObject jObject in pathSteps)
-                {
-                    int x = jObject.GetValue("X").ToObject<int>();
-                    int y = jObject.GetValue("Y").ToObject<int>();
-                    PathStep pathStep = new PathStep(x, y);
-                    pathStepList.Add(pathStep);
-                }
-
-                eventData.PathSteps = pathStepList;
-
-                HandleUnitMovementPlanCreatedCommand command = new HandleUnitMovementPlanCreatedCommand(eventData);
                 mikeAndConquerGame.PostCommand(command);
             }
             else if (anEvent.EventType.Equals(UnitArrivedAtPathStepEventData.EventType))

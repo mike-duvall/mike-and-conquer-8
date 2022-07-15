@@ -18,11 +18,7 @@ namespace mike_and_conquer_monogame.commands
 
         protected override void ProcessImpl()
         {
-
-            // MikeAndConquerGame.instance.UpdateUnitPosition(unitPositionChangedEventData);
-//            MikeAndConquerGame.instance.HighlightPath(unitMovementPlanCreatedEventData.PathSteps);
             MikeAndConquerGame.instance.UpdateUnitMovementPlan(unitMovementPlanCreatedEventData);
-
         }
     }
 }

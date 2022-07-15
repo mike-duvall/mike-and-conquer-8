@@ -154,8 +154,6 @@ namespace mike_and_conquer_monogame.main
                 throw new Exception("Unknown CommandType:" + rawCommand.CommandType);
             }
 
-
-
         }
 
 
