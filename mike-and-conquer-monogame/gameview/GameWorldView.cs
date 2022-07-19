@@ -1572,16 +1572,16 @@ namespace mike_and_conquer.gameview
 
         }
 
-        public void UpdateUnitMovementPlan(int unitId, List<PathStep> pathStepList)
+        public void CreatePlannedPath(int unitId, List<PathStep> pathStepList)
         {
             UnitView unitView = FindUnitById(unitId);
-            unitView.UpdatePlannedPathView(pathStepList);
+            unitView.CreatePlannedPathView(pathStepList);
         }
 
-        public void UpdateUnitMovementPlan(UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData)
+        public void CreatePlannedPath(UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData)
         {
             UnitView unitView = FindUnitById(unitArrivedAtPathStepEventData.UnitId);
-            unitView.UpdatePlannedPathView(unitArrivedAtPathStepEventData);
+            unitView.UpdatePlannedPathView(unitArrivedAtPathStepEventData.PathStep);
         }
 
         

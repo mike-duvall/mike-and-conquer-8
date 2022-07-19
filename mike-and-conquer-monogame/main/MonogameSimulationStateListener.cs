@@ -74,7 +74,7 @@ namespace mike_and_conquer_monogame.main
             else if (anEvent.EventType.Equals(UnitMovementPlanCreatedEventData.EventType))
             {
 
-                HandleUnitMovementPlanCreatedCommand command =
+                CreatePlannedPathCommand command =
                     HandleUnitMovementPlanCreatedCommandMapper.ConvertToCommand(anEvent.EventData);
 
                 mikeAndConquerGame.PostCommand(command);

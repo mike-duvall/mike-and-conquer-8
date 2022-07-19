@@ -40,17 +40,16 @@ namespace mike_and_conquer_monogame.main
             get { return selectionCursorOffset; }
         }
 
-        public void UpdatePlannedPathView(List<PathStep> pathStepList)
+        public void CreatePlannedPathView(List<PathStep> pathStepList)
         {
             plannedPathView = new PlannedPathView(pathStepList);
 
         }
 
-        public void UpdatePlannedPathView(UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData)
+        public void UpdatePlannedPathView(PathStep pathStep)
         {
 
-            plannedPathView.RemoveFromPlannedPath(unitArrivedAtPathStepEventData.PathStep.X,
-                unitArrivedAtPathStepEventData.PathStep.Y);
+            plannedPathView.RemoveFromPlannedPath(pathStep.X,pathStep.Y);
 
         }
 
