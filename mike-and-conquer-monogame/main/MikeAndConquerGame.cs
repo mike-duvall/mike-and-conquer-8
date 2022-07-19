@@ -875,7 +875,7 @@ namespace mike_and_conquer_monogame.main
 
         public void UpdateUnitMovementPlan(UnitMovementPlanCreatedEventData unitMovementPlanCreatedEventData)
         {
-            gameWorldView.UpdateUnitMovementPlan(unitMovementPlanCreatedEventData);
+            gameWorldView.UpdateUnitMovementPlan(unitMovementPlanCreatedEventData.UnitId, unitMovementPlanCreatedEventData.PathSteps);
         }
 
         public void UpdateUnitMovementPlan(UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData)
