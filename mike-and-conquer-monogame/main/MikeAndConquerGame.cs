@@ -873,14 +873,14 @@ namespace mike_and_conquer_monogame.main
             return gameWorldView.GetUnitViewById(unitId);
         }
 
-        public void CreatePlannedPath(int unitId, List<PathStep> pathStepList)
+        public void HandleUnitMovementPlanCreated(int unitId, List<PathStep> pathStepList)
         {
-            gameWorldView.CreatePlannedPath(unitId, pathStepList);
+            gameWorldView.CreatePlannedPathView(unitId, pathStepList);
         }
 
-        public void UpdateUnitMovementPlan(UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData)
+        public void HandleUnitArrivedAtPathStep(int unitId, PathStep pathStep)
         {
-            gameWorldView.CreatePlannedPath(unitArrivedAtPathStepEventData);
+            gameWorldView.UnitArrivedAtPathStep(unitId, pathStep);
         }
 
 

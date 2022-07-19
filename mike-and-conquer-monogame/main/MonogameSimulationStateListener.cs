@@ -74,7 +74,7 @@ namespace mike_and_conquer_monogame.main
             else if (anEvent.EventType.Equals(UnitMovementPlanCreatedEventData.EventType))
             {
 
-                CreatePlannedPathCommand command =
+                HandleUnitMovementPlanCreatedCommand command =
                     HandleUnitMovementPlanCreatedCommandMapper.ConvertToCommand(anEvent.EventData);
 
                 mikeAndConquerGame.PostCommand(command);
@@ -85,7 +85,7 @@ namespace mike_and_conquer_monogame.main
                     JsonConvert.DeserializeObject<UnitArrivedAtPathStepEventData>(anEvent.EventData);
 
                 
-                HandleUnitArrivedAtPathStepCommand command = new HandleUnitArrivedAtPathStepCommand(eventData);
+                HandleUnitArrivedAtPathStepCommand command = new HandleUnitArrivedAtPathStepCommand(eventData.UnitId, eventData.PathStep);
                 mikeAndConquerGame.PostCommand(command);
 
             }

@@ -46,11 +46,9 @@ namespace mike_and_conquer_monogame.main
 
         }
 
-        public void UpdatePlannedPathView(PathStep pathStep)
+        public void RemovePlannedPathStepView(PathStep pathStep)
         {
-
             plannedPathView.RemoveFromPlannedPath(pathStep.X,pathStep.Y);
-
         }
 
 

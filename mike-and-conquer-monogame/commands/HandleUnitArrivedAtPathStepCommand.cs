@@ -1,4 +1,5 @@
 ﻿
+using mike_and_conquer.gameview;
 using mike_and_conquer_monogame.main;
 
 using mike_and_conquer_simulation.events;
@@ -9,17 +10,20 @@ namespace mike_and_conquer_monogame.commands
     {
 
 
-        private UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData;
+        // private UnitArrivedAtPathStepEventData unitArrivedAtPathStepEventData;
+        private int unitId;
+        private PathStep pathStep;
 
-        public HandleUnitArrivedAtPathStepCommand(UnitArrivedAtPathStepEventData data)
+        public HandleUnitArrivedAtPathStepCommand(int unitId, PathStep pathStep)
         {
-            this.unitArrivedAtPathStepEventData = data;
+            this.unitId = unitId;
+            this.pathStep = pathStep;
         }
 
         protected override void ProcessImpl()
         {
 
-            MikeAndConquerGame.instance.UpdateUnitMovementPlan(unitArrivedAtPathStepEventData);
+            MikeAndConquerGame.instance.HandleUnitArrivedAtPathStep(unitId, pathStep);
 
         }
     }
