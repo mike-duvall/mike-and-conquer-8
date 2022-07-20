@@ -26,6 +26,7 @@ namespace mike_and_conquer.gameview
         // private string textureKey;
         private bool isBlockingTerrain;
 
+
         private MapTileVisibility visibility;
 
         private Texture2D mapTileBorder;
@@ -77,7 +78,6 @@ namespace mike_and_conquer.gameview
 
 
             InitializeMapTileShroudMappingList();
-
         }
 
 
@@ -147,14 +147,17 @@ namespace mike_and_conquer.gameview
                 false,
                 Color.White);
 
-            if (GameOptions.instance.DrawTerrainBorder)
-            {
-                float defaultScale = 1;
-                float layerDepth = 0;
-                spriteBatch.Draw(mapTileBorder, worldCoordinatesAsXnaVector2, null, Color.White,
-                    0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
-            }
 
+
+            // if (GameOptions.instance.DrawPaths && isPartOfPath)
+            // {
+            //     float defaultScale = 1;
+            //     float layerDepth = 0;
+            //     spriteBatch.Draw(pathIcon, worldCoordinatesAsXnaVector2, null, Color.White,
+            //         0f, middleOfPathSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
+            //
+            // }
+            
             if (GameOptions.instance.DrawBlockingTerrainBorder && this.isBlockingTerrain)
             {
                 float defaultScale = 1;
@@ -162,6 +165,15 @@ namespace mike_and_conquer.gameview
                 spriteBatch.Draw(mapTileBlockingTerrainBorder, worldCoordinatesAsXnaVector2, null,
                     Color.White, 0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
             }
+            else             if (GameOptions.instance.DrawTerrainBorder)
+            {
+                float defaultScale = 1;
+                float layerDepth = 0;
+                spriteBatch.Draw(mapTileBorder, worldCoordinatesAsXnaVector2, null, Color.White,
+                    0f, middleOfSpriteInSpriteCoordinates, defaultScale, SpriteEffects.None, layerDepth);
+            }
+
+
         }
 
 

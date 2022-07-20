@@ -5,7 +5,7 @@ using System;
 
 namespace mike_and_conquer_simulation.events
 {
-    class UnitArrivedAtPathStepEventData
+    public class UnitArrivedAtPathStepEventData
     {
 
         public const string EventType = "UnitArrivedAtPathStep";

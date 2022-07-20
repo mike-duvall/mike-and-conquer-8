@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_monogame.commands;
+using mike_and_conquer_monogame.commands.mapper;
 using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -64,6 +68,24 @@ namespace mike_and_conquer_monogame.main
                     JsonConvert.DeserializeObject<InitializeScenarioEventData>(anEvent.EventData);
 
                 InitializeScenarioCommand command = new InitializeScenarioCommand(initializeScenarioEventData);
+                mikeAndConquerGame.PostCommand(command);
+
+            }
+            else if (anEvent.EventType.Equals(UnitMovementPlanCreatedEventData.EventType))
+            {
+
+                HandleUnitMovementPlanCreatedCommand command =
+                    HandleUnitMovementPlanCreatedCommandMapper.ConvertToCommand(anEvent.EventData);
+
+                mikeAndConquerGame.PostCommand(command);
+            }
+            else if (anEvent.EventType.Equals(UnitArrivedAtPathStepEventData.EventType))
+            {
+                UnitArrivedAtPathStepEventData eventData =
+                    JsonConvert.DeserializeObject<UnitArrivedAtPathStepEventData>(anEvent.EventData);
+
+                
+                HandleUnitArrivedAtPathStepCommand command = new HandleUnitArrivedAtPathStepCommand(eventData.UnitId, eventData.PathStep);
                 mikeAndConquerGame.PostCommand(command);
 
             }

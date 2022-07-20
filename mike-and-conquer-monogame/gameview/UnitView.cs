@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using mike_and_conquer.gameview;
+using mike_and_conquer_monogame.gameview;
+using mike_and_conquer_simulation.events;
 
 namespace mike_and_conquer_monogame.main
 {
@@ -24,6 +26,9 @@ namespace mike_and_conquer_monogame.main
 
         protected UnitSize unitSize;
 
+        protected PlannedPathView plannedPathView;
+
+
         public UnitSize UnitSize
         {
             get { return unitSize; }
@@ -34,5 +39,19 @@ namespace mike_and_conquer_monogame.main
         {
             get { return selectionCursorOffset; }
         }
+
+        public void CreatePlannedPathView(List<PathStep> pathStepList)
+        {
+            plannedPathView = new PlannedPathView(pathStepList);
+
+        }
+
+        public void RemovePlannedPathStepView(PathStep pathStep)
+        {
+            plannedPathView.RemoveFromPlannedPath(pathStep.X,pathStep.Y);
+        }
+
+
+        
     }
 }

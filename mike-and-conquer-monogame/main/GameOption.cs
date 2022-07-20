@@ -26,6 +26,7 @@ namespace mike_and_conquer_monogame.main
         //        public  bool PlayMusic = true;
         public bool PlayMusic = false;
 
+        public bool DrawPaths = true;
 
         // public enum GameSpeed
         // {

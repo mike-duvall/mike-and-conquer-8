@@ -41,6 +41,8 @@ using ImmutablePalette = mike_and_conquer.openra.ImmutablePalette;
 
 using Matrix = Microsoft.Xna.Framework.Matrix;
 using System.Drawing;
+using mike_and_conquer_simulation.events;
+using mike_and_conquer_simulation.util;
 
 namespace mike_and_conquer.gameview
 {
@@ -149,6 +151,11 @@ namespace mike_and_conquer.gameview
         //
         // private GDIConstructionYardView gdiConstructionYardView;
 
+        public MCVView mcvView;
+
+        public JeepView jeepView;
+
+
 
         private List<MapTileInstanceView> mapTileInstanceViewList;
 
@@ -201,9 +208,6 @@ namespace mike_and_conquer.gameview
 
         public List<TerrainView> terrainViewList;
 
-        public MCVView mcvView;
-
-        public JeepView jeepView;
 
         public static GameWorldView instance;
 
@@ -1538,6 +1542,50 @@ namespace mike_and_conquer.gameview
             throw new Exception("Unable to find MapTileInstance at coordinates, x:" + mouseX + ", y:" + mouseY);
 
         }
+
+        private MapTileInstanceView FindMapTileInstanceViewFromWorldMapTileCoordinates(int xInWorldMapTileCoordinates,
+            int yInWorldMapTileCoordinates)
+        {
+            GameWorldLocationBuilder builder = new GameWorldLocationBuilder();
+            GameWorldLocation location = builder
+                .WorldMapTileCoordinatesX(xInWorldMapTileCoordinates)
+                .WorldMapTileCoordinatesY(yInWorldMapTileCoordinates)
+                .build();
+
+            return FindMapTileInstanceView((int) location.X, (int) location.Y);
+        }
+
+
+        private UnitView FindUnitById(int unitId)
+        {
+            UnitView foundUnitView = null;
+            foreach (UnitView unitView in gdiMinigunnerViewList)
+            {
+                if (unitView.UnitId == unitId)
+                {
+                    foundUnitView = unitView;
+                    break;
+                }
+            }
+
+            return foundUnitView;
+
+        }
+
+        public void CreatePlannedPathView(int unitId, List<PathStep> pathStepList)
+        {
+            UnitView unitView = FindUnitById(unitId);
+            unitView.CreatePlannedPathView(pathStepList);
+        }
+
+        public void UnitArrivedAtPathStep(int unitId, PathStep pathStep)
+        {
+            UnitView unitView = FindUnitById(unitId);
+            unitView.RemovePlannedPathStepView(pathStep);
+        }
+
+        
+
 
     }
 }

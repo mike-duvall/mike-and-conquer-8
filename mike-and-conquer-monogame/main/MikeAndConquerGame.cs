@@ -154,8 +154,6 @@ namespace mike_and_conquer_monogame.main
                 throw new Exception("Unknown CommandType:" + rawCommand.CommandType);
             }
 
-
-
         }
 
 
@@ -469,7 +467,6 @@ namespace mike_and_conquer_monogame.main
 
 
         }
-
 
 
         public void AddMinigunner(int id, int x, int y)
@@ -876,7 +873,15 @@ namespace mike_and_conquer_monogame.main
             return gameWorldView.GetUnitViewById(unitId);
         }
 
+        public void HandleUnitMovementPlanCreated(int unitId, List<PathStep> pathStepList)
+        {
+            gameWorldView.CreatePlannedPathView(unitId, pathStepList);
+        }
 
+        public void HandleUnitArrivedAtPathStep(int unitId, PathStep pathStep)
+        {
+            gameWorldView.UnitArrivedAtPathStep(unitId, pathStep);
+        }
 
 
     }
