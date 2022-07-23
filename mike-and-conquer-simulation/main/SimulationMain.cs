@@ -39,7 +39,7 @@ namespace mike_and_conquer_simulation.main
 
         private GameWorld gameWorld;
 
-        public static void StartSimulation(SimulationStateListener listener)
+        public static void StartSimulation(List<SimulationStateListener> listenerList)
         {
 
 
@@ -66,7 +66,11 @@ namespace mike_and_conquer_simulation.main
 
 
             new SimulationMain();
-            SimulationMain.instance.AddListener(listener);
+            foreach (SimulationStateListener listener in listenerList)
+            {
+                SimulationMain.instance.AddListener(listener);
+            }
+
 
             condition = new ManualResetEvent(false);
             Thread backgroundThread = new Thread(new ThreadStart(SimulationMain.Main));

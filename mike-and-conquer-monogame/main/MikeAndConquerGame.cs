@@ -28,7 +28,8 @@ namespace mike_and_conquer_monogame.main
         private SpriteBatch _spriteBatch;
         public ILogger logger;
 
-        public MonogameSimulationStateListener monogameSimulationStateListener = null;
+        // public MonogameSimulationStateListener monogameSimulationStateListener = null;
+        public List<SimulationStateListener> simulationStateListenerList = null;
 
         private bool hasScenarioBeenInitialized = false;
         private int mapWidth = -10;
@@ -96,7 +97,10 @@ namespace mike_and_conquer_monogame.main
 
 
             Content.RootDirectory = "Content";
-            monogameSimulationStateListener = new MonogameSimulationStateListener(this);
+            simulationStateListenerList = new List<SimulationStateListener>();
+            simulationStateListenerList.Add(new MonogameSimulationStateListener(this));
+            simulationStateListenerList.Add(new AddMinigunnerViewWhenMinigunnerCreatedEventHandler(this));
+
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
             // gameWorld = new GameWorld();
@@ -469,7 +473,7 @@ namespace mike_and_conquer_monogame.main
         }
 
 
-        public void AddMinigunner(int id, int x, int y)
+        public void AddMinigunnerView(int id, int x, int y)
         {
             // UnitView unitView = new UnitView();
             // unitView.UnitId = id;

@@ -3,7 +3,7 @@
 
 namespace mike_and_conquer_monogame.commands
 {
-    public class AddMinigunnerCommand : AsyncViewCommand
+    public class AddMinigunnerViewCommand : AsyncViewCommand
     {
 
 
@@ -11,7 +11,7 @@ namespace mike_and_conquer_monogame.commands
         private int x;
         private int y;
 
-        public AddMinigunnerCommand(int unitId, int x, int y)
+        public AddMinigunnerViewCommand(int unitId, int x, int y)
         {
             this.unitId = unitId;
             this.x = x;
@@ -20,7 +20,7 @@ namespace mike_and_conquer_monogame.commands
 
         protected override void ProcessImpl()
         {
-            MikeAndConquerGame.instance.AddMinigunner(
+            MikeAndConquerGame.instance.AddMinigunnerView(
                 unitId, x, y);
 
         }

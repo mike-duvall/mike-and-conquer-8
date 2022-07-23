@@ -22,17 +22,7 @@ namespace mike_and_conquer_monogame.main
 
         public override void Update(SimulationStateUpdateEvent anEvent)
         {
-            if (anEvent.EventType.Equals(MinigunnerCreateEventData.EventType))
-            {
-                MinigunnerCreateEventData eventData =
-                    JsonConvert.DeserializeObject<MinigunnerCreateEventData>(anEvent.EventData);
-
-                AddMinigunnerCommand command = new AddMinigunnerCommand(eventData.UnitId, eventData.X, eventData.Y);
-
-                mikeAndConquerGame.PostCommand(command);
-                
-            }
-            else if (anEvent.EventType.Equals(JeepCreateEventData.EventType))
+            if (anEvent.EventType.Equals(JeepCreateEventData.EventType))
             {
                 JeepCreateEventData eventData =
                     JsonConvert.DeserializeObject<JeepCreateEventData>(anEvent.EventData);
