@@ -98,8 +98,12 @@ namespace mike_and_conquer_monogame.main
 
             Content.RootDirectory = "Content";
             simulationStateListenerList = new List<SimulationStateListener>();
+
             simulationStateListenerList.Add(new MonogameSimulationStateListener(this));
+
+            simulationStateListenerList.Add(new InitializeScenarioEventHandler(this));
             simulationStateListenerList.Add(new AddMinigunnerViewWhenMinigunnerCreatedEventHandler(this));
+            simulationStateListenerList.Add(new UpdateUnitViewPositionWhenUnitPositionChangedEventHandler(this));
 
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
@@ -630,14 +634,14 @@ namespace mike_and_conquer_monogame.main
 
 
 
-        // public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
+        // public void UpdateUnitViewPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         // {
         //     UnitView unitView = FindUnitViewById(unitPositionChangedEventData.UnitId);
         //     unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
         //     unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
         // }
 
-        public void UpdateUnitPosition(UnitPositionChangedEventData unitPositionChangedEventData)
+        public void UpdateUnitViewPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
             if (gameWorldView.mcvView != null && unitPositionChangedEventData.UnitId == gameWorldView.mcvView.UnitId)
             {
