@@ -104,6 +104,8 @@ namespace mike_and_conquer_monogame.main
             simulationStateListenerList.Add(new InitializeScenarioEventHandler(this));
             simulationStateListenerList.Add(new AddMinigunnerViewWhenMinigunnerCreatedEventHandler(this));
             simulationStateListenerList.Add(new UpdateUnitViewPositionWhenUnitPositionChangedEventHandler(this));
+            simulationStateListenerList.Add(new CreatePlannedPathViewWhenUnitMovementPlanCreatedEventHandler(this));
+            simulationStateListenerList.Add(new RemovePlannedStepViewWhenUnitArrivesAtPathStepEventHandler(this));
 
             IsMouseVisible = true;
             // double currentResolution = TimerHelper.GetCurrentResolution();
@@ -881,7 +883,7 @@ namespace mike_and_conquer_monogame.main
             return gameWorldView.GetUnitViewById(unitId);
         }
 
-        public void HandleUnitMovementPlanCreated(int unitId, List<PathStep> pathStepList)
+        public void CreatePlannedPathView(int unitId, List<PathStep> pathStepList)
         {
             gameWorldView.CreatePlannedPathView(unitId, pathStepList);
         }

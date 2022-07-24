@@ -8,7 +8,7 @@ namespace mike_and_conquer_monogame.commands.mapper
 {
     internal class HandleUnitMovementPlanCreatedCommandMapper
     {
-        public static HandleUnitMovementPlanCreatedCommand ConvertToCommand(string anEventEventData)
+        public static CreatePlannedPathViewCommand ConvertToCommand(string anEventEventData)
         {
             UnitMovementPlanCreatedEventData eventData =
                 JsonConvert.DeserializeObject<UnitMovementPlanCreatedEventData>(anEventEventData);
@@ -30,7 +30,7 @@ namespace mike_and_conquer_monogame.commands.mapper
 
             eventData.PathSteps = pathStepList;
 
-            HandleUnitMovementPlanCreatedCommand command = new HandleUnitMovementPlanCreatedCommand(eventData.UnitId, eventData.PathSteps);
+            CreatePlannedPathViewCommand command = new CreatePlannedPathViewCommand(eventData.UnitId, eventData.PathSteps);
             return command;
 
         }

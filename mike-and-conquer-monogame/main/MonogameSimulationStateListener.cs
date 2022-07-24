@@ -39,24 +39,6 @@ namespace mike_and_conquer_monogame.main
                 mikeAndConquerGame.PostCommand(command);
 
             }
-            else if (anEvent.EventType.Equals(UnitMovementPlanCreatedEventData.EventType))
-            {
-
-                HandleUnitMovementPlanCreatedCommand command =
-                    HandleUnitMovementPlanCreatedCommandMapper.ConvertToCommand(anEvent.EventData);
-
-                mikeAndConquerGame.PostCommand(command);
-            }
-            else if (anEvent.EventType.Equals(UnitArrivedAtPathStepEventData.EventType))
-            {
-                UnitArrivedAtPathStepEventData eventData =
-                    JsonConvert.DeserializeObject<UnitArrivedAtPathStepEventData>(anEvent.EventData);
-
-                
-                HandleUnitArrivedAtPathStepCommand command = new HandleUnitArrivedAtPathStepCommand(eventData.UnitId, eventData.PathStep);
-                mikeAndConquerGame.PostCommand(command);
-
-            }
             else
             {
                 MikeAndConquerGame.instance.logger.LogInformation("Ignored event:" + anEvent.EventType);
