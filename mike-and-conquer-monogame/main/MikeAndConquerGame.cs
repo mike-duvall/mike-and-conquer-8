@@ -99,11 +99,16 @@ namespace mike_and_conquer_monogame.main
             Content.RootDirectory = "Content";
             simulationStateListenerList = new List<SimulationStateListener>();
 
-            simulationStateListenerList.Add(new MonogameSimulationStateListener(this));
+
 
             simulationStateListenerList.Add(new InitializeScenarioEventHandler(this));
+
             simulationStateListenerList.Add(new AddMinigunnerViewWhenMinigunnerCreatedEventHandler(this));
+            simulationStateListenerList.Add(new AddJeepViewWhenJeepCreatedEventHandler(this));
+            simulationStateListenerList.Add(new AddMCVViewWhenMCVCreatedEventHandler(this));
+
             simulationStateListenerList.Add(new UpdateUnitViewPositionWhenUnitPositionChangedEventHandler(this));
+
             simulationStateListenerList.Add(new CreatePlannedPathViewWhenUnitMovementPlanCreatedEventHandler(this));
             simulationStateListenerList.Add(new RemovePlannedStepViewWhenUnitArrivesAtPathStepEventHandler(this));
 
