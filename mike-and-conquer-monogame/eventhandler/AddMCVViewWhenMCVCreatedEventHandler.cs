@@ -1,10 +1,10 @@
 ﻿using mike_and_conquer_monogame.commands;
-
+using mike_and_conquer_monogame.main;
 using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 
 
-namespace mike_and_conquer_monogame.main
+namespace mike_and_conquer_monogame.eventhandler
 {
     public class AddMCVViewWhenMCVCreatedEventHandler : SimulationStateListener
     {
@@ -23,9 +23,9 @@ namespace mike_and_conquer_monogame.main
                 MCVCreateEventData eventData =
                     JsonConvert.DeserializeObject<MCVCreateEventData>(anEvent.EventData);
 
-                AddMCVCommand command = new AddMCVCommand(eventData.UnitId, eventData.X, eventData.Y);
+                AddMCVViewCommand viewCommand = new AddMCVViewCommand(eventData.UnitId, eventData.X, eventData.Y);
 
-                mikeAndConquerGame.PostCommand(command);
+                mikeAndConquerGame.PostCommand(viewCommand);
 
             }
 

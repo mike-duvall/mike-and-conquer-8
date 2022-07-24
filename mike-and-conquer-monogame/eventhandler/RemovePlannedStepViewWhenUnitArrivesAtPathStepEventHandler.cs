@@ -1,9 +1,9 @@
 ﻿using mike_and_conquer_monogame.commands;
-
+using mike_and_conquer_monogame.main;
 using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 
-namespace mike_and_conquer_monogame.main
+namespace mike_and_conquer_monogame.eventhandler
 {
     public class RemovePlannedStepViewWhenUnitArrivesAtPathStepEventHandler : SimulationStateListener
     {
@@ -23,8 +23,8 @@ namespace mike_and_conquer_monogame.main
                     JsonConvert.DeserializeObject<UnitArrivedAtPathStepEventData>(anEvent.EventData);
 
 
-                HandleUnitArrivedAtPathStepCommand command = new HandleUnitArrivedAtPathStepCommand(eventData.UnitId, eventData.PathStep);
-                mikeAndConquerGame.PostCommand(command);
+                RemovePlannedStepViewCommand viewCommand = new RemovePlannedStepViewCommand(eventData.UnitId, eventData.PathStep);
+                mikeAndConquerGame.PostCommand(viewCommand);
 
             }
 

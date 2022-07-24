@@ -1,10 +1,10 @@
 ﻿using mike_and_conquer_monogame.commands;
-
+using mike_and_conquer_monogame.main;
 using mike_and_conquer_simulation.events;
 using Newtonsoft.Json;
 
 
-namespace mike_and_conquer_monogame.main
+namespace mike_and_conquer_monogame.eventhandler
 {
     public class AddJeepViewWhenJeepCreatedEventHandler : SimulationStateListener
     {
@@ -23,9 +23,9 @@ namespace mike_and_conquer_monogame.main
                 JeepCreateEventData eventData =
                     JsonConvert.DeserializeObject<JeepCreateEventData>(anEvent.EventData);
 
-                AddJeepCommand command = new AddJeepCommand(eventData.UnitId, eventData.X, eventData.Y);
+                AddJeepViewCommand viewCommand = new AddJeepViewCommand(eventData.UnitId, eventData.X, eventData.Y);
 
-                mikeAndConquerGame.PostCommand(command);
+                mikeAndConquerGame.PostCommand(viewCommand);
 
             }
 

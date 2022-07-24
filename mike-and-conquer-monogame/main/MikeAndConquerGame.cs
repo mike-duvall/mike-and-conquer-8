@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks.Sources;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,6 +13,7 @@ using mike_and_conquer.gameworld.humancontroller;
 using mike_and_conquer.openralocal;
 using mike_and_conquer_monogame.commands;
 using mike_and_conquer_monogame.commands.commandbody;
+using mike_and_conquer_monogame.eventhandler;
 using mike_and_conquer_simulation.commands;
 using mike_and_conquer_simulation.events;
 using mike_and_conquer_simulation.gameworld;
@@ -499,7 +499,7 @@ namespace mike_and_conquer_monogame.main
             // unitViewList.Add(minigunnerView);
         }
 
-        public void AddJeep(int id, int x, int y)
+        public void AddJeepView(int id, int x, int y)
         {
             // UnitView unitView = new UnitView();
             // unitView.UnitId = id;
@@ -511,7 +511,7 @@ namespace mike_and_conquer_monogame.main
             gameWorldView.AddJeepView(id, x, y);
         }
 
-        public void AddMCV(int id, int x, int y)
+        public void AddMCVView(int id, int x, int y)
         {
             // // hasJeepBeenCreated = true;
             // // jeepX = x;
@@ -893,9 +893,9 @@ namespace mike_and_conquer_monogame.main
             gameWorldView.CreatePlannedPathView(unitId, pathStepList);
         }
 
-        public void HandleUnitArrivedAtPathStep(int unitId, PathStep pathStep)
+        public void RemovePlannedStepView(int unitId, PathStep pathStep)
         {
-            gameWorldView.UnitArrivedAtPathStep(unitId, pathStep);
+            gameWorldView.RemovePlannedStepView(unitId, pathStep);
         }
 
 

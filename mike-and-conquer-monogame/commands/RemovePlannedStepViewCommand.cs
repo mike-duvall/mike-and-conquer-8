@@ -6,7 +6,7 @@ using mike_and_conquer_simulation.events;
 
 namespace mike_and_conquer_monogame.commands
 {
-    public class HandleUnitArrivedAtPathStepCommand : AsyncViewCommand
+    public class RemovePlannedStepViewCommand : AsyncViewCommand
     {
 
 
@@ -14,7 +14,7 @@ namespace mike_and_conquer_monogame.commands
         private int unitId;
         private PathStep pathStep;
 
-        public HandleUnitArrivedAtPathStepCommand(int unitId, PathStep pathStep)
+        public RemovePlannedStepViewCommand(int unitId, PathStep pathStep)
         {
             this.unitId = unitId;
             this.pathStep = pathStep;
@@ -23,7 +23,7 @@ namespace mike_and_conquer_monogame.commands
         protected override void ProcessImpl()
         {
 
-            MikeAndConquerGame.instance.HandleUnitArrivedAtPathStep(unitId, pathStep);
+            MikeAndConquerGame.instance.RemovePlannedStepView(unitId, pathStep);
 
         }
     }
