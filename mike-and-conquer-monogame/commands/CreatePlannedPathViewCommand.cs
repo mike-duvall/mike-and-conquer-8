@@ -6,14 +6,14 @@ using mike_and_conquer_simulation.events;
 
 namespace mike_and_conquer_monogame.commands
 {
-    public class HandleUnitMovementPlanCreatedCommand : AsyncViewCommand
+    public class CreatePlannedPathViewCommand : AsyncViewCommand
     {
 
 
         private int unitId;
         private List<PathStep> pathStepList;
 
-        public HandleUnitMovementPlanCreatedCommand(int unitId, List<PathStep> pathStepList)
+        public CreatePlannedPathViewCommand(int unitId, List<PathStep> pathStepList)
         {
             this.unitId = unitId;
             this.pathStepList = pathStepList;
@@ -21,7 +21,7 @@ namespace mike_and_conquer_monogame.commands
 
         protected override void ProcessImpl()
         {
-            MikeAndConquerGame.instance.HandleUnitMovementPlanCreated(unitId, pathStepList);
+            MikeAndConquerGame.instance.CreatePlannedPathView(unitId, pathStepList);
         }
     }
 }

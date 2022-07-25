@@ -3,7 +3,7 @@
 
 namespace mike_and_conquer_monogame.commands
 {
-    public class AddJeepCommand : AsyncViewCommand
+    public class AddJeepViewCommand : AsyncViewCommand
     {
 
 
@@ -11,7 +11,7 @@ namespace mike_and_conquer_monogame.commands
         private int x;
         private int y;
 
-        public AddJeepCommand(int unitId, int x, int y)
+        public AddJeepViewCommand(int unitId, int x, int y)
         {
             this.unitId = unitId;
             this.x = x;
@@ -20,7 +20,7 @@ namespace mike_and_conquer_monogame.commands
 
         protected override void ProcessImpl()
         {
-            MikeAndConquerGame.instance.AddJeep(
+            MikeAndConquerGame.instance.AddJeepView(
                 unitId, x, y);
 
         }

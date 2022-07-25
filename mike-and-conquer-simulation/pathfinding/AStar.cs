@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using mike_and_conquer_simulation.main;
@@ -11,7 +9,7 @@ using Boolean = System.Boolean;
 
 using Point = System.Drawing.Point;
 
-namespace mike_and_conquer.pathfinding
+namespace mike_and_conquer_simulation.pathfinding
 {
 
     public class Path

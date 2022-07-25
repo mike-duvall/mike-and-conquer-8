@@ -6,7 +6,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace mike_and_conquer.pathfinding
+namespace mike_and_conquer_simulation.pathfinding
 {
 
     public class PriorityQueue<T>

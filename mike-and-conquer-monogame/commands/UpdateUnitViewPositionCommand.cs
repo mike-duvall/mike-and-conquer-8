@@ -5,22 +5,20 @@ using mike_and_conquer_simulation.events;
 
 namespace mike_and_conquer_monogame.commands
 {
-    public class UpdateUnitPositionCommand : AsyncViewCommand
+    public class UpdateUnitViewPositionCommand : AsyncViewCommand
     {
 
 
         private UnitPositionChangedEventData unitPositionChangedEventData;
 
-        public UpdateUnitPositionCommand(UnitPositionChangedEventData data)
+        public UpdateUnitViewPositionCommand(UnitPositionChangedEventData data)
         {
             this.unitPositionChangedEventData = data;
         }
 
         protected override void ProcessImpl()
         {
-
-            MikeAndConquerGame.instance.UpdateUnitPosition(unitPositionChangedEventData);
-
+            MikeAndConquerGame.instance.UpdateUnitViewPosition(unitPositionChangedEventData);
         }
     }
 }

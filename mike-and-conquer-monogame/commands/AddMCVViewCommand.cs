@@ -3,7 +3,7 @@
 
 namespace mike_and_conquer_monogame.commands
 {
-    public class AddMCVCommand : AsyncViewCommand
+    public class AddMCVViewCommand : AsyncViewCommand
     {
 
 
@@ -11,7 +11,7 @@ namespace mike_and_conquer_monogame.commands
         private int x;
         private int y;
 
-        public AddMCVCommand(int unitId, int x, int y)
+        public AddMCVViewCommand(int unitId, int x, int y)
         {
             this.unitId = unitId;
             this.x = x;
@@ -20,8 +20,7 @@ namespace mike_and_conquer_monogame.commands
 
         protected override void ProcessImpl()
         {
-            MikeAndConquerGame.instance.AddMCV(
-                unitId, x, y);
+            MikeAndConquerGame.instance.AddMCVView(unitId, x, y);
 
         }
     }
