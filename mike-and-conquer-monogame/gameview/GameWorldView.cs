@@ -144,16 +144,17 @@ namespace mike_and_conquer.gameview
 
         private KeyboardState oldKeyboardState;
 
-        private List<MinigunnerView> gdiMinigunnerViewList;
+        // private List<MinigunnerView> gdiMinigunnerViewList;
+        private List<UnitView> unitViewList;
         // private List<MinigunnerView> nodMinigunnerViewList;
         //
         // private GDIBarracksView gdiBarracksView;
         //
         // private GDIConstructionYardView gdiConstructionYardView;
 
-        public MCVView mcvView;
-
-        public JeepView jeepView;
+        // public MCVView mcvView;
+        //
+        // public JeepView jeepView;
 
 
 
@@ -172,9 +173,9 @@ namespace mike_and_conquer.gameview
         }
 
 
-        public List<MinigunnerView> GdiMinigunnerViewList
+        public List<UnitView> UnitViewList
         {
-            get { return gdiMinigunnerViewList; }
+            get { return unitViewList; }
         }
 
 
@@ -220,7 +221,7 @@ namespace mike_and_conquer.gameview
         {
             mapTileInstanceViewList = new List<MapTileInstanceView>();
 
-            gdiMinigunnerViewList = new List<MinigunnerView>();
+            unitViewList = new List<UnitView>();
             // nodMinigunnerViewList = new List<MinigunnerView>();
             //
             // sandbagViewList = new List<SandbagView>();
@@ -249,24 +250,33 @@ namespace mike_and_conquer.gameview
 
         public UnitView GetUnitViewById(int unitId)
         {
-            if (mcvView != null && mcvView.UnitId == unitId)
-            {
-                return mcvView;
-            }
-            else if (jeepView != null && jeepView.UnitId == unitId)
-            {
-                return jeepView;
-            }
-            else
-            {
-                foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
-                {
-                    if (nextMinigunnerView.UnitId == unitId)
-                    {
-                        return nextMinigunnerView;
-                    }
-                }
+            // if (mcvView != null && mcvView.UnitId == unitId)
+            // {
+            //     return mcvView;
+            // }
+            // else if (jeepView != null && jeepView.UnitId == unitId)
+            // {
+            //     return jeepView;
+            // }
+            // else
+            // {
+            //     foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+            //     {
+            //         if (nextMinigunnerView.UnitId == unitId)
+            //         {
+            //             return nextMinigunnerView;
+            //         }
+            //     }
+            //
+            // }
 
+
+            foreach (UnitView unitView in this.unitViewList)
+            {
+                if (unitView.UnitId == unitId)
+                {
+                    return unitView;
+                }
             }
 
             return null;
@@ -534,9 +544,9 @@ namespace mike_and_conquer.gameview
             // }
             //
             //
-            foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+            foreach (UnitView unitView in GameWorldView.instance.UnitViewList)
             {
-                nextMinigunnerView.DrawShadowOnly(gameTime, spriteBatch);
+                unitView.DrawShadowOnly(gameTime, spriteBatch);
             }
             //
             // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.NodMinigunnerViewList)
@@ -545,16 +555,16 @@ namespace mike_and_conquer.gameview
             // }
 
 
-            if (GameWorldView.instance.mcvView != null)
-            {
-                GameWorldView.instance.mcvView.DrawShadowOnly(gameTime, spriteBatch);
-            }
-
-
-            if (GameWorldView.instance.jeepView != null)
-            {
-                GameWorldView.instance.jeepView.DrawShadowOnly(gameTime, spriteBatch);
-            }
+            // if (GameWorldView.instance.mcvView != null)
+            // {
+            //     GameWorldView.instance.mcvView.DrawShadowOnly(gameTime, spriteBatch);
+            // }
+            //
+            //
+            // if (GameWorldView.instance.jeepView != null)
+            // {
+            //     GameWorldView.instance.jeepView.DrawShadowOnly(gameTime, spriteBatch);
+            // }
 
 
             foreach (TerrainView nextTerrainView in GameWorldView.instance.terrainViewList)
@@ -715,10 +725,13 @@ namespace mike_and_conquer.gameview
             // }
             //
             //
-            foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.GdiMinigunnerViewList)
+
+
+            foreach (UnitView unitView in this.UnitViewList)
             {
-                nextMinigunnerView.DrawNoShadow(gameTime, spriteBatch);
+                unitView.DrawNoShadow(gameTime, spriteBatch);
             }
+
 
             // foreach (MinigunnerView nextMinigunnerView in GameWorldView.instance.NodMinigunnerViewList)
             // {
@@ -726,16 +739,16 @@ namespace mike_and_conquer.gameview
             // }
 
 
-            if (GameWorldView.instance.mcvView != null)
-            {
-                GameWorldView.instance.mcvView.DrawNoShadow(gameTime, spriteBatch);
-            }
-
-            if (GameWorldView.instance.jeepView != null)
-            {
-                GameWorldView.instance.jeepView.DrawNoShadow(gameTime, spriteBatch);
-            }
-
+            // if (GameWorldView.instance.mcvView != null)
+            // {
+            //     GameWorldView.instance.mcvView.DrawNoShadow(gameTime, spriteBatch);
+            // }
+            //
+            // if (GameWorldView.instance.jeepView != null)
+            // {
+            //     GameWorldView.instance.jeepView.DrawNoShadow(gameTime, spriteBatch);
+            // }
+            //
 
 
 
@@ -808,15 +821,13 @@ namespace mike_and_conquer.gameview
 
         public void HandleReset()
         {
-            gdiMinigunnerViewList.Clear();
+            unitViewList.Clear();
             mapTileInstanceViewList.Clear();
             terrainViewList.Clear();
             // nodMinigunnerViewList.Clear();
             // sandbagViewList.Clear();
             // nodTurretViewList.Clear();
             // projectile120MmViewList.Clear();
-             mcvView = null;
-             jeepView = null;
              // gdiConstructionYardView = null;
              // gdiBarracksView = null;
              // barracksSidebarIconView = null;
@@ -1220,9 +1231,9 @@ namespace mike_and_conquer.gameview
             //     nodTurretView.Update(gameTime);
             // }
             
-            foreach (MinigunnerView minigunnerView in gdiMinigunnerViewList)
+            foreach (UnitView unitView in unitViewList)
             {
-                minigunnerView.Update(gameTime);
+                unitView.Update(gameTime);
             }
             
             // if (mcvView != null)
@@ -1502,18 +1513,19 @@ namespace mike_and_conquer.gameview
         public void AddMinigunnerView(int id, int x, int y)
         {
             GdiMinigunnerView view = new GdiMinigunnerView(id, x, y);
-            gdiMinigunnerViewList.Add(view);
+            unitViewList.Add(view);
         }
 
         public void AddMCVView(int id, int x, int y)
         {
-            mcvView = new MCVView(id, x, y);
+            MCVView view = new MCVView(id, x, y);
+            unitViewList.Add(view);
         }
 
 
         public void AddJeepView(int id, int x, int y)
         {
-            jeepView = new JeepView(id, x, y);
+            unitViewList.Add(new JeepView(id, x, y));
         }
 
 
@@ -1559,7 +1571,7 @@ namespace mike_and_conquer.gameview
         private UnitView FindUnitById(int unitId)
         {
             UnitView foundUnitView = null;
-            foreach (UnitView unitView in gdiMinigunnerViewList)
+            foreach (UnitView unitView in unitViewList)
             {
                 if (unitView.UnitId == unitId)
                 {

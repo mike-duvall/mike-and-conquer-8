@@ -94,14 +94,13 @@ namespace mike_and_conquer.gameview
         }
 
 
-
-        public void Update(GameTime gameTime)
+        internal override void Update(GameTime gameTime)
         {
             unitSelectionCursor.Update(gameTime);
         }
 
 
-        internal void DrawNoShadow(GameTime gameTime, SpriteBatch spriteBatch)
+        internal override void DrawNoShadow(GameTime gameTime, SpriteBatch spriteBatch)
         {
             // if (myMinigunner.Health <= 0)
             // {
@@ -145,7 +144,7 @@ namespace mike_and_conquer.gameview
         }
 
 
-        public void DrawShadowOnly(GameTime gameTime, SpriteBatch spriteBatch)
+        internal override void DrawShadowOnly(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
             // if (myMinigunner.Health <= 0)
@@ -177,48 +176,43 @@ namespace mike_and_conquer.gameview
         }
 
 
-        public void OrderToMoveToDestination(Point centerOfSquare)
-        {
-            // StartScenarioCommand command = new StartScenarioCommand();
-            // command.GDIPlayerController = new HumanPlayerController();
-            //
-            // SimulationMain.instance.PostCommand(command);
+        // public void OrderToMoveToDestination(Point centerOfSquare)
+        // {
+        //     // StartScenarioCommand command = new StartScenarioCommand();
+        //     // command.GDIPlayerController = new HumanPlayerController();
+        //     //
+        //     // SimulationMain.instance.PostCommand(command);
+        //
+        //
+        //     OrderUnitToMoveCommand command = new OrderUnitToMoveCommand();
+        //     command.UnitId = this.UnitId;
+        //     command.DestinationXInWorldCoordinates = centerOfSquare.X;
+        //     command.DestinationYInWorldCoordinates = centerOfSquare.Y;
+        //
+        //     SimulationMain.instance.PostCommand(command);
+        //
+        // }
 
 
-            OrderUnitToMoveCommand command = new OrderUnitToMoveCommand();
-            command.UnitId = this.UnitId;
-            command.DestinationXInWorldCoordinates = centerOfSquare.X;
-            command.DestinationYInWorldCoordinates = centerOfSquare.Y;
-
-            SimulationMain.instance.PostCommand(command);
-
-        }
 
 
-        public bool ContainsPoint(int mouseX, int mouseY)
-        {
-            Rectangle clickDetectionRectangle = CreateClickDetectionRectangle();
-            return clickDetectionRectangle.Contains(new Point(mouseX, mouseY));
-        }
-
-
-        internal Rectangle CreateClickDetectionRectangle()
-        {
-
-            int unitWidth = 12;
-            int unitHeight = 12;
-
-            int x = (int)(XInWorldCoordinates - (unitWidth / 2));
-            int y = (int)(YInWorldCoordinates - unitHeight) + (int)(1);
-
-
-            // TODO: Is this a memory leak?
-            // Thinking not, as it's just a struct with two values and helper functions
-            // As opposed to something consumes resources on the graphics card?
-            // It doesn't have a Dispose method
-            Rectangle rectangle = new Rectangle(x, y, unitWidth, unitHeight);
-            return rectangle;
-        }
+        // internal Rectangle CreateClickDetectionRectangle()
+        // {
+        //
+        //     int unitWidth = 12;
+        //     int unitHeight = 12;
+        //
+        //     int x = (int)(XInWorldCoordinates - (unitWidth / 2));
+        //     int y = (int)(YInWorldCoordinates - unitHeight) + (int)(1);
+        //
+        //
+        //     // TODO: Is this a memory leak?
+        //     // Thinking not, as it's just a struct with two values and helper functions
+        //     // As opposed to something consumes resources on the graphics card?
+        //     // It doesn't have a Dispose method
+        //     Rectangle rectangle = new Rectangle(x, y, unitWidth, unitHeight);
+        //     return rectangle;
+        // }
 
 
     }

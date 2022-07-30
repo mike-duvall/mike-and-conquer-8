@@ -650,25 +650,25 @@ namespace mike_and_conquer_monogame.main
 
         public void UpdateUnitViewPosition(UnitPositionChangedEventData unitPositionChangedEventData)
         {
-            if (gameWorldView.mcvView != null && unitPositionChangedEventData.UnitId == gameWorldView.mcvView.UnitId)
+            // if (gameWorldView.mcvView != null && unitPositionChangedEventData.UnitId == gameWorldView.mcvView.UnitId)
+            // {
+            //     gameWorldView.mcvView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+            //     gameWorldView.mcvView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+            //
+            // }
+            // if (gameWorldView.jeepView != null && unitPositionChangedEventData.UnitId == gameWorldView.jeepView.UnitId)
+            // {
+            //     // MikeAndConquerGame.instance.logger.LogError("Jeep: " +  gameWorldView.jeepView.XInWorldCoordinates  + " to " + unitPositionChangedEventData.XInWorldCoordinates);
+            //     // MikeAndConquerGame.instance.logger.LogError("Jeep:  newX=" + unitPositionChangedEventData.XInWorldCoordinates);
+            //     gameWorldView.jeepView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+            //     gameWorldView.jeepView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+            // }
+            foreach (UnitView unitView in gameWorldView.UnitViewList)
             {
-                gameWorldView.mcvView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
-                gameWorldView.mcvView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
-
-            }
-            if (gameWorldView.jeepView != null && unitPositionChangedEventData.UnitId == gameWorldView.jeepView.UnitId)
-            {
-                // MikeAndConquerGame.instance.logger.LogError("Jeep: " +  gameWorldView.jeepView.XInWorldCoordinates  + " to " + unitPositionChangedEventData.XInWorldCoordinates);
-                // MikeAndConquerGame.instance.logger.LogError("Jeep:  newX=" + unitPositionChangedEventData.XInWorldCoordinates);
-                gameWorldView.jeepView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
-                gameWorldView.jeepView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
-            }
-            foreach (MinigunnerView minigunnerView in gameWorldView.GdiMinigunnerViewList)
-            {
-                if (minigunnerView.UnitId == unitPositionChangedEventData.UnitId)
+                if (unitView.UnitId == unitPositionChangedEventData.UnitId)
                 {
-                    minigunnerView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
-                    minigunnerView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
+                    unitView.XInWorldCoordinates = unitPositionChangedEventData.XInWorldCoordinates;
+                    unitView.YInWorldCoordinates = unitPositionChangedEventData.YInWorldCoordinates;
                 }
             }
 
